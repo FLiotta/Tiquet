@@ -1,6 +1,10 @@
 import axios from "axios";
 
 class ApiService {
+  constructor() {
+    this.api = 'http://localhost:5000/api';
+  }
+
   get(path, params) {
     let fullPath = [path];
 
@@ -11,7 +15,7 @@ class ApiService {
       fullPath = fullPath.join('/');
     }
 
-    return fetch(fullPath).then((res) => res.json());
+    return fetch(`${this.api}${fullPath}`).then((res) => res.json());
   }
 
   paramsBuilder(params) {

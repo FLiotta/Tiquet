@@ -1,4 +1,10 @@
-const defaultState = {};
+const defaultState = {
+  token: '',
+  user: {
+    id: '',
+    username: '',
+  }
+};
 
 export default (state = defaultState, action) => {
   switch (action.type) {
