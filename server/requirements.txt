@@ -8,6 +8,7 @@ cryptography==2.9.2
 distlib==0.3.0
 filelock==3.0.12
 Flask==1.1.2
+Flask-Cors==3.0.8
 isort==4.3.21
 itsdangerous==1.1.0
 Jinja2==2.11.2
