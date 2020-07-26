@@ -1,29 +1,22 @@
 import axios from "axios";
 
 class ApiService {
-  get(path, params) {
-    let fullPath = [path];
-
-    if (params) {
-      params = this.paramsBuilder(params);
-
-      fullPath.push(params);
-      fullPath = fullPath.join('/');
-    }
-
-    return fetch(fullPath).then((res) => res.json());
+  constructor() {
+    this.api = 'http://localhost:5000/api';
   }
 
-  paramsBuilder(params) {
-    const tempParams = [];
+  get(path, params) {
+    const fullPath = [this.api, path].join('/');
 
-    params.forEach(param => {
-      if (param) {
-        tempParams.push(param);
-      }
+    return axios.get(fullPath, {
+      params,
     });
+  }
 
-    return tempParams.join('/');
+  post(path, params) {
+    const fullPath = [this.api, path].join('/');
+
+    return axios.post(fullPath, params);
   }
 }
 
