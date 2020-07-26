@@ -3,3 +3,7 @@
 **/__pycache__
 server/.env
 server/env
+
+# Client
+
+client/node_modules
