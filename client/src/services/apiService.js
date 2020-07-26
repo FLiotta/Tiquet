@@ -6,28 +6,17 @@ class ApiService {
   }
 
   get(path, params) {
-    let fullPath = [path];
+    const fullPath = [this.api, path].join('/');
 
-    if (params) {
-      params = this.paramsBuilder(params);
-
-      fullPath.push(params);
-      fullPath = fullPath.join('/');
-    }
-
-    return fetch(`${this.api}${fullPath}`).then((res) => res.json());
+    return axios.get(fullPath, {
+      params,
+    });
   }
 
-  paramsBuilder(params) {
-    const tempParams = [];
+  post(path, params) {
+    const fullPath = [this.api, path].join('/');
 
-    params.forEach(param => {
-      if (param) {
-        tempParams.push(param);
-      }
-    });
-
-    return tempParams.join('/');
+    return axios.post(fullPath, params);
   }
 }
 
