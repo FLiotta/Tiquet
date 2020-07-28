@@ -1,3 +1,5 @@
+#!/bin/bash
+
 (
   cd server;
   source env/scripts/activate;
