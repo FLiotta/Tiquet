@@ -6,7 +6,7 @@ class ApiService {
   }
 
   get(path, params) {
-    const fullPath = [this.api, path].join('/');
+    const fullPath = [this.api, path].join('');
 
     return axios.get(fullPath, {
       params,
@@ -14,7 +14,7 @@ class ApiService {
   }
 
   post(path, params) {
-    const fullPath = [this.api, path].join('/');
+    const fullPath = [this.api, path].join('');
 
     return axios.post(fullPath, params);
   }

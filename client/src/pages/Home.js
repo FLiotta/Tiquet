@@ -1,25 +1,33 @@
 // @Packages
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import propTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 
 // @Project
+import Loading from '../components/Loading';
 import Logo from '../assets/images/logo.png';
 import '../styles/pages/Home.scss';
 import { logIn } from '../actions/session';
 
-const Home = (props) => {
+const Home = ({ login }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const username = e.target.username.value;
     const password = e.target.password.value;
 
-    props.login();
+    login(username, password).then(() => setLoading(false));
   }
 
   return (
     <div className="home-page">
       <div className="home-page__auth">
+        <Loading display={loading} />
         <img src={Logo} className="home-page__logo" />
         <form onSubmit={handleLogin}>
           <div className="form-group">
@@ -41,12 +49,12 @@ const Home = (props) => {
   )
 }
 
-const stateToProps = state => ({
-  session: state.session
-});
+Home.propTypes = {
+  login: propTypes.func,
+}
 
 const dispatchToProps = dispatch => ({
-  login: () => dispatch(logIn())
+  login: (username, password) => dispatch(logIn(username, password))
 })
 
-export default connect(stateToProps, dispatchToProps)(Home);
+export default connect(undefined, dispatchToProps)(Home);
