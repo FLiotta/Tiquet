@@ -1,7 +1,8 @@
 import React from 'react';
+import BoardCard from '../components/BoardCard';
 
 const Boards = (props) => (
-    <h1>Boards</h1>
+  <BoardCard />
 );
 
 export default Boards; 

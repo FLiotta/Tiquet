@@ -1,0 +1,13 @@
+.boardcard {
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  width: 300px;
+  height: 100px;
+  margin: 50px;
+  transition: 1s all;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 5px 5px rgba(0,0,0,.3);
+  }
+}
