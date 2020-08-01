@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Home from '../pages/Home';
 import Boards from '../pages/Boards';
+import Profile from '../pages/Profile';
 import Navbar from '../components/Navbar';
 
 class AppRouter extends Component {
@@ -18,6 +19,7 @@ class AppRouter extends Component {
           <Fragment>
             <Navbar />
             <ProtectedRoute path="/boards" component={Boards} />
+            <ProtectedRoute path="/profile" component={Profile} />
           </Fragment>
         </Switch>
       </BrowserRouter>

@@ -1,0 +1,27 @@
+.profile {
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    margin-top: 50px;
+    background-color: #ffffff;
+    width: 60%;
+    height: 150px;
+    padding: 25px;
+    position: relative;
+  }
+
+  &__username {
+    font-weight: 700;
+    font-family: 'montserrat';
+    color: #42526e;
+    text-transform: capitalize;
+    margin: 0;
+  }
+
+  &__item {
+    margin: 0;
+  }
+}
