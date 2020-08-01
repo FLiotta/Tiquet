@@ -26,7 +26,13 @@ const Boards = ({ boards, fetchBoards }) => {
         <div className="board-page__container">
           <h2 className="board-page__container-title">Boards</h2>
           <div className="board-page__container-content">
-            {boards.map(board => <BoardCard boardInfo={board} className="board-page__custom-card" />)}
+            {boards.map(board => (
+              <BoardCard
+                key={'board_' + board.id}
+                boardInfo={board}
+                className="board-page__custom-card"
+              />
+            ))}
           </div>
         </div>
       )}

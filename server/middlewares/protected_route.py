@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import Flask, g, jsonify, request
 import jwt
+import os
 
 def protected_route(route):
     @wraps(route)
@@ -9,7 +10,7 @@ def protected_route(route):
 
         if token is not None:
             try:
-                decoded_user = jwt.decode(token, 'secret_pasword', algorithms='HS256')
+                decoded_user = jwt.decode(token, os.environ.get('SECRET_KEY'), algorithms='HS256')
                 g.user = decoded_user
                 return route(*args, **kwargs)
             except jwt.InvalidTokenError: 

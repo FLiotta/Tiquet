@@ -1,7 +1,8 @@
-import { LOG_IN, SIGN_UP, RECONNECT } from '../actions/session';
+import { LOG_IN, SIGN_UP, RECONNECT, SESSION_FETCHING } from '../actions/session';
 
 const defaultState = {
-  token: '',
+  fetching: false,
+  token: undefined,
   user: {
     id: '',
     username: '',
@@ -19,7 +20,13 @@ export default (state = defaultState, action) => {
         user: {
           id: action.payload.id,
           username: action.payload.username,
-        }
+        },
+        fetching: false
+      }
+    case SESSION_FETCHING:
+      return {
+        ...state,
+        fetching: action.payload,
       }
     default:
       return state;
