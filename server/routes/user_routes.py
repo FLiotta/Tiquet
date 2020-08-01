@@ -20,6 +20,7 @@ def profile():
     """.format(g.user.get('id')))
 
     result = db.cur.fetchone()
+    db.close()
 
     if result is not None:
         return jsonify({
