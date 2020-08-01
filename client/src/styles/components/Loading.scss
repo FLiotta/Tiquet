@@ -8,7 +8,9 @@
     right: 0;
     bottom: 0;
     position: absolute;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &--hidden {
         display: none;
     }

@@ -12,6 +12,10 @@ class AuthService extends ApiService {
   signup(username, password) {
     return this.post('/auth/signup', { username, password });
   }
+
+  reconnect() {
+    return this.post('/auth/reconnect');
+  }
 }
 
 export default AuthService;

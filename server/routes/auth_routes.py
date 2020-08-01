@@ -1,10 +1,12 @@
-from flask import jsonify, Blueprint, request
+from flask import jsonify, Blueprint, request, g
 from database.db import Database
+from middlewares.protected_route import protected_route
 import json
 import bcrypt
 import datetime
 import decimal
 import jwt
+import os
 
 auth = Blueprint('auth', __name__)
 
@@ -33,7 +35,7 @@ def login():
                     "username": user_username,
                     "password": user_password_hashed,
                 }
-                token = jwt.encode(response, 'secret_pasword',
+                token = jwt.encode(response, os.environ.get('SECRET_KEY'),
                                     algorithm="HS256").decode('utf-8')
                 return jsonify({
                     **response,
@@ -77,8 +79,22 @@ def signup():
             "createdAt": new_user[3]
         }
 
-        token = jwt.encode(response, 'secret_pasword',
+        token = jwt.encode(response, os.environ.get('SECRET_KEY'),
                             algorithm="HS256").decode('utf-8')
         
         return jsonify({ **response, "token": token }), 200
     return jsonify(msg="Missing params"), 400
+
+@auth.route('/auth/reconnect', methods=['POST'])
+@protected_route
+def reconnect():
+    new_token = jwt.encode({
+        "username": g.user.get('username'),
+        "id": g.user.get('id')
+    }, os.environ.get('SECRET_KEY'), algorithm="HS256").decode('utf-8')
+
+    return jsonify({
+        "username": g.user.get('username'),
+        "id": g.user.get('id'),
+        "token": new_token
+    }), 200

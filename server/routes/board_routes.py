@@ -120,7 +120,7 @@ def boards_new_task(board_id):
 @protected_route
 def boardsList():
     db = Database()
-    db.query('SELECT * FROM boards WHERE user_id={0}'.format(g.user['id']))
+    db.query('SELECT id, title FROM boards WHERE user_id={0}'.format(g.user['id']))
     rows = db.cur.fetchall()
     db.close()
 
@@ -128,7 +128,7 @@ def boardsList():
     for row in rows:
         result.append({
             'id': row[0],
-            'title': row[2]
+            'title': row[1]
         })
 
     return jsonify(result)

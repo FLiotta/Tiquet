@@ -9,6 +9,7 @@ const Loading = ({ display }) => (
   <div className={cn('loading', {
     'loading--hidden': !display
   })}>
+    <div className="spinner-border text-primary" role="status"></div>
   </div>
 )
 
