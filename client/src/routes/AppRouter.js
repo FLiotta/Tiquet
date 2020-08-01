@@ -4,6 +4,7 @@ import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Home from '../pages/Home';
 import Boards from '../pages/Boards';
 import Navbar from '../components/Navbar';
+
 class AppRouter extends Component {
   constructor(props) {
     super(props);
