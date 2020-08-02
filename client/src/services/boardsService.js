@@ -6,7 +6,7 @@ class AuthService extends ApiService {
   }
 
   fetchBoards() {
-    return this.get('/boards/list');
+    return this.get('/boards');
   }
 }
 
