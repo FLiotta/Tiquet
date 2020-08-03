@@ -30,23 +30,47 @@ def board_root(board_id):
         db = Database()
         if request.method == 'GET':
             db.query("""
-                SELECT 
-                    board.id, 
-                    board.title, 
+                SELECT
+                    board.id,
+                    board.title,
                     board.user_id,
                     COALESCE(
                         json_agg(
                             json_build_object(
-                                'id', tasks.id, 
-                                'title', tasks.title
+                                'id', lists.id,
+                                'title', lists.title,
+                                'tasks', lists.tasks
                             )
-                        ) 
-                        FILTER (WHERE tasks IS NOT NULL), '[]'
-                    ) AS tasks 
-                    FROM boards AS board
-                    LEFT JOIN tasks ON tasks.board_id = board.id
-                    WHERE board.id={0}
-                    GROUP BY board.id, board.title, board.user_id
+                        )
+                        FILTER (WHERE lists IS NOT NULL), '[]'
+                    ) lists
+                FROM boards board
+                LEFT JOIN (
+                    SELECT 
+                        lists.id,
+                        lists.title,
+                        lists.board_id,
+                        COALESCE(
+                            json_agg(
+                                json_build_object(
+                                    'id', tasks.id,
+                                    'title', tasks.title
+                                )
+                            ) 
+                            FILTER (WHERE tasks IS NOT NULL), '[]'
+                        ) tasks
+                    FROM lists
+                    LEFT JOIN (
+                        SELECT
+                            tasks.id,
+                            tasks.title,
+                            tasks.list_id
+                        FROM tasks
+                    ) tasks ON tasks.list_id=lists.id
+                    GROUP BY lists.id
+                ) lists ON lists.board_id={0}
+                WHERE board.id={0}
+                GROUP BY board.id
             """.format(board_id))
 
             rows = db.cur.fetchone()
@@ -60,7 +84,7 @@ def board_root(board_id):
             response = {
                 'id': rows[0],
                 'title': rows[1],
-                'tasks': rows[3]
+                'lists': rows[3]
             }
             return jsonify(**response), 200
         elif request.method == 'DELETE':
