@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Home from '../pages/Home';
 import Boards from '../pages/Boards';
+import Board from '../pages/Board';
 import Profile from '../pages/Profile';
 import Navbar from '../components/Navbar';
 
@@ -18,6 +19,7 @@ class AppRouter extends Component {
           <Route path="/" component={Home} exact />
           <Fragment>
             <Navbar />
+            <ProtectedRoute path="/b/:id" component={Board} />
             <ProtectedRoute path="/boards" component={Boards} />
             <ProtectedRoute path="/profile" component={Profile} />
           </Fragment>
