@@ -1,0 +1,25 @@
+.board {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  min-height: 100%;
+  min-width: 100%;
+
+  &__container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 73%;
+
+    &-lists {
+      display: flex;
+    }
+  }
+
+  &__title {
+    color: #42526e;
+    margin-left: 5px;
+    font-weight: 700;
+    font-family: 'montserrat';
+  }
+}

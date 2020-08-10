@@ -1,0 +1,23 @@
+.taskcard {
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  width: 300px;
+  height: 100px;
+  transition: 0.5s all;
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 14px 15px -13px rgba(0, 0, 0, 0.3);
+  }
+
+  &__title {
+    align-self: flex-end;
+    margin: 0;
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    color: #42526e;
+  }
+}
