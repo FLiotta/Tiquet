@@ -38,7 +38,6 @@ def board_root(board_id):
                         json_agg(
                             json_build_object(
                                 'id', lists.id,
-                                'uid', lists.uid,
                                 'title', lists.title,
                                 'tasks', lists.tasks
                             )
@@ -49,7 +48,6 @@ def board_root(board_id):
                 LEFT JOIN (
                     SELECT 
                         lists.id,
-                        lists.uid,
                         lists.title,
                         lists.board_id,
                         COALESCE(
@@ -227,13 +225,13 @@ def boards_new_list(board_id):
         db = Database()
 
         db.query("""
-            INSERT INTO lists (board_id, title, uid) 
-                SELECT {0}, '{1}', '{2}'
+            INSERT INTO lists (board_id, title) 
+                SELECT {0}, '{1}'
                 WHERE EXISTS (
                     SELECT * 
                     FROM boards 
                     WHERE boards.id = {0})
-            RETURNING id, uid, title
+            RETURNING id, title
         """.format(board_id, title, uuid4()))
 
         result = db.cur.fetchone()
@@ -243,16 +241,15 @@ def boards_new_list(board_id):
         if result is not None:
             return jsonify({
                 "id": result[0],
-                "uid": result[1],
-                "title": result[2]
+                "title": result[1]
             }), 200
         return jsonify(msg="No results"), 500
     else:
         return jsonify(msg="Missing param: title"), 401
 
-@board.route('/boards/<board_id>/update-task-list', methods=['PUT'])
+@board.route('/boards/update-task-list', methods=['PUT'])
 @protected_route
-def update_task_list(board_id):
+def update_task_list():
     req_data = request.get_json()
     task_id = req_data.get('taskId')
     list_id = req_data.get('listId')

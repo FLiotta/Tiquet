@@ -1,22 +1,24 @@
 // @Packages
 import React from 'react';
 import propTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 
 // @Project
 import '../styles/components/TaskCard.scss';
 
-const Task = ({ className, taskInfo, index }) => (
-  <Draggable draggableId={toString(taskInfo.id)} index={index}>
-    {(provided) => (
-      <div 
-        className={cn('taskcard', className)} 
-        {...provided.draggableProps} 
-        {...provided.dragHandleProps}
-        ref={provided.innerRef}>
-        <h2 className="taskcard__title">{taskInfo.title}</h2>
+const Task = ({ className, title, id, index }) => (
+  <Draggable
+    index={index}
+    draggableId={new Number(id).toString()}
+    key={id}>
+    {(dragProvided) => (
+      <div
+        ref={dragProvided.innerRef}
+        {...dragProvided.draggableProps}
+        {...dragProvided.dragHandleProps}
+        className={cn("taskcard", className)}>
+        {title}
       </div>
     )}
   </Draggable>
@@ -24,10 +26,9 @@ const Task = ({ className, taskInfo, index }) => (
 
 Task.propTypes = {
   className: propTypes.string,
-  taskInfo: propTypes.shape({
-    id: propTypes.number,
-    title: propTypes.string,
-  }).isRequired,
+  id: propTypes.number,
+  title: propTypes.string,
+  index: propTypes.number,
 }
 
 export default Task;

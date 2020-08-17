@@ -1,14 +1,17 @@
-import React, { useEffect, Fragment } from 'react';
+// @Packages
+import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import { fetchBoard } from '../actions/board';
+// @Projects
+import { fetchBoard, moveTask } from '../actions/board';
 import List from '../components/List';
 import '../styles/pages/Board.scss';
 
 const Board = ({
   fetchBoard,
+  moveTask,
   board,
   match,
   ...rest
@@ -19,67 +22,25 @@ const Board = ({
     fetchBoard(boardId);
   }, []);
 
-  const onDragEnd = (q) => {
-    console.log(q);
+  const onDragEnd = (e) => {
+    const { draggableId, destination, source } = e;
+    const originListId = parseInt(source.droppableId);
+    const destinationListId = parseInt(destination.droppableId);
+    const taskId = parseInt(draggableId);
+
+    if(originListId != destinationListId) {
+      moveTask(originListId, destinationListId, taskId);
+    }    
   }
+
   return (
     <div className="board">
       <div className="board__container">
         <h2 className="board__title">{board.title}</h2>
-        <div style={{
-          display: 'flex'
-        }}>
-
-          <DragDropContext
-            onDragEnd={result => onDragEnd(result)}
-          >
-            {board.lists.map(list => (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  margin: 9
-                }}
-                key={list.id}>
-                <h5>{list.title}</h5>
-                <div>
-                  <Droppable droppableId={new Number(list.id).toString()} key={list.title}>
-                    {(provided) => (
-                      <Fragment>
-                        <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          style={{
-                            minWidth: 200,
-                            minHeight: 400,
-                            backgroundColor: 'red'
-                          }}>
-                          {list.tasks.map((task, index) => (
-                            <Draggable
-                              index={index}
-                              draggableId={task.uid}
-                              key={task.id}>
-                              {(dragProvided) => (
-                                <div
-                                  ref={dragProvided.innerRef}
-                                  {...dragProvided.draggableProps}
-                                  {...dragProvided.dragHandleProps}>
-                                  {task.title}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                        </div>
-                        {provided.placeholder}
-                      </Fragment>
-                    )}
-                  </Droppable>
-                </div>
-              </div>
-            ))}
+        <div className="board__columns">
+          <DragDropContext onDragEnd={result => onDragEnd(result)} >
+            {board.lists.map(list => <List {...list} />)}
           </DragDropContext>
-
         </div>
       </div>
     </div>
@@ -101,6 +62,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchBoard: boardId => dispatch(fetchBoard(boardId)),
+  moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
