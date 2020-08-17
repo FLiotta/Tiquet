@@ -65,7 +65,6 @@ def signup():
             bcrypt.gensalt(5)
         ).decode('utf-8')
 
-        db = Database()
         db.query("INSERT INTO users(username, password, createdat) VALUES ('{0}','{1}',{2}) RETURNING id, username, password, createdat".format(
             username, hashed_password, int(datetime.datetime.now().timestamp())))
         db.commit()
