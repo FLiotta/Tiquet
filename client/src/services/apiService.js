@@ -37,6 +37,21 @@ class ApiService {
 
     return axios.post(fullPath, params, options);
   }
+
+  put(path, params) {
+    const token = this.cookies.get('token');
+    const fullPath = [this.api, path].join('');
+
+    const options = {
+      headers: {}
+    };
+
+    if (token) {
+      options['headers']['token'] = token;
+    }
+
+    return axios.put(fullPath, params, options);
+  }
 }
 
 export default ApiService;

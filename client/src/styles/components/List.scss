@@ -1,0 +1,13 @@
+.list {
+  margin: 5px;
+
+  &__title {
+    font-family: 'montserrat';
+  }
+
+  &__column {
+    width: 200px;
+    height: 400px;
+    background-color: #dedede;
+  }
+}

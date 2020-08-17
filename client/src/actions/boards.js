@@ -1,6 +1,7 @@
 import BoardsService from '../services/boardsService';
 
 const boardsService = new BoardsService();
+
 export const FETCH_BOARDS = '[BOARDS] FETCH BOARDS';
 
 export const fetchBoards = () => {

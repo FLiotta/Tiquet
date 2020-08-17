@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request, g, Response
 from database.db import Database
 from middlewares.protected_route import protected_route
-
+from uuid import uuid4
 board = Blueprint('board', __name__)
 
 # General boards creation and fetching endpoints
@@ -30,23 +30,49 @@ def board_root(board_id):
         db = Database()
         if request.method == 'GET':
             db.query("""
-                SELECT 
-                    board.id, 
-                    board.title, 
+                SELECT
+                    board.id,
+                    board.title,
                     board.user_id,
                     COALESCE(
                         json_agg(
                             json_build_object(
-                                'id', tasks.id, 
-                                'title', tasks.title
+                                'id', lists.id,
+                                'title', lists.title,
+                                'tasks', lists.tasks
                             )
-                        ) 
-                        FILTER (WHERE tasks IS NOT NULL), '[]'
-                    ) AS tasks 
-                    FROM boards AS board
-                    LEFT JOIN tasks ON tasks.board_id = board.id
-                    WHERE board.id={0}
-                    GROUP BY board.id, board.title, board.user_id
+                        )
+                        FILTER (WHERE lists IS NOT NULL), '[]'
+                    ) lists
+                FROM boards board
+                LEFT JOIN (
+                    SELECT 
+                        lists.id,
+                        lists.title,
+                        lists.board_id,
+                        COALESCE(
+                            json_agg(
+                                json_build_object(
+                                    'id', tasks.id,
+                                    'uid', tasks.uid,
+                                    'title', tasks.title
+                                )
+                            ) 
+                            FILTER (WHERE tasks IS NOT NULL), '[]'
+                        ) tasks
+                    FROM lists
+                    LEFT JOIN (
+                        SELECT
+                            tasks.id,
+                            tasks.uid,
+                            tasks.title,
+                            tasks.list_id
+                        FROM tasks
+                    ) tasks ON tasks.list_id=lists.id
+                    GROUP BY lists.id
+                ) lists ON lists.board_id={0}
+                WHERE board.id={0}
+                GROUP BY board.id
             """.format(board_id))
 
             rows = db.cur.fetchone()
@@ -60,7 +86,7 @@ def board_root(board_id):
             response = {
                 'id': rows[0],
                 'title': rows[1],
-                'tasks': rows[3]
+                'lists': rows[3]
             }
             return jsonify(**response), 200
         elif request.method == 'DELETE':
@@ -169,10 +195,11 @@ def boards_new_task(board_id):
                 user_id, 
                 board_id, 
                 list_id, 
-                title)
-            VALUES ({0}, {1}, {2}, '{3}') 
-            RETURNING id, title
-        """.format(g.user['id'], board_id, list_id, task_title))
+                title,
+                uid)
+            VALUES ({0}, {1}, {2}, '{3}', '{4}') 
+            RETURNING id, uid, title
+        """.format(g.user['id'], board_id, list_id, task_title, uuid4()))
         db.commit()
 
         new_task = db.cur.fetchone()
@@ -181,7 +208,8 @@ def boards_new_task(board_id):
         return jsonify({
             "result": {
                 'id': new_task[0],
-                'title': new_task[1]
+                'uid': new_task[1],
+                'title': new_task[2]
             }
         }), 200
 
@@ -198,13 +226,13 @@ def boards_new_list(board_id):
 
         db.query("""
             INSERT INTO lists (board_id, title) 
-                SELECT {0}, '{1}' 
+                SELECT {0}, '{1}'
                 WHERE EXISTS (
                     SELECT * 
                     FROM boards 
                     WHERE boards.id = {0})
             RETURNING id, title
-        """.format(board_id, title))
+        """.format(board_id, title, uuid4()))
 
         result = db.cur.fetchone()
         db.commit()
@@ -218,3 +246,26 @@ def boards_new_list(board_id):
         return jsonify(msg="No results"), 500
     else:
         return jsonify(msg="Missing param: title"), 401
+
+@board.route('/boards/update-task-list', methods=['PUT'])
+@protected_route
+def update_task_list():
+    req_data = request.get_json()
+    task_id = req_data.get('taskId')
+    list_id = req_data.get('listId')
+
+    if list_id is not None and task_id is not None:
+        db = Database()
+
+        db.query("""
+            UPDATE tasks
+                SET list_id={0}
+                WHERE id={1}
+        """.format(list_id, task_id))
+
+        result = "db.cur.fetchone()"
+        db.commit()
+        db.close()
+
+        return jsonify(result), 200
+    return jsonify(msg="Missing params"), 400
