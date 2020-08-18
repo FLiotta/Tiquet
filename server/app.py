@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from routes.auth_routes import auth
 from routes.board_routes import board
 from routes.user_routes import user
+from routes.list_routes import list_
 
 #initialization
 load_dotenv(join(dirname(__file__), '.env'))
@@ -22,6 +23,7 @@ api_prefix = '/api'
 app.register_blueprint(auth, url_prefix=api_prefix)
 app.register_blueprint(board, url_prefix=api_prefix)
 app.register_blueprint(user, url_prefix=api_prefix)
+app.register_blueprint(list_, url_prefix=api_prefix)
 
 #bootstrap app
 if __name__ == "__main__":
