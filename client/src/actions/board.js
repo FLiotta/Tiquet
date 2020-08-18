@@ -1,6 +1,8 @@
 import BoardsService from '../services/boardsService';
+import ListsService from '../services/listsService';
 
 const boardsService = new BoardsService();
+const listsService = new ListsService();
 
 export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
 export const MOVE_TASK = '[BOARD] MOVE TASK';
@@ -45,7 +47,7 @@ export const moveTask = (originListId, destinyListId, taskId) => {
       payload: updatedLists,
     });
 
-    boardsService.updateTaskList(taskId, destinyListId)
+    listsService.updateTask(taskId, destinyListId)
       .then(resp => { })
       .catch(e => {
         dispatch({
