@@ -1,0 +1,14 @@
+.create-board-modal {
+  &__header {
+    position: relative;
+    width: 100%;
+
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      transform: translate(0, 2px);
+    }
+  }
+}

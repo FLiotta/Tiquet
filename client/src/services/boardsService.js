@@ -12,6 +12,10 @@ class BoardsService extends ApiService {
   fetchBoard(boardId) {
     return this.get(`/boards/${boardId}`);
   }
+
+  createBoard(boardName) {
+    return this.post('/boards/new', { boardName });
+  }
 }
 
 export default BoardsService;
