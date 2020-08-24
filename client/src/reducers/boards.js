@@ -1,4 +1,4 @@
-import { FETCH_BOARDS } from '../actions/boards';
+import { FETCH_BOARDS, ADD_BOARD } from '../actions/boards';
 
 const defaultState = {
   result: [],
@@ -12,6 +12,11 @@ export default (state = defaultState, action) => {
         ...state,
         result: action.payload
       };
+    case ADD_BOARD:
+      return {
+        ...state,
+        result: [...state.result, action.payload]
+      }
     default:
       return state;
   }
