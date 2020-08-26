@@ -6,12 +6,24 @@ const listsService = new ListsService();
 
 export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
 export const MOVE_TASK = '[BOARD] MOVE TASK';
+export const ADD_LIST = '[BOARD] ADD LIST';
 
 export const fetchBoard = (boardId) => {
   return dispatch => boardsService.fetchBoard(boardId)
     .then(({data}) => {
       dispatch({
         type: FETCH_BOARD,
+        payload: data
+      });
+    })
+    .catch(e => console.log);
+}
+
+export const addList = (boardId, title) => {
+  return dispatch => boardsService.createList(boardId, title)
+    .then(({ data }) => {
+      dispatch({
+        type: ADD_LIST,
         payload: data
       });
     })

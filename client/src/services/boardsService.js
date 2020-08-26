@@ -16,6 +16,10 @@ class BoardsService extends ApiService {
   createBoard(boardName) {
     return this.post('/boards/new', { boardName });
   }
+
+  createList(boardId, listTitle) {
+    return this.post(`/boards/${boardId}/new-list`, { title: listTitle });
+  }
 }
 
 export default BoardsService;

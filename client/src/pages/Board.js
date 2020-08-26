@@ -8,6 +8,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { fetchBoard, moveTask } from '../actions/board';
 import List from '../components/List';
 import '../styles/pages/Board.scss';
+import CreateList from '../components/CreateList';
 
 const Board = ({
   fetchBoard,
@@ -39,8 +40,9 @@ const Board = ({
         <h2 className="board__title">{board.title}</h2>
         <div className="board__columns">
           <DragDropContext onDragEnd={result => onDragEnd(result)} >
-            {board.lists.map(list => <List {...list} />)}
+            {board.lists.map(list => <List key={list.id} {...list} />)}
           </DragDropContext>
+          <CreateList/>
         </div>
       </div>
     </div>

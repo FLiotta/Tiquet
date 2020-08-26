@@ -1,4 +1,4 @@
-import { FETCH_BOARD, MOVE_TASK } from '../actions/board';
+import { FETCH_BOARD, MOVE_TASK, ADD_LIST } from '../actions/board';
 
 const defaultState = {
   id: undefined,
@@ -6,14 +6,19 @@ const defaultState = {
   lists: [],
 };
 
-export default (state = defaultState, actions) => {
-  switch(actions.type) {
+export default (state = defaultState, action) => {
+  switch(action.type) {
     case FETCH_BOARD:
-      return actions.payload;
+      return action.payload;
     case MOVE_TASK:
       return {
         ...state,
-        lists: actions.payload
+        lists: action.payload
+      };
+    case ADD_LIST:
+      return {
+        ...state,
+        lists: [...state.lists, action.payload]
       };
     default:
       return state;
