@@ -31,7 +31,7 @@ const List = ({ id, title, tasks, className}) => {
 
 List.propTypes = {
   id: propTypes.number,
-  title: propTypes.number,
+  title: propTypes.string,
   tasks: propTypes.array,
   className: propTypes.string,
 };

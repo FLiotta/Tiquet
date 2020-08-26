@@ -1,0 +1,23 @@
+.create-list {
+  margin-top: 5px;
+  opacity: .5;
+  transition: .5s all;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &__title {
+    font-family: montserrat;
+    position: relative;
+    top: 3px;
+  }
+
+  &__column {
+    background-color: #dedede;
+    padding: 5px;
+    width: 200px;
+    height: 300px;
+    position: relative;
+  }
+}

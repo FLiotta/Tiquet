@@ -186,7 +186,8 @@ def boards_new_list(board_id):
         if result is not None:
             return jsonify({
                 "id": result[0],
-                "title": result[1]
+                "title": result[1],
+                "tasks": []
             }), 200
         return jsonify(msg="No results"), 500
     else:
