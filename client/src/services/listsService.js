@@ -8,6 +8,10 @@ class ListService extends ApiService {
   updateTask(taskId, listId) {
     return this.put(`/lists/${listId}/update-task`, { taskId });
   }
+
+  createTask(taskTitle, listId) {
+    return this.post(`/lists/${listId}/new-task`, { title: taskTitle });
+  }
 }
 
 export default ListService;

@@ -32,6 +32,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-beautiful-dnd": "^13.0.0",
+    "react-cool-onclickoutside": "^1.5.5",
     "react-dom": "^16.10.2",
     "react-hook-form": "^6.5.1",
     "react-modal": "^3.11.2",

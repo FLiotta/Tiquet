@@ -6,6 +6,7 @@ import cn from 'classnames';
 
 // @Project
 import Task from './Task';
+import CreateTask from './CreateTask';
 import '../styles/components/List.scss';
 
 const List = ({ id, title, tasks, className}) => {
@@ -20,6 +21,7 @@ const List = ({ id, title, tasks, className}) => {
               ref={provided.innerRef}
               className={cn("list__column", className)}>
               {tasks.map((task, index) => <Task key={task.uid} {...task} index={index} />)}
+              <CreateTask listId={id} />
             </div>
             {provided.placeholder}
           </Fragment>
