@@ -6,6 +6,7 @@ import Boards from '../pages/Boards';
 import Board from '../pages/Board';
 import Profile from '../pages/Profile';
 import Navbar from '../components/Navbar';
+import Error404 from '../pages/Error404';
 
 class AppRouter extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class AppRouter extends Component {
             <ProtectedRoute path="/b/:id" component={Board} />
             <ProtectedRoute path="/boards" component={Boards} />
             <ProtectedRoute path="/profile" component={Profile} />
+            <Route path="/*" component={Error404} />
           </Fragment>
         </Switch>
       </BrowserRouter>
