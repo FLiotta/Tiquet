@@ -19,7 +19,7 @@ export const fetchBoard = (boardId) => {
       });
     })
     .catch(e => {
-      cogoToast.error(`Board can't be fetched... weird.`, { position: 'bottom-right'});
+      window.location = "/404";
     });
 }
 
