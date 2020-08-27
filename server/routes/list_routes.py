@@ -47,13 +47,12 @@ def new_task(list_id):
         db.query("""
             INSERT INTO tasks(
                 user_id, 
-                board_id, 
                 list_id, 
                 title,
                 uid)
-            VALUES ({0}, {1}, {2}, '{3}', '{4}') 
+            VALUES ({0}, {1}, '{2}', '{3}') 
             RETURNING id, uid, title
-        """.format(g.user['id'], board_id, list_id, task_title, uuid4()))
+        """.format(g.user['id'], list_id, task_title, uuid4()))
         db.commit()
 
         new_task = db.cur.fetchone()

@@ -1,3 +1,4 @@
+import cogoToast from 'cogo-toast';
 import BoardsService from '../services/boardsService';
 import ListsService from '../services/listsService';
 
@@ -6,6 +7,7 @@ const listsService = new ListsService();
 
 export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
 export const MOVE_TASK = '[BOARD] MOVE TASK';
+export const ADD_TASK = '[BOARD] ADD TASK';
 export const ADD_LIST = '[BOARD] ADD LIST';
 
 export const fetchBoard = (boardId) => {
@@ -16,18 +18,47 @@ export const fetchBoard = (boardId) => {
         payload: data
       });
     })
-    .catch(e => console.log);
+    .catch(e => {
+      cogoToast.error(`Board can't be fetched... weird.`, { position: 'bottom-right'});
+    });
 }
 
 export const addList = (boardId, title) => {
   return dispatch => boardsService.createList(boardId, title)
     .then(({ data }) => {
+      cogoToast.success(`Your list has been created.`, { position: 'bottom-right'});
+
       dispatch({
         type: ADD_LIST,
         payload: data
       });
     })
-    .catch(e => console.log);
+    .catch(e => {
+      cogoToast.error(`There was a problem creating your list.`, { position: 'bottom-right'});
+    });
+}
+
+export const addTask = (taskTitle, listId) => {
+  return (dispatch, getState) => listsService.createTask(taskTitle, listId)
+    .then(({ data }) => {
+      const state = getState();
+      const mappedListsWithTask = state.board.lists.map(list => list.id === listId
+        ? {
+          ...list,
+          tasks: [...list.tasks, data.result]
+        }
+        : list);
+
+      cogoToast.success(`Your task has been created 😊`, { position: 'bottom-right'});
+
+      dispatch({
+        type: ADD_TASK,
+        payload: mappedListsWithTask
+      });
+    })
+    .catch(e => {
+      cogoToast.error(`Whops... we couldn't create your task.`, { position: 'bottom-right'});
+    });
 }
 
 export const moveTask = (originListId, destinyListId, taskId) => {
@@ -62,6 +93,7 @@ export const moveTask = (originListId, destinyListId, taskId) => {
     listsService.updateTask(taskId, destinyListId)
       .then(resp => { })
       .catch(e => {
+        cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right'});
         dispatch({
           type: MOVE_TASK,
           payload: previousListsState,

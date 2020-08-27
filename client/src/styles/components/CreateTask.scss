@@ -1,0 +1,19 @@
+.create-task {
+  padding: 5px;
+  display: flex;
+
+  &__placeholder {
+    width: 100%;
+    padding: 5px;
+    border: 2px dashed #dedede;
+    background-color: #c5c5c5;
+    color: #42526e;
+    opacity: .5;
+    transition: .5s all;
+    cursor: pointer;
+ 
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
