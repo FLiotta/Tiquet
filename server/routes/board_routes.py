@@ -1,164 +1,100 @@
 from flask import jsonify, Blueprint, request, g, Response
-from database.db import Database
+from database.db import db
+from models import Boards, Lists
 from middlewares.protected_route import protected_route
 from uuid import uuid4
 board = Blueprint('board', __name__)
 
 # General boards creation and fetching endpoints
 
+
 @board.route('/boards', methods=['GET'])
 @protected_route
 def boardsList():
-    db = Database()
-    db.query('SELECT id, title FROM boards WHERE user_id={0}'.format(g.user['id']))
-    rows = db.cur.fetchall()
-    db.close()
+    user_id = g.user.get('id')
+    user_boards = Boards.query.filter_by(user_id=user_id)
 
     result = []
-    for row in rows:
+    for row in user_boards:
         result.append({
-            'id': row[0],
-            'title': row[1]
+            'id': row.id,
+            'title': row.title
         })
 
     return jsonify(result)
 
+
 @board.route('/boards/<board_id>', methods=['GET', 'DELETE'])
 @protected_route
 def board_root(board_id):
-    if board_id is not None:
-        db = Database()
-        if request.method == 'GET':
-            db.query("""
-                SELECT
-                    board.id,
-                    board.title,
-                    board.user_id,
-                    COALESCE(
-                        json_agg(
-                            json_build_object(
-                                'id', lists.id,
-                                'title', lists.title,
-                                'tasks', lists.tasks
-                            )
-                        )
-                        FILTER (WHERE lists IS NOT NULL), '[]'
-                    ) lists
-                FROM boards board
-                LEFT JOIN (
-                    SELECT 
-                        lists.id,
-                        lists.title,
-                        lists.board_id,
-                        COALESCE(
-                            json_agg(
-                                json_build_object(
-                                    'id', tasks.id,
-                                    'uid', tasks.uid,
-                                    'title', tasks.title
-                                )
-                            ) 
-                            FILTER (WHERE tasks IS NOT NULL), '[]'
-                        ) tasks
-                    FROM lists
-                    LEFT JOIN (
-                        SELECT
-                            tasks.id,
-                            tasks.uid,
-                            tasks.title,
-                            tasks.list_id
-                        FROM tasks
-                    ) tasks ON tasks.list_id=lists.id
-                    GROUP BY lists.id
-                ) lists ON lists.board_id={0}
-                WHERE board.id={0}
-                GROUP BY board.id
-            """.format(board_id))
+    if board_id is None:
+        return jsonify(msg="Missing param: board_id"), 400
 
-            rows = db.cur.fetchone()
-            db.close()
+    if request.method == 'GET':
 
-            if rows is None:
-                return jsonify(msg="Board doesn't exists"), 404
-            elif rows[2] is not g.user['id']:
-                return jsonify(msg="You don't have access to this board"), 403
+        board = Boards.query.filter_by(id=board_id).first()
+        board_lists = []
 
-            response = {
-                'id': rows[0],
-                'title': rows[1],
-                'lists': rows[3]
-            }
-            return jsonify(**response), 200
-        elif request.method == 'DELETE':
-            db.query("DELETE FROM boards WHERE id={0} AND user_id={1}".format(board_id, g.user['id']))
-            db.commit()
-            db.close()
+        for list_ in board.lists:
+            board_lists.append({
+                "id": list_.id,
+                "title": list_.title,
+                "tasks": list(map(lambda t: {'id': t.id, 'title': t.title}, list_.tasks))
+            })
 
-            if db.cur.rowcount == 0:
-                return jsonify(msg="Error deleting the board"), 403
-            return jsonify(msg="Board deleted"), 200
+        response = {
+            'id': board.id,
+            'title': board.title,
+            'lists': board_lists
+        }
+        return jsonify(**response), 200
+
 
 @board.route('/boards/new', methods=['POST'])
 @protected_route
 def boards_new():
     req_data = request.get_json()
     board_name = req_data.get('boardName')
+    user_id = g.user.get('id')
 
-    if board_name is not None:
-        
-        db = Database()
-        db.query("INSERT INTO boards(user_id, title) VALUES ('{0}','{1}') RETURNING id, title".format(g.user.get('id'), board_name))
-        db.commit()
-        new_board = db.cur.fetchone()
-        db.close()
-        if new_board is not None:
-            return jsonify({
-                'msg': 'New board created',
-                'boardId': new_board[0],
-                'boardName': new_board[1]
-            }), 200
+    if board_name is None:
+        return jsonify(msg='You must provide a board name'), 400
+    
+    new_board = Boards(user_id, board_name)
 
-    return jsonify(msg='You must provide a board name'), 400
+    db.session.add(new_board)
+    db.session.commit()
+
+    if new_board is not None:
+        return jsonify({
+            'msg': 'New board created',
+            'boardId': new_board.id,
+            'boardName': new_board.title
+        }), 200
+
+    
 
 # Lists and Tasks related endpoints
+
 
 @board.route('/boards/<board_id>/get-lists', methods=['GET'])
 @protected_route
 def boards_get_lists(board_id):
-    db = Database()
+    board = Boards.query.filter_by(id=board_id).first()
+    board_lists = []
 
-    db.query("""
-        SELECT 
-            lists.id, 
-            lists.title, 
-            COALESCE(
-                json_agg(
-                    json_build_object(
-                        'id', tasks.id, 
-                        'title', tasks.title
-                    )
-                ) 
-                FILTER (WHERE tasks IS NOT NULL), '[]'
-            ) AS tasks 
-        FROM lists
-        LEFT JOIN tasks ON tasks.list_id=lists.id
-        WHERE lists.board_id={0}
-        GROUP BY lists.id, lists.title
-    """.format(board_id))
-
-    rows = db.cur.fetchall()
-    db.close()
-
-    response = []
-
-    for row in rows:
-        response.append({
-            'id': row[0],
-            'title': row[1],
-            'tasks': row[2]
+    for list_ in board.lists:
+        board_lists.append({
+            "id": list_.id,
+            "title": list_.title
         })
-    
-    return jsonify(result=response), 200
+
+    return jsonify(result={
+        "id": board.id,
+        "title": board.title,
+        "lists": board_lists
+    }), 200
+
 
 @board.route('/boards/<board_id>/new-list', methods=['POST'])
 @protected_route
@@ -166,29 +102,18 @@ def boards_new_list(board_id):
     req_data = request.get_json()
     title = req_data.get('title')
 
-    if title is not None:
-        db = Database()
-
-        db.query("""
-            INSERT INTO lists (board_id, title) 
-                SELECT {0}, '{1}'
-                WHERE EXISTS (
-                    SELECT * 
-                    FROM boards 
-                    WHERE boards.id = {0})
-            RETURNING id, title
-        """.format(board_id, title, uuid4()))
-
-        result = db.cur.fetchone()
-        db.commit()
-        db.close()
-
-        if result is not None:
-            return jsonify({
-                "id": result[0],
-                "title": result[1],
-                "tasks": []
-            }), 200
-        return jsonify(msg="No results"), 500
-    else:
+    if title is None:
         return jsonify(msg="Missing param: title"), 401
+
+    new_list = Lists(board_id, title)
+    db.session.add(new_list)
+    db.session.commit()
+
+    if new_list is not None:
+        return jsonify({
+            "id": new_list.id,
+            "title": new_list.title,
+            "tasks": []
+        }), 200
+    else:
+        return jsonify(msg="No results"), 500

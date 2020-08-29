@@ -1,5 +1,6 @@
 from flask import jsonify, Blueprint, request, g
-from database.db import Database
+from database.db import db
+from models import Users
 from middlewares.protected_route import protected_route
 import json
 import bcrypt
@@ -17,32 +18,31 @@ def login():
     username = req_data.get('username')
     password = req_data.get('password')
 
-    if username and password:
-        db = Database()
-        db.query(
-            "SELECT id, username, password FROM users WHERE username='{0}'".format(username))
+    if username is None or password is None:
+        return jsonify(msg="Missing params"), 400
 
-        user = db.cur.fetchone()
+    user = Users.query.filter_by(username=username).first()
 
-        if user is not None:
-            user_id = user[0]
-            user_username = user[1]
-            user_password_hashed = user[2]
-
-            if bcrypt.checkpw(password.encode('utf-8'), user_password_hashed.encode('utf-8')):
-                response = {
-                    "id": user_id,
-                    "username": user_username,
-                    "password": user_password_hashed,
-                }
-                token = jwt.encode(response, os.environ.get('SECRET_KEY'),
-                                    algorithm="HS256").decode('utf-8')
-                return jsonify({
-                    **response,
-                    'msg': 'Logged',
-                    'token': token
-                }), 200
+    if user is None:
         return jsonify(msg="User doesn't exist"), 404
+
+    if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        response = {
+            "id": user.id,
+            "username": user.username,
+            "password": user.password,
+        }
+
+        token = jwt.encode(response, os.environ.get(
+            'SECRET_KEY'), algorithm="HS256").decode('utf-8')
+
+        return jsonify({
+            **response,
+            'msg': 'Logged',
+            'token': token
+        }), 200
+    else:
+        return jsonify(msg="Invalid password"), 401
 
 
 @auth.route('/auth/signup', methods=['POST'])
@@ -51,49 +51,51 @@ def signup():
     username = req_data.get('username')
     password = req_data.get('password')
 
-    if username and password:
-        db = Database()
-        db.query("SELECT * FROM users WHERE username='{0}'".format(username))
-        result = db.cur.fetchall()
+    if username is None or password is None:
+        return jsonify(msg="Missing params"), 400
 
-        if len(result) > 0:
-            db.close()
-            return jsonify(msg="Username already taken."), 400
+    user_exists = Users.query.filter_by(username=username).first()
 
-        hashed_password = bcrypt.hashpw(
-            password.encode('utf8'),
-            bcrypt.gensalt(5)
-        ).decode('utf-8')
+    if user_exists is not None:
+        return jsonify(msg="Username already taken."), 400
 
-        db.query("INSERT INTO users(username, password, createdat) VALUES ('{0}','{1}',{2}) RETURNING id, username, password, createdat".format(
-            username, hashed_password, int(datetime.datetime.now().timestamp())))
-        db.commit()
-        new_user = db.cur.fetchall()[0]
-        db.close()
+    hashed_password = bcrypt.hashpw(
+        password.encode('utf8'),
+        bcrypt.gensalt(5)
+    ).decode('utf-8')
 
-        response = {
-            "id": new_user[0],
-            "username": new_user[1],
-            "password": new_user[2],
-            "createdAt": new_user[3]
-        }
+    new_user = Users(username, hashed_password)
 
-        token = jwt.encode(response, os.environ.get('SECRET_KEY'),
-                            algorithm="HS256").decode('utf-8')
-        
-        return jsonify({ **response, "token": token }), 200
-    return jsonify(msg="Missing params"), 400
+    db.session.add(new_user)
+    db.session.commit()
+
+    response = {
+        "id": new_user.id,
+        "username": new_user.username,
+        "createdAt": new_user.createdAt
+    }
+    token = jwt.encode(response, os.environ.get(
+        'SECRET_KEY'), algorithm="HS256").decode('utf-8')
+
+    return jsonify({**response, "token": token}), 200
+
 
 @auth.route('/auth/reconnect', methods=['POST'])
 @protected_route
 def reconnect():
-    new_token = jwt.encode({
-        "username": g.user.get('username'),
-        "id": g.user.get('id')
-    }, os.environ.get('SECRET_KEY'), algorithm="HS256").decode('utf-8')
+    username = g.user.get('username')
+    id = g.user.get('id')
+
+    data_to_encode = {
+        "username": username,
+        "id": id
+    }
+
+    new_token = jwt.encode(data_to_encode, os.environ.get(
+        'SECRET_KEY'), algorithm="HS256").decode('utf-8')
 
     return jsonify({
-        "username": g.user.get('username'),
-        "id": g.user.get('id'),
+        "username": username,
+        "id": id,
         "token": new_token
     }), 200
