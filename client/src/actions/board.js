@@ -9,6 +9,7 @@ export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
 export const MOVE_TASK = '[BOARD] MOVE TASK';
 export const ADD_TASK = '[BOARD] ADD TASK';
 export const ADD_LIST = '[BOARD] ADD LIST';
+export const RESET_STATE = '[BOARD] CLEAN STATE';
 
 export const fetchBoard = (boardId) => {
   return dispatch => boardsService.fetchBoard(boardId)
@@ -101,3 +102,9 @@ export const moveTask = (originListId, destinyListId, taskId) => {
       });
   }
 };
+
+export const resetState = () => {
+  return dispatch => dispatch({
+    type: RESET_STATE
+  });
+}
