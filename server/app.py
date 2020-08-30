@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from routes.auth_routes import auth
 from routes.board_routes import board
-from routes.user_routes import user
 from routes.list_routes import list_
 from database.db import db
 import os
@@ -28,7 +27,6 @@ def create_app():
 
     app.register_blueprint(auth, url_prefix=api_prefix)
     app.register_blueprint(board, url_prefix=api_prefix)
-    app.register_blueprint(user, url_prefix=api_prefix)
     app.register_blueprint(list_, url_prefix=api_prefix)
 
     register_extensions(app)

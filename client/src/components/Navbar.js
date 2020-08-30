@@ -14,7 +14,6 @@ const Navbar = ({ logout }) => {
   return (
     <div className="navigation">
       <NavLink to="/boards" className="navigation__link">Boards</NavLink>
-      <NavLink to="/profile" className="navigation__link">Profile</NavLink>
       <a href="#" onClick={() => logout()} className="navigation__link">Log out</a>
     </div>
   )
