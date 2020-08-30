@@ -13,11 +13,15 @@ import Loading from '../components/Loading';
 
 
 const Profile = ({ fetchProfile, profile, ...rest }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchProfile()
-      .then(() => setLoading(false));
+    if(JSON.stringify(profile) == '{}') {
+      setLoading(true);
+
+      fetchProfile()
+        .then(() => setLoading(false));
+    }
   }, []);
 
   return (

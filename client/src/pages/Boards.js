@@ -13,13 +13,17 @@ import ScrumBoard from '../assets/images/scrum-board.png';
 // @Own
 import '../styles/pages/Boards.scss';
 
-const Boards = ({ boards, fetchBoards, addBoard }) => {
-  const [loading, setLoading] = useState(true);
+const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchBoards()
-      .then(() => setLoading(false));
+    if(boards.length == 0) {
+      setLoading(true);
+
+      fetchBoards()
+        .then(() => setLoading(false));
+    }
   }, []);
 
   const createModalSucces = (serviceResponse) => {
@@ -79,7 +83,7 @@ const Boards = ({ boards, fetchBoards, addBoard }) => {
 };
 
 const mapStateToProps = state => ({
-  boards: selectBoards(state)
+  boards: selectBoards(state),
 });
 
 const mapDispatchToProps = dispatch => ({

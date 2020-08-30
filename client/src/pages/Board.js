@@ -1,26 +1,35 @@
 // @Packages
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 // @Projects
-import { fetchBoard, moveTask } from '../actions/board';
+import { fetchBoard, moveTask, resetState } from '../actions/board';
 import List from '../components/List';
 import '../styles/pages/Board.scss';
 import CreateList from '../components/CreateList';
+import Loading from '../components/Loading';
 
 const Board = ({
   fetchBoard,
   moveTask,
   board,
   match,
+  resetState,
   ...rest
 }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const boardId = match.params.id;
 
-    fetchBoard(boardId);
+    fetchBoard(boardId)
+      .then(() => setIsLoading(false));
+
+    return () => {
+      resetState();
+    }
   }, []);
 
   const onDragEnd = (e) => {
@@ -36,6 +45,7 @@ const Board = ({
 
   return (
     <div className="board">
+      <Loading display={isLoading} />
       <h3 className="board__title">{board.title}</h3>
       <div className="board__columns">
         <DragDropContext onDragEnd={result => onDragEnd(result)} >
@@ -49,6 +59,7 @@ const Board = ({
 
 Board.propTypes = {
   fetchBoard: propTypes.func,
+  resetState: propTypes.func,
   board: propTypes.shape({
     title: propTypes.string,
     id: propTypes.number,
@@ -62,6 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchBoard: boardId => dispatch(fetchBoard(boardId)),
+  resetState: () => dispatch(resetState()),
   moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
 })
 

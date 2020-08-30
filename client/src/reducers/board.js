@@ -1,4 +1,10 @@
-import { FETCH_BOARD, MOVE_TASK, ADD_LIST, ADD_TASK } from '../actions/board';
+import { 
+  FETCH_BOARD,
+  MOVE_TASK,
+  ADD_LIST,
+  ADD_TASK,
+  RESET_STATE,
+} from '../actions/board';
 
 const defaultState = {
   id: undefined,
@@ -25,6 +31,8 @@ export default (state = defaultState, action) => {
         ...state,
         lists: action.payload
       };
+    case RESET_STATE:
+      return defaultState;
     default:
       return state;
   }
