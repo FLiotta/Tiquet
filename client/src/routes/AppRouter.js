@@ -4,9 +4,7 @@ import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Home from '../pages/Home';
 import Boards from '../pages/Boards';
 import Board from '../pages/Board';
-import Profile from '../pages/Profile';
 import Navbar from '../components/Navbar';
-import Error404 from '../pages/Error404';
 
 class AppRouter extends Component {
   constructor(props) {
@@ -22,7 +20,6 @@ class AppRouter extends Component {
             <Navbar />
             <ProtectedRoute path="/b/:id" component={Board} />
             <ProtectedRoute path="/boards" component={Boards} />
-            <ProtectedRoute path="/profile" component={Profile} />
           </Fragment>
         </Switch>
       </BrowserRouter>
