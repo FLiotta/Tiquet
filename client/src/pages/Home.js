@@ -13,6 +13,7 @@ import { isLoggedSelector } from '../selectors/session';
 
 const Home = ({ login, signup, isLogged }) => {
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState(true);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -56,6 +57,8 @@ const Home = ({ login, signup, isLogged }) => {
     </form>
   )
 
+  const toggleMode = () => setMode(!mode);
+
   return (
     <Fragment>
       {isLogged
@@ -64,13 +67,29 @@ const Home = ({ login, signup, isLogged }) => {
           <div className="home-page">
             <div className="home-page__auth">
               <Loading display={loading} />
-              <img src={Logo} className="home-page__logo" />
-              {signForm(handleLogin, 'Login')}
-              <hr />
-              {signForm(handleSignup, 'Signup')}
-            </div>
-            <div className="home-page__display">
-              {/* TODO: Design */}
+              <h1 className="home-page__auth-title text-primary">TIQUET</h1>
+              {mode 
+                ? 
+                <Fragment>
+                  {signForm(handleLogin, 'Login')}
+                  <a 
+                    href="#"
+                    onClick={toggleMode} 
+                    className="home-page__auth-footer">
+                    I don't have an account 😢
+                  </a>
+                </Fragment>
+                : 
+                <Fragment>
+                  {signForm(handleSignup, 'Sign Up')}
+                  <a 
+                    href="#"
+                    onClick={toggleMode} 
+                    className="home-page__auth-footer">
+                    Already have an account 🤓
+                  </a>
+                </Fragment>
+              }
             </div>
           </div>
         )

@@ -1,20 +1,17 @@
 .board-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  min-height: 100%;
-  min-width: 100%;
-  margin-top: 20px;
+  width: 80%;
+  height: 100%;
+  margin-left: 10%;
 
   &__header {
-    width: 73%;
+    padding-top: 80px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding-right: 30px;
     
     &-title {
-      color: #42526e;
+      color: #fdbd56;
       margin-left: 5px;
       font-weight: 700;
       font-family: 'montserrat';
@@ -22,18 +19,39 @@
   }
   
   &__container {
-    margin: 20px;
+    margin-top: 20px;
     display: flex;
-    flex-direction: column;
-    max-width: 73%;
-  
-    &-content {
-      display: flex;
-      flex-wrap: wrap;
-    }
+    justify-content: flex-start;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 
   &__custom-card {
-    margin: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  &__new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-family: 'montserrat';
+    color: #fdbd56;
+
+    &-title {
+      font-weight: 800;
+    }
+
+    &-description {
+      font-weight: 600;
+    }
+
+    &-image {
+      width: 50%;
+      margin: 25px auto;
+      display: block;
+    }
   }
 }

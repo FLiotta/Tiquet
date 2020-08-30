@@ -1,29 +1,23 @@
 .board {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  min-height: 100%;
-  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  padding-top: 60px;
 
-  &__container {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    max-width: 73%;
-
-    &-lists {
-      display: flex;
-    }
+  &__columns {
+    display: inline-flex;
+    justify-content: flex-start;
+    padding: 0 50px;
+    min-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 
   &__title {
-    color: #42526e;
-    margin-left: 5px;
+    margin-left: 50px;
+    margin-bottom: 25px;
+    text-transform: capitalize;
+    color: #084970;
     font-weight: 700;
     font-family: 'montserrat';
-  }
-
-  &__columns {
-    display: flex;
   }
 }

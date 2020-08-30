@@ -35,7 +35,7 @@ const CreateTask = ({ addTask, listId }) => {
               className="create-task__placeholder"
               onClick={() => {setIsActive(true);}}
             >
-              Create new task...
+              <i className="fas fa-plus mr-1"></i> Create task
             </span>
           )
           : (

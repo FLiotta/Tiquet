@@ -1,13 +1,18 @@
 .list {
+  background-color: #dedede;
+  height: min-content;
+  width: 225px;
   margin: 5px;
+  border-radius: 5px;
+  padding: 10px;
 
-  &__title {
-    font-family: 'montserrat';
+  hr {
+    margin: .5rem 0;
   }
 
   &__column {
-    width: 200px;
-    height: 400px;
-    background-color: #dedede;
+    max-height: 350px;
+    padding: 5px 0;
+    overflow-y: auto;
   }
 }

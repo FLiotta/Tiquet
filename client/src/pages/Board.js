@@ -29,21 +29,19 @@ const Board = ({
     const destinationListId = parseInt(destination.droppableId);
     const taskId = parseInt(draggableId);
 
-    if(originListId != destinationListId) {
+    if (originListId != destinationListId) {
       moveTask(originListId, destinationListId, taskId);
-    }    
+    }
   }
 
   return (
     <div className="board">
-      <div className="board__container">
-        <h2 className="board__title">{board.title}</h2>
-        <div className="board__columns">
-          <DragDropContext onDragEnd={result => onDragEnd(result)} >
-            {board.lists.map(list => <List key={list.id} {...list} />)}
-          </DragDropContext>
-          <CreateList/>
-        </div>
+      <h3 className="board__title">{board.title}</h3>
+      <div className="board__columns">
+        <DragDropContext onDragEnd={result => onDragEnd(result)} >
+          {board.lists.map(list => <List key={list.id} {...list} />)}
+        </DragDropContext>
+        <CreateList />
       </div>
     </div>
   );

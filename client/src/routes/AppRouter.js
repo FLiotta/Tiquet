@@ -23,7 +23,6 @@ class AppRouter extends Component {
             <ProtectedRoute path="/b/:id" component={Board} />
             <ProtectedRoute path="/boards" component={Boards} />
             <ProtectedRoute path="/profile" component={Profile} />
-            <Route path="/*" component={Error404} />
           </Fragment>
         </Switch>
       </BrowserRouter>

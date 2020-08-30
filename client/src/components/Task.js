@@ -18,7 +18,7 @@ const Task = ({ className, title, id, index }) => (
         {...dragProvided.draggableProps}
         {...dragProvided.dragHandleProps}
         className={cn("taskcard", className)}>
-        {title}
+        <p className="taskcard__title">{title}</p>
       </div>
     )}
   </Draggable>

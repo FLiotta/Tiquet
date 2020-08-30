@@ -29,13 +29,14 @@ const CreateList = ({ addList, match }) => {
 
   return (
     <div className="create-list">
-      <h5 className="create-list__title">Create list</h5>
       <div className="create-list__column">
+        <h6 className="create-list__title">CREATE LIST</h6>
+        <hr />
         <Loading display={isLoading} />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input 
-            className="form-control" 
-            name="title" 
+          <input
+            className="form-control"
+            name="title"
             placeholder="e.g: todo"
             ref={register({ required: "Required" })}
           />

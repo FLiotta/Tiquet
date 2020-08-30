@@ -11,6 +11,7 @@ export const SESSION_FETCHING = '[SESSION] SESSION_FETCHING';
 export const LOG_IN = '[SESSION] LOG IN';
 export const SIGN_UP = '[SESSION] SIGN UP';
 export const RECONNECT = '[SESSION] RECONNECT';
+export const LOGOUT = '[SESSION] LOGOUT';
 
 export const logIn = (username, password) => {
   return dispatch => {
@@ -71,5 +72,15 @@ export const reconnect = () => {
         });
       })
       .catch(e => console.log(e));
+  }
+}
+
+export const logout = () => {
+  return dispatch => {
+    cookies.remove('token');
+
+    dispatch({
+      type: LOGOUT
+    });
   }
 }
