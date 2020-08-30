@@ -2,26 +2,32 @@
   width: 100%;
   height: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &__logo {
-    display: block;
-    margin: 0 auto 10px;
-  }
+  background: rgb(20,116,173);
+  background: radial-gradient(circle, rgba(20,116,173,1) 0%, rgba(8,73,112,1) 99%);
 
   &__auth {
-    height: 100%;
+    height: 75%;
     width: 400px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 50px;
+    padding: 25px;
     justify-content: start;
     position: relative;
-  }
+    overflow: auto;
+    box-shadow: 0px 40px 35px -25px rgba(0, 0, 0, 0.5);
 
-  &__display {
-    width: calc(100% - 400px);
-    height: 100%;
-    background-color: #eee;
+    &-title {
+      font-family: montserrat;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    &-footer {
+      text-align: center;
+    }
   }
 }

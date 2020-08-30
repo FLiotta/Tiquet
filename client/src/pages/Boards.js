@@ -8,6 +8,7 @@ import BoardCard from '../components/BoardCard';
 import { fetchBoards, addBoard } from '../actions/boards';
 import { selectBoards } from '../selectors/boards';
 import CreateBoardModal from '../components/CreateBoardModal';
+import ScrumBoard from '../assets/images/scrum-board.png';
 
 // @Own
 import '../styles/pages/Boards.scss';
@@ -27,37 +28,51 @@ const Boards = ({ boards, fetchBoards, addBoard }) => {
     addBoard(boardId, boardName);
   }
 
+  const hasBoards = () => !!boards.length;
   return (
     <div className="board-page">
-      <CreateBoardModal 
-        onCreationSuccess={createModalSucces} 
+      <CreateBoardModal
+        onCreationSuccess={createModalSucces}
         isOpen={isModalOpen}
         closeModal={() => { setIsModalOpen(false) }}
       />
       <Loading display={loading} />
-      {!loading && (
+      {(!loading && hasBoards()) && (
         <Fragment>
           <div className="board-page__header">
-            <h2 className="board-page__header-title">Boards</h2>  
-            <button 
+            <h2 className="board-page__header-title">Boards</h2>
+            <button
               onClick={() => { setIsModalOpen(true); }}
-              className="btn btn-success btn-sm"
+              className="btn btn-primary rounded-pill btn-sm mr-4"
             >
               Create Board
             </button>
           </div>
           <div className="board-page__container">
-            <div className="board-page__container-content">
-              {boards.map(board => (
-                <BoardCard
-                  key={'board_' + board.id}
-                  boardInfo={board}
-                  className="board-page__custom-card"
-                />
-              ))}
-            </div>
+            {boards.map(board => (
+              <BoardCard
+                key={'board_' + board.id}
+                boardInfo={board}
+                className="board-page__custom-card"
+              />
+            ))}
           </div>
         </Fragment>
+      )}
+      {(!loading && !hasBoards()) && (
+        <div className="board-page__new">
+          <div>
+            <h1 className="board-page__new-title">You don't have any board created</h1>
+            <p className="board-page__new-description">Within boards you can organize your job in tasks and group them on lists!</p>
+            <img src={ScrumBoard} className="board-page__new-image" />
+            <button
+              className="btn btn-brand-secondary rounded-pill"
+              onClick={() => { setIsModalOpen(true); }}
+            >
+              New board
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

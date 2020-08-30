@@ -1,4 +1,4 @@
-import { LOG_IN, SIGN_UP, RECONNECT, SESSION_FETCHING } from '../actions/session';
+import { LOG_IN, SIGN_UP, RECONNECT, SESSION_FETCHING, LOGOUT } from '../actions/session';
 
 const defaultState = {
   fetching: false,
@@ -28,6 +28,8 @@ export default (state = defaultState, action) => {
         ...state,
         fetching: action.payload,
       }
+    case LOGOUT:
+      return defaultState;
     default:
       return state;
   }

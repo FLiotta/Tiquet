@@ -1,7 +1,10 @@
 .navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 40px;
-  background-color: #0747a6;
+  background-color: #084970;
   display: flex;
   justify-content: flex-end;
   padding: 0 25px;
@@ -13,12 +16,16 @@
     font-family: 'montserrat';
 
     &:not(:last-child) {
-      margin-right: 10px;
+      margin-right: 20px;
     }
 
     &:hover {
       color: #deebff;
       text-decoration: none;
+    }
+
+    &--active {
+      font-weight: 500;
     }
   }
 }

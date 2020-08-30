@@ -17,7 +17,7 @@ def profile():
             "result": {
                 "id": user.id,
                 "username": user.username,
-                "createdAt": user.createdat,
+                "createdAt": user.createdAt,
             }
         }), 200
     return jsonify(msg="User doesn't exists"), 404

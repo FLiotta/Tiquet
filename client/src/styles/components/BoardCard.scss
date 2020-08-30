@@ -1,12 +1,13 @@
 .boardcard {
-  background-color: #ffffff;
+  background-color: #fdbd56;
   border: 1px solid #eee;
-  width: 300px;
+  width: 250px;
   height: 100px;
   transition: 0.5s all;
   padding: 10px;
   display: flex;
   cursor: pointer;
+  border-radius: 4px;
 
   &:hover {
     transform: translateY(-10px);
@@ -14,10 +15,10 @@
   }
 
   &__title {
-    align-self: flex-end;
+    align-self: flex-start;
     margin: 0;
     font-weight: 700;
     font-family: "Montserrat", sans-serif;
-    color: #42526e;
+    color: #ffffff;
   }
 }

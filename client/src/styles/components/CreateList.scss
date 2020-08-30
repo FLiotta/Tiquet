@@ -8,16 +8,21 @@
   }
 
   &__title {
-    font-family: montserrat;
-    position: relative;
-    top: 3px;
+    font-family: 'montserrat';
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  hr {
+    margin: .5rem 0 .5rem 0;
   }
 
   &__column {
     background-color: #dedede;
-    padding: 5px;
-    width: 200px;
-    height: 300px;
+    padding: 10px;
+    width: 225px;
+    height: 135px;
     position: relative;
+    border-radius: 5px;
   }
 }

@@ -10,7 +10,7 @@ import '../styles/components/BoardCard.scss';
 const BoardCard = ({ className, boardInfo }) => (
   <Link to={'/b/' + boardInfo.id} className="text-decoration-none">
     <div className={cn('boardcard', className)} >
-      <h2 className="boardcard__title">{boardInfo.title}</h2>
+      <h4 className="boardcard__title">{boardInfo.title}</h4>
     </div>
   </Link>
 )
