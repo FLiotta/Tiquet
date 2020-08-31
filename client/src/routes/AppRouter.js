@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense, lazy } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Home from '../pages/Home';

@@ -1,7 +1,10 @@
+// Packages
 import React, { Fragment } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+
+// Project
 import { isLoggedSelector } from '../../selectors/session';
 
 const ProtectedRoute = ({ fetching, isLogged, component: Component, ...rest }) => {

@@ -1,11 +1,11 @@
-// @Packages
+// Packages
 import React from 'react';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
-// @Project
-import '../styles/components/BoardCard.scss';
+// Project
+import './styles.scss';
 
 const BoardCard = ({ className, boardInfo }) => (
   <Link to={'/b/' + boardInfo.id} className="text-decoration-none">

@@ -1,14 +1,12 @@
-// @Packages
+// Packages
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-// @Project
-import { logout } from '../actions/session';
-
-// @Own
-import '../styles/components/Navbar.scss';
+// Project
+import { logout } from '../../actions/session';
+import './styles.scss';
 
 const Navbar = ({ logout }) => {
   return (

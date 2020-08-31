@@ -1,17 +1,15 @@
-// @Packages
+// Packages
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-// @Project
-import Loading from '../components/Loading';
-import BoardCard from '../components/BoardCard';
-import { fetchBoards, addBoard } from '../actions/boards';
-import { selectBoards } from '../selectors/boards';
-import CreateBoardModal from '../components/CreateBoardModal';
-import ScrumBoard from '../assets/images/scrum-board.png';
-
-// @Own
-import '../styles/pages/Boards.scss';
+// Project
+import Loading from '../../components/Loading';
+import BoardCard from '../../components/BoardCard';
+import { fetchBoards, addBoard } from '../../actions/boards';
+import { selectBoards } from '../../selectors/boards';
+import CreateBoardModal from '../../components/CreateBoardModal';
+import ScrumBoard from '../../assets/images/scrum-board.png';
+import './styles.scss';
 
 const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
   const [loading, setLoading] = useState(false);

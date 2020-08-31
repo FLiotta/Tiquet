@@ -1,18 +1,15 @@
-// @Packages
+// Packages
 import React, { useState } from 'react';
 import useOnclickOutside from "react-cool-onclickoutside";
 import { withRouter } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import cogoToast from 'cogo-toast';
 
-// @Project
-import { addTask } from '../actions/board';
-import Loading from './Loading';
-
-// @Own
-import '../styles/components/CreateTask.scss';
+// Project
+import { addTask } from '../../actions/board';
+import Loading from '../Loading';
+import './styles.scss';
 
 const CreateTask = ({ addTask, listId }) => {
   const { handleSubmit, register, errors } = useForm();

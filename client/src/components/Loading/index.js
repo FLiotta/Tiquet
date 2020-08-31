@@ -1,10 +1,10 @@
-// @Packages
+// Packages
 import React from 'react';
 import cn from 'classnames';
 import propTypes from 'prop-types';
 
-// @Project
-import '../styles/components/Loading.scss'
+// Project
+import './styles.scss'
 
 const Loading = ({ display }) => (
   <div className={cn('loading', {
