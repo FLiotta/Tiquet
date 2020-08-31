@@ -1,18 +1,15 @@
-// @Packages
+// Packages
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import propTypes from 'prop-types';
 import cogoToast from 'cogo-toast';
 
+// Project
+import BoardsServices from '../../services/boardsService';
+import './styles.scss';
 
-// @Project
-import BoardsServices from '../services/boardsService';
-
-// @Own
-import '../styles/components/CreateBoardModal.scss';
-
-// @Declarations
+// Declarations
 Modal.setAppElement('#root')
 
 const customStyles = {

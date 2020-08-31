@@ -1,15 +1,14 @@
-// @Packages
+// Packages
 import React, { useState, useEffect, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// @Project
-import Loading from '../components/Loading';
-import Logo from '../assets/images/logo.png';
-import '../styles/pages/Home.scss';
-import { logIn, signUp } from '../actions/session';
-import { isLoggedSelector } from '../selectors/session';
+// Project
+import Loading from '../../components/Loading';
+import { logIn, signUp } from '../../actions/session';
+import { isLoggedSelector } from '../../selectors/session';
+import './styles.scss';
 
 const Home = ({ login, signup, isLogged }) => {
   const [loading, setLoading] = useState(false);

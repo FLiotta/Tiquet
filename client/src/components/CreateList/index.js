@@ -1,16 +1,14 @@
-// @Packages
+// Packages
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-// @Project
-import { addList } from '../actions/board';
-import Loading from './Loading';
-
-// @Own
-import '../styles/components/CreateList.scss';
+// Project
+import { addList } from '../../actions/board';
+import Loading from '../Loading';
+import './styles.scss';
 
 const CreateList = ({ addList, match }) => {
   const { handleSubmit, register, errors } = useForm();

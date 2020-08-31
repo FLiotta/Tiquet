@@ -1,11 +1,11 @@
-// @Packages
+// Packages
 import React from 'react';
 import propTypes from 'prop-types';
 import cn from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 
-// @Project
-import '../styles/components/TaskCard.scss';
+// Project
+import './styles.scss';
 
 const Task = ({ className, title, id, index }) => (
   <Draggable

@@ -1,15 +1,15 @@
-// @Packages
+// Packages
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-// @Projects
-import { fetchBoard, moveTask, resetState } from '../actions/board';
-import List from '../components/List';
-import '../styles/pages/Board.scss';
-import CreateList from '../components/CreateList';
-import Loading from '../components/Loading';
+// Project
+import { fetchBoard, moveTask, resetState } from '../../actions/board';
+import List from '../../components/List';
+import CreateList from '../../components/CreateList';
+import Loading from '../../components/Loading';
+import './styles.scss';
 
 const Board = ({
   fetchBoard,
