@@ -27,7 +27,6 @@ const List = ({ id, title, tasks, className }) => {
           </Fragment>
         )}
       </Droppable>
-      <hr />
       <CreateTask listId={id} />
     </div>
   )

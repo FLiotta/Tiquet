@@ -10,6 +10,7 @@ import List from '../../components/List';
 import CreateList from '../../components/CreateList';
 import Loading from '../../components/Loading';
 import './styles.scss';
+import TaskDescription from '../../components/TaskDescription';
 
 const Board = ({
   fetchBoard,
@@ -46,6 +47,7 @@ const Board = ({
   return (
     <div className="board">
       <Loading display={isLoading} />
+      <TaskDescription />
       <h3 className="board__title">{board.title}</h3>
       <div className="board__columns">
         <DragDropContext onDragEnd={result => onDragEnd(result)} >
