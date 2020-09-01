@@ -15,4 +15,8 @@
     padding: 5px 0;
     overflow-y: auto;
   }
+
+  &__title {
+    overflow-wrap: break-word;
+  }
 }
