@@ -1,16 +1,30 @@
-.taskcard {
+.task {
   background-color: #ffffff;
   margin: 5px 0;
-  border-radius: 5px;
+  border-radius: 4px;
   width: 100%;
   min-height: 40px;
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   
   &__title {
     font-family: "Montserrat", sans-serif;
     overflow-wrap: break-word;
     max-width: 85%;
     margin: 0;
+  }
+  
+  &__icon {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: .5s all;
+
+    &:hover {
+      background-color: #dedede;
+    }
   }
 }

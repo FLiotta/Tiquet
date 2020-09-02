@@ -80,7 +80,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      title: 'trello clon',
+      title: 'Tiquet',
       template: 'src/assets/index.html'
     }),
     new MiniCssExtractPlugin({
