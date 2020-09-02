@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 // Project
 import { selectTaskInfoLoading, selectTaskInfoId } from '../../selectors/taskDescription';
 import { fetchTask } from '../../actions/taskDescription';
+import { deleteTask } from '../../actions/board';
 import './styles.scss';
 
 const Task = ({
@@ -16,6 +17,7 @@ const Task = ({
   id,
   index,
   fetchTask,
+  deleteTask,
   taskInfoId,
   taskInfoLoading,
 }) => {
@@ -23,9 +25,13 @@ const Task = ({
     // Check if the task to fetch isn't already fetched.
     const alreadyFetched = id == taskInfoId;
 
-    if(!alreadyFetched && !taskInfoLoading) {
-      fetchTask(id);  
+    if (!alreadyFetched && !taskInfoLoading) {
+      fetchTask(id);
     }
+  }
+
+  const handleDeleteTask = () => {
+    deleteTask(id);
   }
 
   return (
@@ -40,9 +46,14 @@ const Task = ({
           {...dragProvided.dragHandleProps}
           className={cn("task", className)}>
           <p className="task__title">{title}</p>
-          <i
-            onClick={handleFetch}
-            className="far fa-question-circle task__icon"></i>
+          <div>
+            <i
+              onClick={handleDeleteTask}
+              className="far fa-trash-alt task__icon"></i>
+            <i
+              onClick={handleFetch}
+              className="far fa-question-circle task__icon"></i>
+          </div>
         </div>
       )}
     </Draggable>
@@ -55,6 +66,7 @@ Task.propTypes = {
   title: propTypes.string,
   index: propTypes.number,
   fetchTask: propTypes.func,
+  deleteTask: propTypes.func,
   taskInfoId: propTypes.number,
   taskInfoLoading: propTypes.bool,
 }
@@ -66,5 +78,6 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
   fetchTask: taskId => dispatch(fetchTask(taskId)),
+  deleteTask: taskId => dispatch(deleteTask(taskId)),
 })
 export default connect(stateToProps, dispatchToProps)(Task);

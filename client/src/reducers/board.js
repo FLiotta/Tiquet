@@ -4,6 +4,7 @@ import {
   ADD_LIST,
   ADD_TASK,
   RESET_STATE,
+  DELETE_TASK,
 } from '../actions/board';
 
 const defaultState = {
@@ -30,6 +31,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         lists: action.payload
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        lists: action.payload,
       };
     case RESET_STATE:
       return defaultState;

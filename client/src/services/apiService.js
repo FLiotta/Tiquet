@@ -19,7 +19,7 @@ class ApiService {
     if (token) {
       data['headers']['token'] = token;
     }
-    
+
     return axios.get(fullPath, data);
   }
 
@@ -51,6 +51,21 @@ class ApiService {
     }
 
     return axios.put(fullPath, params, options);
+  }
+
+  delete(path, params) {
+    const token = this.cookies.get('token');
+    const fullPath = [this.api, path].join('');
+
+    const options = {
+      headers: {}
+    };
+
+    if (token) {
+      options['headers']['token'] = token;
+    }
+
+    return axios.delete(fullPath, options, params);
   }
 }
 

@@ -1,7 +1,9 @@
 import cogoToast from 'cogo-toast';
 import BoardsService from '../services/boardsService';
 import ListsService from '../services/listsService';
+import TasksService from '../services/tasksService';
 
+const taskService = new TasksService();
 const boardsService = new BoardsService();
 const listsService = new ListsService();
 
@@ -10,6 +12,7 @@ export const MOVE_TASK = '[BOARD] MOVE TASK';
 export const ADD_TASK = '[BOARD] ADD TASK';
 export const ADD_LIST = '[BOARD] ADD LIST';
 export const RESET_STATE = '[BOARD] CLEAN STATE';
+export const DELETE_TASK = '[BOARD] DELETE TASK';
 
 export const fetchBoard = (boardId) => {
   return dispatch => boardsService.fetchBoard(boardId)
@@ -102,6 +105,38 @@ export const moveTask = (originListId, destinyListId, taskId) => {
       });
   }
 };
+
+export const deleteTask = taskId => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const previousListsState = state.board.lists;
+
+    const mappedListsWithNewTask = state.board.lists.map(list => {
+      const containsTask = list.tasks.some(task => task.id == taskId);
+
+      if(containsTask) {
+        return {
+          ...list,
+          tasks: list.tasks.filter(task => task.id != taskId)
+        };
+      }
+      return list;
+    });
+
+    dispatch({
+      type: DELETE_TASK,
+      payload: mappedListsWithNewTask
+    });
+    
+    taskService.deleteTask(taskId)
+      .catch(() => {
+        dispatch({
+          type: DELETE_TASK,
+          payload: previousListsState
+        });
+      })
+  }
+}
 
 export const resetState = () => {
   return dispatch => dispatch({
