@@ -4,7 +4,7 @@
   border-radius: 4px;
   width: 100%;
   min-height: 40px;
-  padding: 10px;
+  padding: 10px 8px 10px 10px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -15,6 +15,10 @@
     overflow-wrap: break-word;
     max-width: 85%;
     margin: 0;
+  }
+
+  &__icons {
+    display: flex;
   }
   
   &__icon {

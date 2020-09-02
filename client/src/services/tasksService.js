@@ -8,6 +8,10 @@ class TasksService extends ApiService {
   fetchTask(taskId) {
     return this.get(`/tasks/${taskId}`);
   }
+
+  deleteTask(taskId) {
+    return this.delete(`/tasks/${taskId}`);
+  }
 }
 
 export default TasksService;
