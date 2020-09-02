@@ -46,7 +46,7 @@ const Task = ({
           {...dragProvided.dragHandleProps}
           className={cn("task", className)}>
           <p className="task__title">{title}</p>
-          <div>
+          <div className="task__icons">
             <i
               onClick={handleDeleteTask}
               className="far fa-trash-alt task__icon"></i>
