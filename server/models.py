@@ -27,12 +27,14 @@ class Boards(db.Model):
 class Lists(db.Model):
     __tablename__ = "lists"
     id = db.Column('id', db.Integer, primary_key=True)
+    user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
     board_id = db.Column('board_id', db.Integer, db.ForeignKey('boards.id'))
     title = db.Column('title', db.Text)
     tasks = db.relationship('Tasks', backref="list", lazy="joined")
 
-    def __init__(self, board_id, title):
+    def __init__(self, board_id, user_id, title):
         self.board_id = board_id
+        self.user_id = user_id
         self.title = title
 
 class Tasks(db.Model):

@@ -8,7 +8,7 @@ def protected_route(route):
     def wrapper(*args, **kwargs):
         token = request.headers.get('token')
 
-        if token is not None:
+        if token != None:
             try:
                 decoded_user = jwt.decode(token, os.environ.get('SECRET_KEY'), algorithms='HS256')
                 g.user = decoded_user

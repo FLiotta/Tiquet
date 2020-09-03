@@ -12,27 +12,34 @@ board = Blueprint('board', __name__)
 @protected_route
 def boardsList():
     user_id = g.user.get('id')
-    user_boards = Boards.query.filter_by(user_id=user_id)
+    requested_boards = Boards.query.filter_by(user_id=user_id)
 
     result = []
-    for row in user_boards:
+
+    for board in requested_boards:
         result.append({
-            'id': row.id,
-            'title': row.title
+            'id': board.id,
+            'title': board.title
         })
 
-    return jsonify(result)
+    return jsonify(result), 200
 
 
-@board.route('/boards/<board_id>', methods=['GET', 'DELETE'])
+@board.route('/boards/<board_id>', methods=['GET'])
 @protected_route
 def board_root(board_id):
-    if board_id is None:
+    user_id = g.user.get('id')
+
+    if board_id == None:
         return jsonify(msg="Missing param: board_id"), 400
 
     if request.method == 'GET':
 
         board = Boards.query.filter_by(id=board_id).first()
+
+        if board.user_id != user_id:
+            return jsonify(msg="You can't perform this action."), 403
+
         board_lists = []
 
         for list_ in board.lists:
@@ -57,15 +64,15 @@ def boards_new():
     board_name = req_data.get('boardName')
     user_id = g.user.get('id')
 
-    if board_name is None:
-        return jsonify(msg='You must provide a board name'), 400
+    if board_name == None:
+        return jsonify(msg='Missing param: boardName'), 400
     
     new_board = Boards(user_id, board_name)
 
     db.session.add(new_board)
     db.session.commit()
 
-    if new_board is not None:
+    if new_board != None:
         return jsonify({
             'msg': 'New board created',
             'boardId': new_board.id,
@@ -76,11 +83,15 @@ def boards_new():
 
 # Lists and Tasks related endpoints
 
-
 @board.route('/boards/<board_id>/get-lists', methods=['GET'])
 @protected_route
 def boards_get_lists(board_id):
+    user_id = g.user.get('id')
     board = Boards.query.filter_by(id=board_id).first()
+    
+    if board.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
+    
     board_lists = []
 
     for list_ in board.lists:
@@ -100,20 +111,24 @@ def boards_get_lists(board_id):
 @protected_route
 def boards_new_list(board_id):
     req_data = request.get_json()
+    user_id = g.user.get('id')
     title = req_data.get('title')
 
-    if title is None:
+    if title == None:
         return jsonify(msg="Missing param: title"), 401
 
-    new_list = Lists(board_id, title)
+    requested_board = Boards.query.filter_by(id=board_id).first()
+
+    if requested_board.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
+
+    new_list = Lists(board_id, user_id, title)
     db.session.add(new_list)
     db.session.commit()
 
-    if new_list is not None:
+    if new_list != None:
         return jsonify({
             "id": new_list.id,
             "title": new_list.title,
             "tasks": []
         }), 200
-    else:
-        return jsonify(msg="No results"), 500

@@ -10,13 +10,17 @@ list_ = Blueprint('list', __name__)
 @list_.route('/lists/<list_id>', methods=['GET'])
 @protected_route
 def list_root(list_id):
-    list_ = Lists.query.filter_by(id=list_id).first()
+    user_id = g.user.get('id')
+    requested_list = Lists.query.filter_by(id=list_id).first()
+
+    if requested_list.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403 
 
     response = {
-        'id': list_.id,
-        'title': list_.title,
-        'board': list_.board_id,
-        'tasks': list(map(lambda t: {'id': t.id, 'title': t.title}, list_.tasks))
+        'id': requested_list.id,
+        'title': requested_list.title,
+        'board': requested_list.board_id,
+        'tasks': list(map(lambda t: {'id': t.id, 'title': t.title}, requested_list.tasks))
     }
     return jsonify(response), 200
 
@@ -28,8 +32,13 @@ def new_task(list_id):
     user_id = g.user.get('id')
     task_title = req_data.get('title')
 
-    if task_title is None or list_id is None:
+    if task_title == None or list_id == None:
         return jsonify(msg="Missing params"), 400
+
+    requested_list = Lists.query.filter_by(id=list_id).first()
+
+    if requested_list.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
 
     new_task = Tasks(user_id, list_id, task_title, uuid4())
 
@@ -50,12 +59,18 @@ def new_task(list_id):
 def update_task(list_id):
     req_data = request.get_json()
     task_id = req_data.get('taskId')
+    user_id = g.user.get('id')
 
-    if list_id is None or task_id is None:
+    if list_id == None or task_id == None:
         return jsonify(msg="Missing params"), 400
 
-    task = Tasks.query.filter_by(id=task_id).first()
-    task.list_id = list_id
+    requested_list = Lists.query.filter_by(id=list_id).first()
+
+    if requested_list.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
+
+    requested_task = Tasks.query.filter_by(id=task_id).first()
+    requested_task.list_id = list_id
     
     db.session.commit()
 
