@@ -42,6 +42,14 @@ form {
   width: 100%;
 }
 
+textarea {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 5px 0;
+  font-family: sans-serif;
+}
+
 .form-group {
   width: 100%;
   display: flex;
@@ -52,7 +60,7 @@ form {
   padding: 5px 30px;
   background-color: #084970;
   color: #fff;
-  font-family: 'montserrat';
+  font-family: "montserrat";
   border: 1px solid #063754;
   border-radius: 4px;
   height: min-content;

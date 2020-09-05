@@ -21,7 +21,7 @@
     align-items: center;
 
     &-title {
-      font-family: 'montserrat';
+      font-family: "montserrat";
       font-weight: 400;
       margin: 0;
       text-transform: uppercase;
@@ -44,18 +44,11 @@
     }
   }
 
-  &__body {
+  &__sections {
     display: flex;
     height: 85%;
     flex-direction: column;
-
-    &-section {
-      font-family: "montserrat";
-      font-size: 12px;
-
-      &__title {
-        margin-right: 5px;
-      }
-    }
+    font-family: "montserrat";
+    font-size: 12px;
   }
 }
