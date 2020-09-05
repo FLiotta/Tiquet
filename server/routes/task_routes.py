@@ -1,6 +1,6 @@
 from flask import jsonify, g, request, Blueprint
 from middlewares.protected_route import protected_route
-from models import Tasks
+from models import Tasks, Lists
 from uuid import uuid4
 from database.db import db
 
@@ -35,3 +35,25 @@ def task_root(task_id):
         db.session.commit()
 
         return jsonify(msg="Task deleted"), 200
+
+@task.route('/tasks/<task_id>/update-list', methods=['PUT'])
+@protected_route
+def update_task_list(task_id):
+    req_data = request.get_json()
+    list_id = req_data.get('listId')
+    user_id = g.user.get('id')
+
+    if list_id == None or task_id == None:
+        return jsonify(msg="Missing params"), 400
+
+    requested_list = Lists.query.filter_by(id=list_id).first()
+
+    if requested_list.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
+
+    requested_task = Tasks.query.filter_by(id=task_id).first()
+    requested_task.list_id = list_id
+    
+    db.session.commit()
+
+    return jsonify(msg="Task updated"), 200

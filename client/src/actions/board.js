@@ -94,7 +94,7 @@ export const moveTask = (originListId, destinyListId, taskId) => {
       payload: updatedLists,
     });
 
-    listsService.updateTask(taskId, destinyListId)
+    taskService.updateList(taskId, destinyListId)
       .then(resp => { })
       .catch(e => {
         cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right'});
