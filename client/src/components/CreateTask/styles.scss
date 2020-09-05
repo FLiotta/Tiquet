@@ -10,9 +10,14 @@
     opacity: .5;
     transition: .5s all;
     cursor: pointer;
+    font-family: 'montserrat';
  
     &:hover {
       opacity: 1;
+    }
+
+    &-icon {
+      margin-right: 5px;
     }
   }
 }

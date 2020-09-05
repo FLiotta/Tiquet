@@ -13,7 +13,7 @@ import './styles.scss';
 Modal.setAppElement('#root')
 
 const customStyles = {
-  content : {
+  content: {
     top: '50%',
     left: '50%',
     right: 'auto',
@@ -40,13 +40,13 @@ const CreateBoardModal = ({
     setIsLoading(true);
 
     boardService.createBoard(boardName)
-      .then(({data}) => {
+      .then(({ data }) => {
         setIsLoading(false);
-        cogoToast.success(`${boardName} has been created 😊`, { position: 'bottom-right'});
+        cogoToast.success(`${boardName} has been created 😊`, { position: 'bottom-right' });
         onCreationSuccess(data);
       })
-      .catch((e) => { 
-        cogoToast.error('Whoops, something happened.', { position: 'bottom-right'});
+      .catch((e) => {
+        cogoToast.error('Whoops, something happened.', { position: 'bottom-right' });
         onCreationFailure(e);
       })
   }
@@ -60,21 +60,23 @@ const CreateBoardModal = ({
       <div className="create-board-modal">
         <div className="create-board-modal__header">
           <h6>Create a new board</h6>
-          <i 
+          <i
             onClick={closeModal}
             className="fas fa-times create-board-modal__header-close"
           >
           </i>
         </div>
-        <hr/>
+        <hr />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input 
-            name="boardName"
-            className="form-control" 
-            disabled={isLoading}
-            ref={register({ required: "Required" })}
-            placeholder="How should it be named?" />
-          <button className="btn btn-success btn-block mt-3">Submit</button>
+          <div className="form-group">
+            <input
+              name="boardName"
+              className="form-control"
+              disabled={isLoading}
+              ref={register({ required: "Required" })}
+              placeholder="How should it be named?" />
+            <button className="btn btn-block">Submit</button>
+          </div>
         </form>
       </div>
     </Modal>
@@ -89,9 +91,9 @@ CreateBoardModal.propTypes = {
 }
 
 CreateBoardModal.defaultProps = {
-  onCreationFailure: () => {},
-  onCreationSuccess: () => {},
-  closeModal: () => {}
+  onCreationFailure: () => { },
+  onCreationSuccess: () => { },
+  closeModal: () => { }
 }
 
 export default CreateBoardModal;

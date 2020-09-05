@@ -1,13 +1,20 @@
 .create-list {
-  margin-top: 5px;
+  margin: 5px;
   opacity: .5;
   transition: .5s all;
+  background-color: #dedede;
+  padding: 10px;
+  width: 225px;
+  height: min-content;
+  position: relative;
+  border-radius: 5px;
 
   &:hover {
     opacity: 1;
   }
 
   &__title {
+    padding: 5px 0;
     font-family: 'montserrat';
     margin: 0;
     text-transform: capitalize;
@@ -15,14 +22,5 @@
 
   hr {
     margin: .5rem 0 .5rem 0;
-  }
-
-  &__column {
-    background-color: #dedede;
-    padding: 10px;
-    width: 225px;
-    height: 135px;
-    position: relative;
-    border-radius: 5px;
   }
 }
