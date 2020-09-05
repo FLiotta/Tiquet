@@ -59,7 +59,7 @@ const CreateBoardModal = ({
     >
       <div className="create-board-modal">
         <div className="create-board-modal__header">
-          <h6>Create a new board</h6>
+          <h6 className="create-board-modal__header-title">Create a new board</h6>
           <i
             onClick={closeModal}
             className="fas fa-times create-board-modal__header-close"

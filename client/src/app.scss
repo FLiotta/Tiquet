@@ -1,8 +1,23 @@
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   height: 100%;
   background-color: #eeeeee;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+label,
+div {
+  font-family: sans-serif;
 }
 
 a {
@@ -10,23 +25,9 @@ a {
   font-weight: 400;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: 600;
-}
-
-h1, h2, h3, h4, h5, h6, p, a {
-  font-family: 'montserrat';
-}
-
 hr {
   border: 0;
   border-bottom: 1px solid #a5a5a5bb;
-}
-
-label {
-  font-family: 'montserrat';
-  font-size: 12px;
 }
 
 input {
@@ -51,9 +52,15 @@ form {
   padding: 5px 30px;
   background-color: #084970;
   color: #fff;
-  font-family: montserrat;
+  font-family: 'montserrat';
   border: 1px solid #063754;
   border-radius: 4px;
+  height: min-content;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #063754;
+  }
 }
 
 .btn-block {
@@ -76,4 +83,8 @@ form {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #dedede;
+}
+
+.ct-toast {
+  padding: 0px 20px !important;
 }

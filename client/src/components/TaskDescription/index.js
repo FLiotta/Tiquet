@@ -1,9 +1,10 @@
 // Packages
-import React, { Fragment } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import dayjs from 'dayjs';
+import cogoToast from 'cogo-toast';
 
 // Project
 import Loading from '../Loading';
@@ -15,6 +16,13 @@ const TaskDescription = ({ visible, resetState, loading, task }) => {
 
   const close = () => resetState();
 
+  const copyToClipboard = (id) => {
+    navigator.clipboard.writeText(`Task id: #${id}`);
+    cogoToast.success('Id copied to clipboard.', {
+      position: 'bottom-right'
+    });
+  };
+
   return (
     <div className={cn('task-description', {
       'task-description--visible': visible,
@@ -24,7 +32,12 @@ const TaskDescription = ({ visible, resetState, loading, task }) => {
       <div className="task-description__header">
         <h3 className="task-description__header-title">
           {task.title}
-          <span className="task-description__header-id">#{task.id}</span>
+          <span 
+            className="task-description__header-id"
+            onClick={() => copyToClipboard(task.id)}
+          >
+            #{task.id}
+          </span>
         </h3>
         <i
           onClick={close}

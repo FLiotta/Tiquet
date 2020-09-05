@@ -21,7 +21,10 @@
     align-items: center;
 
     &-title {
-      text-transform: capitalize;
+      font-family: 'montserrat';
+      font-weight: 400;
+      margin: 0;
+      text-transform: uppercase;
     }
 
     &-arrow {
@@ -30,9 +33,14 @@
     }
 
     &-id {
-      font-weight: 400;
+      font-weight: 600;
       margin-left: 5px;
       font-size: 13px;
+      cursor: pointer;
+
+      &:hover {
+        color: gray;
+      }
     }
   }
 

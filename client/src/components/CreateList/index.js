@@ -27,7 +27,9 @@ const CreateList = ({ addList, match }) => {
 
   return (
     <div className="create-list">
-      <h6 className="create-list__title">CREATE LIST</h6>
+      <div className="create-list__header">
+        <h6 className="create-list__header-title">CREATE LIST</h6>
+      </div>
       <hr />
       <Loading display={isLoading} />
       <form onSubmit={handleSubmit(onSubmit)}>
