@@ -23,6 +23,8 @@ def task_root(task_id):
             'uid': requested_task.uid,
             'id': requested_task.id,
             'title': requested_task.title,
+            'createdAt': requested_task.createdAt,
+            'description': requested_task.description,
         }
         return jsonify(response), 200
     elif method == 'DELETE':

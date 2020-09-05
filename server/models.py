@@ -44,9 +44,13 @@ class Tasks(db.Model):
     list_id = db.Column('list_id', db.Integer, db.ForeignKey('lists.id'))
     title = db.Column('title', db.Text)
     uid = db.Column('uid', db.Text)
+    createdAt = db.Column('createdat', db.Integer)
+    description = db.Column(db.Text)
 
-    def __init__(self, user_id, list_id, title, uid):
+    def __init__(self, user_id, list_id, title, uid, description=''):
         self.user_id = user_id
         self.list_id = list_id
         self.title = title
         self.uid = uid
+        self.description = description
+        self.createdAt = int(datetime.datetime.now().timestamp())
