@@ -12,6 +12,10 @@ class TasksService extends ApiService {
   deleteTask(taskId) {
     return this.delete(`/tasks/${taskId}`);
   }
+
+  updateList(taskId, listId) {
+    return this.put(`/tasks/${taskId}/update-list`, { listId });
+  }
 }
 
 export default TasksService;
