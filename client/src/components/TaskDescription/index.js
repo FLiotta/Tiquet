@@ -1,5 +1,5 @@
 // Packages
-import React from 'react';
+import React, { Fragment } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
@@ -9,7 +9,6 @@ import dayjs from 'dayjs';
 import Loading from '../Loading';
 import { selectTaskInfoVisible, selectTaskInfoLoading, selectTaskInfo } from '../../selectors/taskDescription';
 import { setVisibility, resetState } from '../../actions/taskDescription';
-import GirlLamp from '../../assets/images/girl-lamp.png';
 import './styles.scss';
 
 const TaskDescription = ({ visible, resetState, loading, task }) => {
@@ -23,17 +22,42 @@ const TaskDescription = ({ visible, resetState, loading, task }) => {
     })}>
       <Loading display={loading} />
       <div className="task-description__header">
-        <h3 className="task-description__header-title">{task.title}</h3>
-        <i 
-          onClick={close} 
+        <h3 className="task-description__header-title">
+          {task.title}
+          <span className="task-description__header-id">#{task.id}</span>
+        </h3>
+        <i
+          onClick={close}
           className="fas fa-arrow-right fa-lg task-description__header-arrow">
         </i>
       </div>
       <hr />
       <div className="task-description__body">
-        <img src={GirlLamp} className="task-description__body-image" />
+        <div className="task-description__body-section">
+          <p>
+            <strong className="task-description__body-section__title">Created:</strong>
+            <span>
+              {task.createdAt ? dayjs(task.createdAt).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}
+            </span>
+          </p>
+        </div>
+        <div className="task-description__body-section">
+          <p>
+            <strong className="task-description__body-section__title">Description:</strong>
+            {task.description
+              ? (
+                <span>
+                  <br />
+                  {task.description}
+                </span>
+              ) : (
+                <a href="#">Add description</a>
+              )
+            }
+          </p>
+        </div>
       </div>
-    </div>
+    </div >
   )
 }
 
