@@ -18,12 +18,12 @@ def login():
     username = req_data.get('username')
     password = req_data.get('password')
 
-    if username is None or password is None:
+    if username == None or password == None:
         return jsonify(msg="Missing params"), 400
 
     user = Users.query.filter_by(username=username).first()
 
-    if user is None:
+    if user == None:
         return jsonify(msg="User doesn't exist"), 404
 
     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
@@ -51,12 +51,12 @@ def signup():
     username = req_data.get('username')
     password = req_data.get('password')
 
-    if username is None or password is None:
+    if username == None or password == None:
         return jsonify(msg="Missing params"), 400
 
     user_exists = Users.query.filter_by(username=username).first()
 
-    if user_exists is not None:
+    if user_exists != None:
         return jsonify(msg="Username already taken."), 400
 
     hashed_password = bcrypt.hashpw(
