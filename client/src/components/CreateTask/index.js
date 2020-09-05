@@ -21,29 +21,31 @@ const CreateTask = ({ addTask, listId }) => {
     addTask(title, listId);
   };
 
-  
+
   return (
     <div className="create-task" ref={clickOutsideRef}>
       <Loading display={isLoading} />
       {
         !isActive
           ? (
-            <span 
+            <span
               className="create-task__placeholder"
-              onClick={() => {setIsActive(true);}}
+              onClick={() => { setIsActive(true); }}
             >
-              <i className="fas fa-plus mr-1"></i> Create task
+              <i className="fas fa-plus create-task__placeholder-icon"></i> Create task
             </span>
           )
           : (
             <form onSubmit={handleSubmit(onSubmit)}>
-              <input
-                className="form-control"
-                name="title"
-                placeholder="e.g: buy toasts"
-                ref={register({ required: "Required" })}
-              />
-              <button type="submit" className="btn btn-success btn-sm btn-block mt-2">Create</button>
+              <div className="form-group">
+                <input
+                  className="form-control"
+                  name="title"
+                  placeholder="e.g: buy toasts"
+                  ref={register({ required: "Required" })}
+                />
+                <button type="submit" className="btn btn-block">Create</button>
+              </div>
             </form>
           )
       }

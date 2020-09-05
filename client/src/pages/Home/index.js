@@ -44,14 +44,14 @@ const Home = ({ login, signup, isLogged }) => {
     <form onSubmit={handleAction}>
       <div className="form-group">
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" className="form-control" placeholder="ex:. George Orwell" />
+        <input type="text" id="username" placeholder="ex:. George Orwell" />
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" className="form-control" placeholder="********" />
+        <input type="password" id="password" placeholder="********" />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-primary btn-block">{btnText}</button>
+        <button type="submit" className="btn btn-block">{btnText}</button>
       </div>
     </form>
   )

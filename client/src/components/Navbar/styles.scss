@@ -7,7 +7,6 @@
   background-color: #084970;
   display: flex;
   justify-content: flex-end;
-  padding: 0 25px;
   z-index: 100;
 
   &__link {
@@ -15,10 +14,7 @@
     align-self: center;
     font-weight: 200;
     font-family: 'montserrat';
-
-    &:not(:last-child) {
-      margin-right: 20px;
-    }
+    margin-right: 20px;
 
     &:hover {
       color: #deebff;
