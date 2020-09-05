@@ -45,7 +45,7 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
             <h2 className="board-page__header-title">Boards</h2>
             <button
               onClick={() => { setIsModalOpen(true); }}
-              className="btn btn-primary rounded-pill btn-sm mr-4"
+              className="btn"
             >
               Create Board
             </button>

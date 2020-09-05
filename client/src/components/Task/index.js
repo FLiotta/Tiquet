@@ -40,7 +40,7 @@ const Task = ({
     marginBottom: 5,
     borderRadius: 4,
     minHeight: 40,
-    width: '100%',
+    maxWidth: '100%',
     padding: 10,
     cursor: 'pointer',
     display: 'flex',
