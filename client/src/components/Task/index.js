@@ -34,17 +34,35 @@ const Task = ({
     deleteTask(id);
   }
 
+  const getTaskStyles = (isDragging, draggableStyle) => ({
+    background: isDragging ? '#eee' : "#fff",
+    marginTop: 5,
+    marginBottom: 5,
+    borderRadius: 4,
+    minHeight: 40,
+    width: '100%',
+    padding: 10,
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    ...draggableStyle
+  });
+
   return (
     <Draggable
       index={index}
       draggableId={new Number(id).toString()}
       key={id}>
-      {(dragProvided) => (
+      {(provided, snapshot) => (
         <div
-          ref={dragProvided.innerRef}
-          {...dragProvided.draggableProps}
-          {...dragProvided.dragHandleProps}
-          className={cn("task", className)}>
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={getTaskStyles(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )}>
           <p className="task__title">{title}</p>
           <div className="task__icons">
             <i
