@@ -2,32 +2,46 @@
 import React, { Fragment } from 'react';
 import propTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
-import cn from 'classnames';
 
 // Project
 import Task from '../Task';
 import CreateTask from '../CreateTask';
 import './styles.scss';
 
-const List = ({ id, title, tasks, className }) => {
+const List = ({ id, title, tasks }) => {
+  const getListStyles = () => ({
+    width: '100%',
+    minHeight: 5,
+    maxHeight: 350,
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+  });
+
   return (
     <div className="list">
-      <h6 className="list__title">{title.toUpperCase()}</h6>
+      <div className="list__header">
+        <h6 className="list__header-title">{title.toUpperCase()}</h6>
+      </div>
       <hr />
-      <Droppable droppableId={new Number(id).toString()} key={title}>
-        {(provided) => (
-          <Fragment>
+      <div className="list__body">
+        <Droppable droppableId={new Number(id).toString()} key={title}>
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className={cn("list__column", className)}>
+              style={getListStyles()}
+            >
               {tasks.map((task, index) => <Task key={task.uid} {...task} index={index} />)}
+              {provided.placeholder}
             </div>
-            {provided.placeholder}
-          </Fragment>
-        )}
-      </Droppable>
-      <CreateTask listId={id} />
+          )}
+        </Droppable>
+      </div>
+      <div className="list__footer">
+        <CreateTask listId={id} />
+      </div>
     </div>
   )
 }

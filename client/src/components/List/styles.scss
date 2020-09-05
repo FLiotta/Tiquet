@@ -10,13 +10,13 @@
     margin: .5rem 0;
   }
 
-  &__column {
-    max-height: 350px;
-    padding: 5px 0;
-    overflow-y: auto;
+  &__header {
+    &-title {
+      overflow-wrap: break-word;
+    }
   }
 
-  &__title {
-    overflow-wrap: break-word;
+  &__body {
+    margin: 10px 0;
   }
 }
