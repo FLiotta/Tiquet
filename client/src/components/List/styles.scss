@@ -1,10 +1,15 @@
 .list {
   background-color: #dedede;
-  height: min-content;
-  width: 225px;
+  height: 80%;
+  width: 60vw;
   margin: 5px;
   border-radius: 5px;
   padding: 10px;
+
+  @media (min-width: 992px) {
+    width: 225px;
+    height: min-content;
+  }
 
   hr {
     margin: .5rem 0;

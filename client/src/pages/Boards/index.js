@@ -16,7 +16,7 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if(boards.length == 0) {
+    if (boards.length == 0) {
       setLoading(true);
 
       fetchBoards()
@@ -52,11 +52,13 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
           </div>
           <div className="board-page__container">
             {boards.map(board => (
-              <BoardCard
-                key={'board_' + board.id}
-                boardInfo={board}
-                className="board-page__custom-card"
-              />
+              <div className="board-page__container-card">
+                <BoardCard
+                  key={'board_' + board.id}
+                  boardInfo={board}
+                  className="board-page__custom-card"
+                />
+              </div>
             ))}
           </div>
         </Fragment>
