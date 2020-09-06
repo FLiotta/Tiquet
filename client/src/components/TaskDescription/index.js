@@ -1,5 +1,5 @@
 // Packages
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
@@ -32,6 +32,7 @@ const TaskDescription = ({
 
     updateDescription(task.id, description)
       .then(() => {
+        setIsEditingDescription(false);
         cogoToast.success("Description updated!", {
           position: 'bottom-right'
         });
@@ -84,25 +85,20 @@ const TaskDescription = ({
         </div>
         <div className="task-description__sections-description">
           <p><strong>Description:</strong></p>
-          <p>{task.description || 'Not provided'}</p>
           {isEditingDescription ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <textarea
+                  rows={5}
                   id="description"
                   name="description"
                   ref={register({ required: "Required" })}
                   defaultValue={task.description}
-                >
-                </textarea>
+                ></textarea>
               </div>
               <div className="form-group">
-              <button
-                  type="submit"
-                  className="btn btn-block"
-                >
-                  Submit
-                </button>
+                <button type="submit" className="btn btn-block">Submit</button>
+                <br />
                 <button
                   type="button"
                   onClick={toggleDescription}
@@ -113,8 +109,11 @@ const TaskDescription = ({
               </div>
             </form>
           ) : (
+            <Fragment>
+              <p>{task.description || 'Not provided'}</p>
               <a href="#" onClick={toggleDescription}>Edit description</a>
-            )}
+            </Fragment>
+          )}
         </div>
       </div>
     </div>
