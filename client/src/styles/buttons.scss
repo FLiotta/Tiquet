@@ -1,0 +1,53 @@
+.btn {
+  padding: 10px 20px;
+  color: #fff;
+  font-family: 'montserrat';
+  border-radius: 4px;
+  height: min-content;
+  cursor: pointer;
+  background-color: #084970;
+  transition: .5s all;
+  border: 1px solid;
+  border-color: #095685;
+
+  &--sm {
+    padding: 6px 10px;
+  }
+
+  &--lg {
+    padding: 15px 25px;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &--danger {
+    background-color: #CC2200;
+    border-color: #d13b30;
+  }
+
+  &--warning {
+    background-color: #c5cc00;
+    border-color: #d4db00;
+  }
+
+  &--success {
+    background-color: #086e09;
+    border-color: #0a8a0b;
+  }
+
+  &--info {
+    background-color: unset;
+    color: #0645AD;
+    border-color: rgba(0,0,0,0);
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  &:focus {
+    outline: unset;
+  }
+}

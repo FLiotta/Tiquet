@@ -40,7 +40,7 @@ const CreateList = ({ addList, match }) => {
             placeholder="e.g: todo"
             ref={register({ required: "Required" })}
           />
-          <button type="submit" className="btn btn-block">Create</button>
+          <button type="submit" className="btn btn--block">Create</button>
         </div>
       </form>
     </div>

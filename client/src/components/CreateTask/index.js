@@ -44,7 +44,7 @@ const CreateTask = ({ addTask, listId }) => {
                   placeholder="e.g: buy toasts"
                   ref={register({ required: "Required" })}
                 />
-                <button type="submit" className="btn btn-block">Create</button>
+                <button type="submit" className="btn btn--block">Create</button>
               </div>
             </form>
           )

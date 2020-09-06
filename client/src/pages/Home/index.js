@@ -51,7 +51,7 @@ const Home = ({ login, signup, isLogged }) => {
         <input type="password" id="password" placeholder="********" />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-block">{btnText}</button>
+        <button type="submit" className="btn btn--block">{btnText}</button>
       </div>
     </form>
   )

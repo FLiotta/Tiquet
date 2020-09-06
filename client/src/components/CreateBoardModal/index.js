@@ -75,7 +75,7 @@ const CreateBoardModal = ({
               disabled={isLoading}
               ref={register({ required: "Required" })}
               placeholder="How should it be named?" />
-            <button className="btn btn-block">Submit</button>
+            <button className="btn btn--block">Submit</button>
           </div>
         </form>
       </div>
