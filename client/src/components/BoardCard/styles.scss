@@ -1,13 +1,15 @@
 .boardcard {
   background-color: #fdbd56;
   border: 1px solid #eee;
-  width: 250px;
+  max-width: 100%;
+  width: auto;
   height: 100px;
   transition: 0.5s all;
   padding: 10px;
   display: flex;
   cursor: pointer;
   border-radius: 4px;
+  margin: 0;
 
   &:hover {
     transform: translateY(-10px);

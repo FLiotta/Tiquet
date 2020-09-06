@@ -1,23 +1,30 @@
 .board {
   width: 100%;
-  padding-top: 60px;
+  height: calc(100% - 40px);
+  overflow-y: hidden;
   position: relative;
+  top: 40px;
+  padding-left: 25px;
+  padding-top: 25px;
 
   &__columns {
     display: inline-flex;
     justify-content: flex-start;
-    padding: 0 50px;
-    width: min-content;
+    min-width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
+    height: 100%;
+
+    @media (min-width: 992px) {
+      height: unset;
+    }
   }
 
   &__title {
-    margin-left: 50px;
-    margin-bottom: 25px;
     text-transform: capitalize;
     color: #084970;
     font-weight: 700;
     font-family: 'montserrat';
+    margin-top: 0;
   }
 }
