@@ -1,7 +1,7 @@
 .create-list {
   margin: 5px;
-  opacity: .5;
-  transition: .5s all;
+  opacity: 0.5;
+  transition: 0.5s all;
   background-color: #dedede;
   padding: 10px;
   width: 225px;
@@ -13,14 +13,18 @@
     opacity: 1;
   }
 
-  &__title {
+  &__header {
     padding: 5px 0;
-    font-family: 'montserrat';
-    margin: 0;
-    text-transform: capitalize;
+
+    &-title {
+      padding: 5px 0;
+      font-family: "montserrat";
+      margin: 0;
+      text-transform: capitalize;
+    }
   }
 
   hr {
-    margin: .5rem 0 .5rem 0;
+    margin: 0.5rem 0 0.5rem 0;
   }
 }

@@ -1,43 +1,54 @@
 .task-description {
-    position: fixed;
-    top: 40px;
-    right: -450px;
-    z-index: 10;
-    background-color: #fff;
-    width: 350px;
-    height: calc(100vh - 40px);
-    overflow-y: auto;
-    padding: 25px;
-    transition: .5s transform;    
-    box-shadow: 30px 0px 65px 5px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 40px;
+  right: -450px;
+  z-index: 10;
+  background-color: #fff;
+  width: 350px;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 15px 25px;
+  transition: 0.5s transform;
+  box-shadow: 30px 0px 65px 5px rgba(0, 0, 0, 0.5);
 
-    &--visible {
-        transform: translateX(-450px);
+  &--visible {
+    transform: translateX(-450px);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-title {
+      font-family: "montserrat";
+      font-weight: 400;
+      margin: 0;
+      text-transform: uppercase;
     }
 
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        &-title {
-            text-transform: capitalize;
-        }
-
-        &-arrow {
-            padding: 10px;
-            cursor: pointer;
-        }
+    &-arrow {
+      padding: 10px;
+      cursor: pointer;
     }
 
-    &__body {
-        display: flex;
-        height: 85%;
-    
-        &-image {
-            max-width: 100%;
-            display: block;
-            margin: auto;
-        }
+    &-id {
+      font-weight: 600;
+      margin-left: 5px;
+      font-size: 13px;
+      cursor: pointer;
+
+      &:hover {
+        color: gray;
+      }
     }
+  }
+
+  &__sections {
+    display: flex;
+    height: 85%;
+    flex-direction: column;
+    font-family: "montserrat";
+    font-size: 12px;
+  }
 }
