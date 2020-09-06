@@ -1,3 +1,7 @@
+@import "./styles/forms.scss";
+@import './styles/typography.scss';
+@import './styles/buttons.scss';
+
 html,
 body,
 #root {
@@ -7,72 +11,15 @@ body,
   background-color: #eeeeee;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-a,
-label,
-div {
-  font-family: sans-serif;
-}
-
-a {
-  text-decoration: none;
-  font-weight: 400;
-}
-
 hr {
   border: 0;
   border-bottom: 1px solid #a5a5a5bb;
-}
-
-input {
-  max-width: 100%;
-  min-height: 30px;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  margin: 5px 0;
-}
-
-form {
-  width: 100%;
-}
-
-textarea {
-  border: 1px solid #eee;
-  border-radius: 4px;
-  padding: 5px;
-  margin: 5px 0;
-  font-family: sans-serif;
 }
 
 .form-group {
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.btn {
-  padding: 5px 30px;
-  background-color: #084970;
-  color: #fff;
-  font-family: "montserrat";
-  border: 1px solid #063754;
-  border-radius: 4px;
-  height: min-content;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #063754;
-  }
-}
-
-.btn-block {
-  width: 100%;
 }
 
 ::-webkit-scrollbar {

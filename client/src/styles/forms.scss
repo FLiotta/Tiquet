@@ -1,0 +1,20 @@
+input {
+  max-width: 100%;
+  min-height: 30px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+form {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 5px 0;
+  font-family: sans-serif;
+}

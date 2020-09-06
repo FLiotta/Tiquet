@@ -50,5 +50,21 @@
     flex-direction: column;
     font-family: "montserrat";
     font-size: 12px;
+
+    &-description {
+      &__textarea {
+        display: flex;
+        width: 100%;
+      }
+
+      &__buttons {
+        display: flex;
+        width: 100%;
+
+        .btn:first-of-type {
+          margin-right: 5px;
+        }
+      }
+    }
   }
 }
