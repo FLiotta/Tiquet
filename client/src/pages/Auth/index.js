@@ -1,9 +1,10 @@
 // Packages
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import qs from 'qs';
 
 // Project
 import Loading from '../../components/Loading';
@@ -37,10 +38,18 @@ const AuthForm = ({ onSubmit, btnText }) => {
   );
 }
 
-const Auth = ({ login, signup, isLogged }) => {
+const Auth = ({ login, signup, isLogged, location }) => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
 
+  useEffect(() => {
+    const queryParameters = qs.parse(location.search, { ignoreQueryPrefix: true });
+
+    if(queryParameters.mode) {
+      const preselectedMode = queryParameters.mode === "login" ? true : false;
+      setMode(preselectedMode);
+    }
+  }, []);
   const handleLogin = ({ username, password }) => {
     setLoading(true);
 
@@ -77,8 +86,8 @@ const Auth = ({ login, signup, isLogged }) => {
             }
           </div>
           <div className="auth__modal-footer">
-            <a href="#" onClick={toggleMode}>
-              {mode ? "I don't have an account 😢" : "Already have an account 🤓"}
+            <a href="#" onClick={toggleMode} className="auth__modal-footer__toggler">
+              {mode ? "I don't have an account 😭" : "Already have an account 🤓"}
             </a>
           </div>
         </div>
@@ -96,6 +105,7 @@ Auth.propTypes = {
   login: propTypes.func,
   signup: propTypes.func,
   isLogged: propTypes.bool,
+  location: propTypes.object,
 }
 
 const mapStateToProps = state => ({
