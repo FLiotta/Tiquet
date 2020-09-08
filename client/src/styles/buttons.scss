@@ -1,14 +1,16 @@
+@import './colors.scss';
+
 .btn {
   padding: 10px 20px;
-  color: #fff;
+  color: $app-primary;
   font-family: 'montserrat';
   border-radius: 4px;
   height: min-content;
   cursor: pointer;
-  background-color: #084970;
+  background-color: $app-secondary;
   transition: .5s all;
-  border: 1px solid;
-  border-color: #095685;
+  font-weight: 600;
+  border: 0;
 
   &--sm {
     padding: 6px 10px;
@@ -20,6 +22,10 @@
 
   &--block {
     width: 100%;
+  }
+
+  &:hover {
+    background-color: #f7f7f7;
   }
 
   &--danger {
