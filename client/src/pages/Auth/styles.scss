@@ -1,4 +1,4 @@
-@import '../../styles/colors.scss';
+@import "../../styles/colors.scss";
 
 .auth {
   width: 100%;
@@ -51,6 +51,16 @@
       text-align: center;
       margin-top: 15px;
       font-size: 13px;
+
+      &__toggler {
+        padding: 5px;
+        border-radius: 11px;
+        transition: 0.5s all;
+
+        &:hover {
+          background-color: #efefef;
+        }
+      }
     }
   }
 }
