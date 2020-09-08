@@ -13,7 +13,7 @@ const ProtectedRoute = ({ fetching, isLogged, component: Component, ...rest }) =
       {!fetching && (
         isLogged 
           ? <Route {...rest} render={props => <Component {...rest} {...props} />} /> 
-          : <Redirect to="/" />
+          : <Redirect to="/auth?mode=login" />
       )
       }
     </Fragment>

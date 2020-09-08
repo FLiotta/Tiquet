@@ -10,7 +10,7 @@ import { logIn, signUp } from '../../actions/session';
 import { isLoggedSelector } from '../../selectors/session';
 import './styles.scss';
 
-const Home = ({ login, signup, isLogged }) => {
+const Auth = ({ login, signup, isLogged }) => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
 
@@ -97,7 +97,7 @@ const Home = ({ login, signup, isLogged }) => {
   )
 }
 
-Home.propTypes = {
+Auth.propTypes = {
   login: propTypes.func,
   signup: propTypes.func,
   isLogged: propTypes.bool,
@@ -112,4 +112,4 @@ const dispatchToProps = dispatch => ({
   signup: (username, password) => dispatch(signUp(username, password)),
 });
 
-export default connect(mapStateToProps, dispatchToProps)(Home);
+export default connect(mapStateToProps, dispatchToProps)(Auth);
