@@ -1,8 +1,9 @@
 // Packages
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 // Project
 import Loading from '../../components/Loading';
@@ -10,91 +11,85 @@ import { logIn, signUp } from '../../actions/session';
 import { isLoggedSelector } from '../../selectors/session';
 import './styles.scss';
 
+const AuthForm = ({ onSubmit, btnText }) => {
+  const { handleSubmit, register, errors } = useForm();
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="auth__modal-form-node">
+        <input
+          type="text"
+          name="username"
+          ref={register({ required: "Required" })}
+          placeholder="Username" />
+      </div>
+      <div className="auth__modal-form-node">
+        <input
+          type="password"
+          name="password"
+          ref={register({ required: "Required" })}
+          placeholder="Password" />
+      </div>
+      <div className="auth__modal-form-node">
+        <button type="submit" className="btn btn--block">{btnText}</button>
+      </div>
+    </form>
+  );
+}
+
 const Auth = ({ login, signup, isLogged }) => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
+  const handleLogin = ({ username, password }) => {
     setLoading(true);
-
-    const username = e.target.username.value;
-    const password = e.target.password.value;
 
     login(username, password).then(() => {
       setLoading(false);
     });
   }
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-
+  const handleSignup = ({ username, password }) => {
     setLoading(true);
-
-    const username = e.target.username.value;
-    const password = e.target.password.value;
 
     signup(username, password).then(() => {
       setLoading(false);
     });
   }
 
-  const signForm = (handleAction, btnText) => (
-    <form onSubmit={handleAction}>
-      <div className="form-group">
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" placeholder="ex:. George Orwell" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder="********" />
-      </div>
-      <div className="form-group">
-        <button type="submit" className="btn btn--block">{btnText}</button>
-      </div>
-    </form>
-  )
-
-  const toggleMode = () => setMode(!mode);
+  const toggleMode = (e) => {
+    e.preventDefault();
+    setMode(!mode);
+  };
 
   return (
     <Fragment>
-      {isLogged
-        ? <Redirect to="/boards" />
-        : (
-          <div className="home-page">
-            <div className="home-page__auth">
-              <Loading display={loading} />
-              <h1 className="home-page__auth-title text-primary">TIQUET</h1>
-              {mode 
-                ? 
-                <Fragment>
-                  {signForm(handleLogin, 'Login')}
-                  <a 
-                    href="#"
-                    onClick={toggleMode} 
-                    className="home-page__auth-footer">
-                    I don't have an account 😢
-                  </a>
-                </Fragment>
-                : 
-                <Fragment>
-                  {signForm(handleSignup, 'Sign Up')}
-                  <a 
-                    href="#"
-                    onClick={toggleMode} 
-                    className="home-page__auth-footer">
-                    Already have an account 🤓
-                  </a>
-                </Fragment>
-              }
-            </div>
+      {isLogged && <Redirect to="/boards" />}
+
+      <div className="auth">
+        <div className="auth__modal">
+          <Loading display={loading} />
+          <h1 className="auth__modal-title text-primary">TIQUET</h1>
+          <div className="auth__modal-body">
+            {mode
+              ? <AuthForm onSubmit={handleLogin} btnText="Login" />
+              : <AuthForm onSubmit={handleSignup} btnText="Sign Up" />
+            }
           </div>
-        )
-      }
+          <div className="auth__modal-footer">
+            <a href="#" onClick={toggleMode}>
+              {mode ? "I don't have an account 😢" : "Already have an account 🤓"}
+            </a>
+          </div>
+        </div>
+      </div>
     </Fragment>
-  )
+  );
+}
+
+AuthForm.propTypes = {
+  btnText: propTypes.string,
+  onSubmit: propTypes.func.isRequired,
 }
 
 Auth.propTypes = {
