@@ -11,6 +11,22 @@ import CreateBoardModal from '../../components/CreateBoardModal';
 import ScrumBoard from '../../assets/images/scrum-board.png';
 import './styles.scss';
 
+const EmptyState = ({ onBtnClick }) => (
+  <div className="board-page__new">
+    <div>
+      <h1 className="board-page__new-title">You don't have any board created</h1>
+      <p className="board-page__new-description">Within boards you can organize your job in tasks and group them on lists!</p>
+      <img src={ScrumBoard} className="board-page__new-image" />
+      <button
+        className="btn btn-brand-secondary rounded-pill"
+        onClick={() => { onBtnClick(true); }}
+      >
+        New board
+      </button>
+    </div>
+  </div>
+);
+
 const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,31 +68,16 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
           </div>
           <div className="board-page__container">
             {boards.map(board => (
-              <div className="board-page__container-card">
-                <BoardCard
-                  key={'board_' + board.id}
-                  boardInfo={board}
-                  className="board-page__custom-card"
-                />
-              </div>
+              <BoardCard
+                key={'board_' + board.id}
+                boardInfo={board}
+              />
             ))}
           </div>
         </Fragment>
       )}
       {(!loading && !hasBoards()) && (
-        <div className="board-page__new">
-          <div>
-            <h1 className="board-page__new-title">You don't have any board created</h1>
-            <p className="board-page__new-description">Within boards you can organize your job in tasks and group them on lists!</p>
-            <img src={ScrumBoard} className="board-page__new-image" />
-            <button
-              className="btn btn-brand-secondary rounded-pill"
-              onClick={() => { setIsModalOpen(true); }}
-            >
-              New board
-            </button>
-          </div>
-        </div>
+        <EmptyState onBtnClick={setIsModalOpen} />
       )}
     </div>
   )

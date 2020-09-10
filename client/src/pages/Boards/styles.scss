@@ -21,30 +21,13 @@
   }
 
   &__container {
-    margin-top: 20px;
     display: flex;
-    justify-content: flex-start;
-    width: 80%;
-    margin: 0 auto;
     flex-wrap: wrap;
-    flex-direction: column;
+    justify-content: flex-start;
 
-    @media (min-width: 992px) {
-      flex-direction: row;
-    }
-
-    &-card {
-      @media (min-width: 992px) {
-        width: 25%;
-      }
-    }
-  }
-
-  &__custom-card {
-    margin-bottom: 10px;
-
-    @media (min-width: 992px) {
-      margin-right: 10px;
+    & > * {
+      margin-left: 30px;
+      margin-bottom: 30px;
     }
   }
 
