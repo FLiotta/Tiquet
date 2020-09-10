@@ -19,7 +19,7 @@ const EmptyState = ({ onBtnClick }) => (
       <img src={ScrumBoard} className="board-page__new-image" />
       <button
         className="btn btn-brand-secondary rounded-pill"
-        onClick={() => { onBtnClick(true); }}
+        onClick={onBtnClick}
       >
         New board
       </button>
@@ -47,39 +47,38 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
   }
 
   const hasBoards = () => !!boards.length;
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <div className="board-page">
+    <Fragment>
       <CreateBoardModal
         onCreationSuccess={createModalSucces}
         isOpen={isModalOpen}
-        closeModal={() => { setIsModalOpen(false) }}
+        closeModal={closeModal}
       />
-      <Loading display={loading} />
-      {(!loading && hasBoards()) && (
-        <Fragment>
-          <div className="board-page__header">
-            <h2 className="board-page__header-title">Boards</h2>
-            <button
-              onClick={() => { setIsModalOpen(true); }}
-              className="btn"
-            >
-              Create Board
-            </button>
-          </div>
-          <div className="board-page__container">
-            {boards.map(board => (
-              <BoardCard
-                key={'board_' + board.id}
-                boardInfo={board}
-              />
-            ))}
-          </div>
-        </Fragment>
-      )}
-      {(!loading && !hasBoards()) && (
-        <EmptyState onBtnClick={setIsModalOpen} />
-      )}
-    </div>
+      <div className="board-page">
+        <Loading display={loading} />
+        {(!loading && hasBoards()) && (
+          <Fragment>
+            <div className="board-page__header">
+              <h1 className="board-page__header-title">All boards</h1>
+              <button onClick={openModal} className="btn">
+                Create Board
+              </button>
+            </div>
+            <div className="board-page__container">
+              {boards.map(board => (
+                <BoardCard key={'board_' + board.id} boardInfo={board} />
+              ))}
+            </div>
+          </Fragment>
+        )}
+        {(!loading && !hasBoards()) && (
+          <EmptyState onBtnClick={openModal} />
+        )}
+      </div>
+    </Fragment>
   )
 };
 

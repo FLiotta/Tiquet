@@ -1,10 +1,20 @@
-@import '../../styles/colors.scss';
+@import "../../styles/colors.scss";
 
 .boardcard {
   width: 300px;
   background-color: $app-secondary;
   border: 1px solid $app-primary;
-  box-shadow: 0px 0px 19px -11px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.5s, background-color 0.5s;
+
+  &:hover {
+    box-shadow: 0px 0px 19px -1px rgba(0, 0, 0, 0.2);
+
+    .boardcard {
+      &__header {
+        background-color: #fdd156;
+      }
+    }
+  }
 
   &__header {
     width: 100%;
@@ -17,7 +27,7 @@
       margin: 0;
       margin-left: 15px;
       text-transform: uppercase;
-      font-family: 'montserrat';
+      font-family: "montserrat";
       font-weight: 600;
       color: #ffffff;
     }
@@ -36,6 +46,10 @@
       &:last-child {
         margin-bottom: 0px;
       }
+    }
+
+    &-icon {
+      width: 25px;
     }
   }
 }
