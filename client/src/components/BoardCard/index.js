@@ -8,11 +8,27 @@ import cn from 'classnames';
 import './styles.scss';
 
 const BoardCard = ({ className, boardInfo }) => (
-  <Link to={'/b/' + boardInfo.id} className="text-decoration-none">
-    <div className={cn('boardcard', className)} >
-      <h4 className="boardcard__title">{boardInfo.title}</h4>
-    </div>
-  </Link>
+  <div className={cn('boardcard', className)} >
+    <Link to={'/b/' + boardInfo.id} className="text-decoration-none">
+      <div className="boardcard__header">
+        <h5 className="boardcard__header-title">{boardInfo.title}</h5>
+      </div>
+      <div className="boardcard__body">
+        <p className="boardcard__body-item">
+          <i className="far fa-list-alt boardcard__body-icon"></i>
+          4 Lists
+        </p>
+        <p className="boardcard__body-item">
+          <i className="far fa-check-square boardcard__body-icon"></i>
+          32 Tasks
+        </p>
+        <p className="boardcard__body-item">
+          <i className="fas fa-user-friends boardcard__body-icon"></i>
+          7 Contributors
+        </p>
+      </div>
+    </Link>
+  </div>
 )
 
 BoardCard.propTypes = {

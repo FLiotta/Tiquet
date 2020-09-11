@@ -1,26 +1,55 @@
+@import "../../styles/colors.scss";
+
 .boardcard {
-  background-color: #fdbd56;
-  border: 1px solid #eee;
-  max-width: 100%;
-  width: auto;
-  height: 100px;
-  transition: 0.5s all;
-  padding: 10px;
-  display: flex;
-  cursor: pointer;
-  border-radius: 4px;
-  margin: 0;
+  width: 300px;
+  background-color: $app-secondary;
+  border: 1px solid $app-primary;
+  transition: box-shadow 0.5s, background-color 0.5s;
 
   &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 14px 15px -13px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 19px -1px rgba(0, 0, 0, 0.2);
+
+    .boardcard {
+      &__header {
+        background-color: #fdd156;
+      }
+    }
   }
 
-  &__title {
-    align-self: flex-start;
-    margin: 0;
-    font-weight: 700;
-    font-family: "Montserrat", sans-serif;
-    color: #ffffff;
+  &__header {
+    width: 100%;
+    min-height: 40px;
+    background-color: $app-primary;
+    display: flex;
+    align-items: center;
+
+    &-title {
+      margin: 0;
+      margin-left: 15px;
+      text-transform: uppercase;
+      font-family: "montserrat";
+      font-weight: 600;
+      color: #ffffff;
+    }
+  }
+
+  &__body {
+    padding: 15px;
+
+    &-item {
+      margin: 0;
+      font-size: 12px;
+      text-decoration: none;
+      color: #000;
+      margin-bottom: 5px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+
+    &-icon {
+      width: 25px;
+    }
   }
 }
