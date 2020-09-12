@@ -11,7 +11,29 @@ import { fetchTask } from '../../actions/taskDescription';
 import { deleteTask } from '../../actions/board';
 import './styles.scss';
 
-const Task = ({
+export const Task = ({ title, handleDeleteTask, handleInfoClick }) => (
+  <div className="task">
+    <div>
+      <p className="task__title">{title}</p>
+    </div>
+    <div className="task__body">
+      <div className="task__body-priority">
+        <div className="task__body-priority__bubble"></div>
+        <span className="task__body-priority__value">High priority</span>
+      </div>
+      <div className="task__body-icons">
+        <i
+          onClick={handleDeleteTask}
+          className="far fa-trash-alt task__body-icon"></i>
+        <i
+          onClick={handleInfoClick}
+          className="far fa-question-circle task__body-icon"></i>
+      </div>
+    </div>
+  </div>
+);
+
+const DraggableTask = ({
   className,
   title,
   id,
@@ -34,44 +56,20 @@ const Task = ({
     deleteTask(id);
   }
 
-  const getTaskStyles = (isDragging, draggableStyle) => ({
-    background: isDragging ? '#eee' : "#fff",
-    marginTop: 5,
-    marginBottom: 5,
-    borderRadius: 4,
-    minHeight: 40,
-    maxWidth: '100%',
-    padding: 10,
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    ...draggableStyle
-  });
-
   return (
-    <Draggable
-      index={index}
-      draggableId={new Number(id).toString()}
-      key={id}>
-      {(provided, snapshot) => (
+    <Draggable index={index} draggableId={new Number(id).toString()} key={id}>
+      {provided => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={getTaskStyles(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}>
-          <p className="task__title">{title}</p>
-          <div className="task__icons">
-            <i
-              onClick={handleDeleteTask}
-              className="far fa-trash-alt task__icon"></i>
-            <i
-              onClick={handleFetch}
-              className="far fa-question-circle task__icon"></i>
-          </div>
+          style={{ ...provided.draggableProps.style }}
+        >
+          <Task
+            title={title}
+            handleDeleteTask={handleDeleteTask}
+            handleInfoClick={handleFetch}
+          />
         </div>
       )}
     </Draggable>
@@ -79,6 +77,12 @@ const Task = ({
 }
 
 Task.propTypes = {
+  title: propTypes.string,
+  handleDeleteTask: propTypes.func,
+  handleInfoClick: propTypes.func,
+};
+
+DraggableTask.propTypes = {
   className: propTypes.string,
   id: propTypes.number,
   title: propTypes.string,
@@ -98,4 +102,4 @@ const dispatchToProps = dispatch => ({
   fetchTask: taskId => dispatch(fetchTask(taskId)),
   deleteTask: taskId => dispatch(deleteTask(taskId)),
 })
-export default connect(stateToProps, dispatchToProps)(Task);
+export default connect(stateToProps, dispatchToProps)(DraggableTask);

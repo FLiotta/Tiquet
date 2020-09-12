@@ -30,14 +30,13 @@ const CreateList = ({ addList, match }) => {
       <div className="create-list__header">
         <h6 className="create-list__header-title">CREATE LIST</h6>
       </div>
-      <hr />
       <Loading display={isLoading} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <input
             className="form-control"
             name="title"
-            placeholder="e.g: todo"
+            placeholder="Introduce a title for this list..."
             ref={register({ required: "Required" })}
           />
           <button type="submit" className="btn btn--block">Create</button>

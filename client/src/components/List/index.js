@@ -24,7 +24,6 @@ const List = ({ id, title, tasks }) => {
       <div className="list__header">
         <h6 className="list__header-title">{title.toUpperCase()}</h6>
       </div>
-      <hr />
       <div className="list__body">
         <Droppable droppableId={new Number(id).toString()} key={title}>
           {(provided) => (

@@ -1,31 +1,26 @@
+@import '../../styles/colors.scss';
+
 .list {
-  background-color: #dedede;
+  background-color: $app-primary-light;
   height: 80%;
   width: 60vw;
   margin: 5px;
-  border-radius: 5px;
-  padding: 10px;
+  border: 2px solid #FFD187;
 
   @media (min-width: 992px) {
     width: 225px;
     height: min-content;
   }
 
-  hr {
-    margin: .5rem 0;
-  }
-
   &__header {
-    padding: 5px 0;
+    padding: 10px 10px 5px;
+    color: $app-secondary;
 
     &-title {
       overflow-wrap: break-word;
       font-family: 'montserrat';
-      margin: 5px 0;
+      margin: 0;
+      font-weight: 800;
     }
-  }
-
-  &__body {
-    margin: 10px 0;
   }
 }

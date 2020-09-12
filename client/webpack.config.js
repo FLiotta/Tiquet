@@ -81,7 +81,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: 'Tiquet',
-      template: 'src/assets/index.html'
+      template: 'src/assets/index.html',
+      favicon: 'src/assets/favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',

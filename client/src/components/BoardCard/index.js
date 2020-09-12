@@ -22,10 +22,6 @@ const BoardCard = ({ className, boardInfo }) => (
           <i className="far fa-check-square boardcard__body-icon"></i>
           32 Tasks
         </p>
-        <p className="boardcard__body-item">
-          <i className="fas fa-user-friends boardcard__body-icon"></i>
-          7 Contributors
-        </p>
       </div>
     </Link>
   </div>
