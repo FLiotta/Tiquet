@@ -4,20 +4,17 @@
   &__placeholder {
     width: 100%;
     padding: 5px 10px 5px 10px;
-    border: 2px dashed #dedede;
-    background-color: #c5c5c5;
-    color: #42526e;
-    opacity: .5;
-    transition: .5s all;
+    color: #926824;
     cursor: pointer;
     font-family: 'montserrat';
- 
-    &:hover {
-      opacity: 1;
-    }
+    font-size: 12px;
 
     &-icon {
       margin-right: 5px;
     }
+  }
+
+  &__textarea {
+    margin: 2px 0;
   }
 }

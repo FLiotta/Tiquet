@@ -1,24 +1,59 @@
+@import "../../styles/colors.scss";
+
 .task {
+  background-color: $app-secondary;
+  min-height: 40px;
+  margin: 5px;
+  border: 1px solid $app-primary;
+  padding: 15px 15px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
   &__title {
     font-family: "Montserrat", sans-serif;
     overflow-wrap: break-word;
-    max-width: 85%;
     margin: 0;
-    font-weight: 400;
+    margin-bottom: 5px;
+    font-weight: 300;
   }
 
-  &__icons {
+  &__body {
     display: flex;
-  }
-  
-  &__icon {
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
-    transition: .5s all;
+    justify-content: space-between;
+    align-items: center;
 
-    &:hover {
-      background-color: #dedede;
+    &-priority {
+      display: flex;
+      align-items: center;
+
+      &__bubble {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #e62727;
+        margin-right: 4px;
+      }
+
+      &__value {
+        font-size: 11px;
+      }
+    }
+
+    &-icons {
+      display: flex;
+    }
+
+    &-icon {
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 4px;
+      transition: 0.5s all;
+      font-size: 11px;
+
+      &:hover {
+        background-color: #dedede;
+      }
     }
   }
 }

@@ -48,7 +48,7 @@ const Board = ({
     <div className="board">
       <Loading display={isLoading} />
       <TaskDescription />
-      <h3 className="board__title">{board.title}</h3>
+      <h1 className="board__title">{board.title}</h1>
       <div className="board__columns">
         <DragDropContext onDragEnd={result => onDragEnd(result)} >
           {board.lists.map(list => <List key={list.id} {...list} />)}

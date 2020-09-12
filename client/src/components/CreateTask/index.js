@@ -38,12 +38,12 @@ const CreateTask = ({ addTask, listId }) => {
           : (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
-                <input
-                  className="form-control"
+                <textarea
+                  className="create-task__textarea"
+                  placeholder="Introduce a title for this task..."
                   name="title"
-                  placeholder="e.g: buy toasts"
                   ref={register({ required: "Required" })}
-                />
+                ></textarea>
                 <button type="submit" className="btn btn--block">Create</button>
               </div>
             </form>
