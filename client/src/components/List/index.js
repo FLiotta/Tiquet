@@ -25,7 +25,7 @@ const List = ({ id, title, tasks }) => {
         <h6 className="list__header-title">{title.toUpperCase()}</h6>
       </div>
       <div className="list__body">
-        <Droppable droppableId={new Number(id).toString()} key={title}>
+        <Droppable droppableId={new Number(id).toString()} key={`${title}_${id}`}>
           {(provided) => (
             <div
               {...provided.droppableProps}

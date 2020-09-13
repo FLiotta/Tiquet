@@ -1,9 +1,11 @@
 // Project
+import { selectPriorities } from '../selectors/board';
 import TasksService from '../services/tasksService';
 
 const taskService = new TasksService();
 
 export const SET_VISIBILITY = '[TASK DESCRIPTION] SET VISIBILITY';
+export const UPDATE_PRIORITY = '[TASK DESCRIPTION] UPDATE PRIORITY';
 export const SET_LOADING = '[TASK DESCRIPTION] SET LOADING';
 export const FETCH_TASK = '[TASK DESCRIPTION] FETCH TASK';
 export const UPDATE_DESCRIPTION = '[TASK DESCRIPTION] UPDATE DESCRIPTION';
@@ -38,6 +40,24 @@ export const updateDescription = (taskId, description) => {
         dispatch({
           type: UPDATE_DESCRIPTION,
           payload: description
+        });
+      });
+  }
+}
+
+export const updatePriority = (taskId, priorityId) => {
+  return (dispatch, getState) => {
+    dispatch(setLoading(true));
+
+    const state = getState();
+    const priorities = selectPriorities(state);
+    const priority = priorities.find(priority => priority.id == priorityId);
+
+    return taskService.updatePriority(taskId, priorityId)
+      .then(() => {
+        dispatch({
+          type: UPDATE_PRIORITY,
+          payload: priority.value
         });
       });
   }

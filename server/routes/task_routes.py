@@ -25,6 +25,7 @@ def task_root(task_id):
             'title': requested_task.title,
             'createdAt': requested_task.createdAt,
             'description': requested_task.description,
+            'list': requested_task.list_id,
         }
 
         if requested_task.priority != None:
