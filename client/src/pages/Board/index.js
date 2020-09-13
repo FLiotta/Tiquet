@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 // Project
-import { fetchBoard, moveTask, resetState } from '../../actions/board';
+import { fetchBoard, moveTask, resetState, fetchPriorities } from '../../actions/board';
 import List from '../../components/List';
 import CreateList from '../../components/CreateList';
 import Loading from '../../components/Loading';
@@ -18,6 +18,7 @@ const Board = ({
   board,
   match,
   resetState,
+  fetchPriorities,
   ...rest
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +26,7 @@ const Board = ({
   useEffect(() => {
     const boardId = match.params.id;
 
+    fetchPriorities();
     fetchBoard(boardId)
       .then(() => setIsLoading(false));
 
@@ -62,6 +64,7 @@ const Board = ({
 Board.propTypes = {
   fetchBoard: propTypes.func,
   resetState: propTypes.func,
+  fetchPriorities: propTypes.func,
   board: propTypes.shape({
     title: propTypes.string,
     id: propTypes.number,
@@ -74,6 +77,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchPriorities: () => dispatch(fetchPriorities()),
   fetchBoard: boardId => dispatch(fetchBoard(boardId)),
   resetState: () => dispatch(resetState()),
   moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),

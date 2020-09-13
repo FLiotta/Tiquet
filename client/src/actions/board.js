@@ -1,18 +1,26 @@
+// Packages
 import cogoToast from 'cogo-toast';
+
+// Project
 import BoardsService from '../services/boardsService';
 import ListsService from '../services/listsService';
 import TasksService from '../services/tasksService';
+import PrioritiesService from '../services/prioritiesService';
+import { selectPriorities } from '../selectors/board';
 
+const prioritiesService = new PrioritiesService();
 const taskService = new TasksService();
 const boardsService = new BoardsService();
 const listsService = new ListsService();
 
 export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
 export const MOVE_TASK = '[BOARD] MOVE TASK';
+export const UPDATE_TASK_PRIORITY = '[BOARD] UPDATE TASK PRIORITY';
 export const ADD_TASK = '[BOARD] ADD TASK';
 export const ADD_LIST = '[BOARD] ADD LIST';
 export const RESET_STATE = '[BOARD] CLEAN STATE';
 export const DELETE_TASK = '[BOARD] DELETE TASK';
+export const FETCH_PRIORITIES = '[BOARD] FETCH PRIORITIES';
 
 export const fetchBoard = (boardId) => {
   return dispatch => boardsService.fetchBoard(boardId)
@@ -24,6 +32,34 @@ export const fetchBoard = (boardId) => {
     })
     .catch(e => {
       window.location = "/404";
+    });
+}
+
+export const updateTaskPriority = (taskId, priorityId) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const priorities = selectPriorities(state);
+    const priority = priorities.find(priority => priority.id == priorityId);
+
+    const updatedLists = state.board.lists.map(list => ({
+      ...list,
+      tasks: list.tasks.map(task => task.id === taskId ? {...task, priority: priority.value } : task)
+    }));
+
+    return dispatch({
+      type: UPDATE_TASK_PRIORITY,
+      payload: updatedLists,
+    });
+  }
+}
+
+export const fetchPriorities = () => {
+  return dispatch => prioritiesService.fetchPriorities()
+    .then(({ data }) => {
+      dispatch({
+        type: FETCH_PRIORITIES,
+        payload: data.result
+      });
     });
 }
 

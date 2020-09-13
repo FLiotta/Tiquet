@@ -1,22 +1,38 @@
-import { 
+import {
   FETCH_BOARD,
   MOVE_TASK,
   ADD_LIST,
   ADD_TASK,
   RESET_STATE,
   DELETE_TASK,
+  FETCH_PRIORITIES,
+  UPDATE_TASK_PRIORITY,
 } from '../actions/board';
 
 const defaultState = {
   id: undefined,
   title: '',
   lists: [],
+  priorities: [],
 };
 
 export default (state = defaultState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case FETCH_BOARD:
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case FETCH_PRIORITIES:
+      return {
+        ...state,
+        priorities: action.payload,
+      };
+    case UPDATE_TASK_PRIORITY:
+      return {
+        ...state,
+        lists: action.payload
+      };
     case MOVE_TASK:
       return {
         ...state,

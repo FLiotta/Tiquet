@@ -31,8 +31,19 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: #e62727;
         margin-right: 4px;
+
+        &--low {
+          background-color: #00AA9D;
+        }
+
+        &--medium {
+          background-color: #33D033;
+        }
+
+        &--high {
+          background-color: #DF0024;
+        }
       }
 
       &__value {

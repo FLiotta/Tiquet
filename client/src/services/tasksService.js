@@ -20,6 +20,10 @@ class TasksService extends ApiService {
   updateDescription(taskId, description) {
     return this.put(`/tasks/${taskId}/update-description`, { description });
   }
+
+  updatePriority(taskId, priority) {
+    return this.put(`/tasks/${taskId}/update-priority`, { priority });
+  }
 }
 
 export default TasksService;

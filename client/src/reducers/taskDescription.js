@@ -1,4 +1,11 @@
-import { SET_VISIBILITY, FETCH_TASK, SET_LOADING, RESET_STATE, UPDATE_DESCRIPTION } from "../actions/taskDescription";
+import {
+  SET_VISIBILITY,
+  FETCH_TASK,
+  SET_LOADING,
+  RESET_STATE,
+  UPDATE_DESCRIPTION,
+  UPDATE_PRIORITY,
+} from "../actions/taskDescription";
 
 const defaultState = {
   visible: false,
@@ -25,6 +32,15 @@ export default (state = defaultState, action) => {
         loading: false,
         taskInfo: action.payload,
       }
+    case UPDATE_PRIORITY:
+      return {
+        ...state,
+        loading: false,
+        taskInfo: {
+          ...state.taskInfo,
+          priority: action.payload,
+        },
+      };
     case UPDATE_DESCRIPTION:
       return {
         ...state,

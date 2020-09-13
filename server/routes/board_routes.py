@@ -46,7 +46,11 @@ def board_root(board_id):
             board_lists.append({
                 "id": list_.id,
                 "title": list_.title,
-                "tasks": list(map(lambda t: {'id': t.id, 'title': t.title}, list_.tasks))
+                "tasks": list(map(lambda t: {
+                    'id': t.id,
+                    'title': t.title,
+                    'priority': t.priority.value if t.priority else None
+                }, list_.tasks))
             })
 
         response = {
@@ -66,7 +70,7 @@ def boards_new():
 
     if board_name == None:
         return jsonify(msg='Missing param: boardName'), 400
-    
+
     new_board = Boards(user_id, board_name)
 
     db.session.add(new_board)
@@ -79,7 +83,6 @@ def boards_new():
             'boardName': new_board.title
         }), 200
 
-    
 
 # Lists and Tasks related endpoints
 
@@ -88,10 +91,10 @@ def boards_new():
 def boards_get_lists(board_id):
     user_id = g.user.get('id')
     board = Boards.query.filter_by(id=board_id).first()
-    
+
     if board.user_id != user_id:
         return jsonify(msg="You can't perform this action."), 403
-    
+
     board_lists = []
 
     for list_ in board.lists:

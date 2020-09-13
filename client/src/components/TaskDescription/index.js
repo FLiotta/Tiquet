@@ -9,8 +9,20 @@ import { useForm } from 'react-hook-form';
 
 // Project
 import Loading from '../Loading';
-import { selectTaskInfoVisible, selectTaskInfoLoading, selectTaskInfo } from '../../selectors/taskDescription';
-import { setVisibility, resetState, updateDescription } from '../../actions/taskDescription';
+import { selectPriorities } from '../../selectors/board';
+import { updateTaskPriority } from '../../actions/board';
+import {
+  selectTaskInfoVisible,
+  selectTaskInfoLoading,
+  selectTaskInfo
+} from '../../selectors/taskDescription';
+
+import {
+  setVisibility,
+  resetState,
+  updateDescription,
+  updatePriority,
+} from '../../actions/taskDescription';
 import './styles.scss';
 
 const TaskDescription = ({
@@ -18,7 +30,10 @@ const TaskDescription = ({
   resetState,
   loading,
   task,
-  updateDescription
+  updateDescription,
+  updatePriority,
+  updateTaskPriority,
+  priorities,
 }) => {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const { handleSubmit, register, errors } = useForm();
@@ -51,6 +66,28 @@ const TaskDescription = ({
     });
   };
 
+  const parsePriority = (priority) => {
+    switch (priority) {
+      case 'LOW':
+        return 'Low priority';
+      case 'MEDIUM':
+        return 'Medium priority';
+      case 'HIGH':
+        return 'Highest priority';
+      default:
+        return priority;
+    }
+  }
+
+  const handlePriorityChange = (e) => {
+    const priorityId = e.target.value;
+
+    updatePriority(task.id, priorityId)
+      .then(() => {
+        updateTaskPriority(task.id, priorityId);
+      })
+  }
+
   return (
     <div className={cn('task-description', {
       'task-description--visible': visible,
@@ -81,6 +118,20 @@ const TaskDescription = ({
           <p><strong>Last update:</strong></p>
           <p>{task.lastUpdate ? dayjs(task.lastUpdate).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}</p>
         </div>
+        <div>
+          <p><strong>Priority:</strong></p>
+          <select onChange={handlePriorityChange}>
+            {priorities.map(priority => (
+              <option
+                key={`priority_${priority.id}`}
+                value={priority.id}
+                defaultValue={priority.value == task.priority}
+              >
+                {parsePriority(priority.value)}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="task-description__sections-description">
           <p><strong>Description:</strong></p>
           {!isEditingDescription
@@ -104,7 +155,7 @@ const TaskDescription = ({
                   <button type="submit" className="btn btn--info btn--sm">Submit</button>
                   <button type="button" onClick={toggleDescription} className="btn btn--danger btn--sm">
                     Cancel
-                  </button>
+              </button>
                 </div>
               </form>
             )}
@@ -118,6 +169,10 @@ TaskDescription.propTypes = {
   visible: propTypes.bool,
   setVisibility: propTypes.func,
   updateDescription: propTypes.func,
+  priorities: propTypes.arrayOf(propTypes.shape({
+    id: propTypes.number,
+    value: propTypes.string,
+  }))
 }
 
 TaskDescription.defaultProps = {
@@ -128,11 +183,14 @@ const stateToProps = state => ({
   visible: selectTaskInfoVisible(state),
   loading: selectTaskInfoLoading(state),
   task: selectTaskInfo(state),
+  priorities: selectPriorities(state),
 });
 
 const dispatchToProps = dispatch => ({
   setVisibility: state => dispatch(setVisibility(state)),
   resetState: () => dispatch(resetState()),
+  updatePriority: (taskId, priority) => dispatch(updatePriority(taskId, priority)),
+  updateTaskPriority: (taskId, priority) => dispatch(updateTaskPriority(taskId, priority)),
   updateDescription: (taskId, description) => dispatch(updateDescription(taskId, description)),
 })
 
