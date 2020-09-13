@@ -31,8 +31,19 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: #e62727;
         margin-right: 4px;
+
+        &--low {
+          background-color: blue;
+        }
+
+        &--medium {
+          background-color: green;
+        }
+
+        &--high {
+          background-color: #e62727;
+        }
       }
 
       &__value {

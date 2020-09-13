@@ -14,7 +14,7 @@ def list_root(list_id):
     requested_list = Lists.query.filter_by(id=list_id).first()
 
     if requested_list.user_id != user_id:
-        return jsonify(msg="You can't perform this action."), 403 
+        return jsonify(msg="You can't perform this action."), 403
 
     response = {
         'id': requested_list.id,

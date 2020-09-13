@@ -26,10 +26,10 @@ class Boards(db.Model):
 
 class Lists(db.Model):
     __tablename__ = "lists"
-    id = db.Column('id', db.Integer, primary_key=True)
-    user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
-    board_id = db.Column('board_id', db.Integer, db.ForeignKey('boards.id'))
-    title = db.Column('title', db.Text)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    board_id = db.Column(db.Integer, db.ForeignKey('boards.id'))
+    title = db.Column(db.Text)
     tasks = db.relationship('Tasks', backref="list", lazy="joined")
 
     def __init__(self, board_id, user_id, title):
@@ -39,18 +39,29 @@ class Lists(db.Model):
 
 class Tasks(db.Model):
     __tablename__ = "tasks"
-    id = db.Column('id', db.Integer, primary_key=True)
-    user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
-    list_id = db.Column('list_id', db.Integer, db.ForeignKey('lists.id'))
-    title = db.Column('title', db.Text)
-    uid = db.Column('uid', db.Text)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    list_id = db.Column(db.Integer, db.ForeignKey('lists.id'))
+    priority_id = db.Column(db.Integer, db.ForeignKey('priorities.id'), default=1)
+    priority = db.relationship('Priorities', backref="task", lazy="joined")
+    title = db.Column(db.Text)
+    uid = db.Column(db.Text)
     createdAt = db.Column('createdat', db.Integer)
     description = db.Column(db.Text)
 
-    def __init__(self, user_id, list_id, title, uid, description=''):
+    def __init__(self, user_id, list_id, title, uid, description='', priority_id=1):
         self.user_id = user_id
         self.list_id = list_id
         self.title = title
         self.uid = uid
         self.description = description
+        self.priority_id = priority_id
         self.createdAt = int(datetime.datetime.now().timestamp())
+
+class Priorities(db.Model):
+    __tablename__ = "priorities"
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Text)
+
+    def __init__(self, value):
+        self.value = value
