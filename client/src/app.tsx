@@ -17,6 +17,7 @@ if(cookies.get('token')) {
   store.dispatch(reconnect());
 }
 
+
 ReactDOM.render(
   <Provider store={store}>
     <AppRouter />

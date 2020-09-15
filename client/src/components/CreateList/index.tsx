@@ -1,7 +1,6 @@
 // Packages
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -10,13 +9,22 @@ import { addList } from '../../actions/board';
 import Loading from '../Loading';
 import './styles.scss';
 
-const CreateList = ({ addList, match }) => {
+interface CreateListProps {
+  addList: Function,
+  match: any
+};
+
+interface CreateListForm {
+  title: String
+};
+
+const CreateList = ({ addList, match }: CreateListProps): JSX.Element => {
   const { handleSubmit, register, errors } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const getBoardId = match => match.params.id;
 
-  const onSubmit = ({ title }) => {
+  const onSubmit = ({ title }: CreateListForm): void => {
     const boardId = getBoardId(match);
 
     setIsLoading(true);
@@ -44,11 +52,6 @@ const CreateList = ({ addList, match }) => {
       </form>
     </div>
   )
-}
-
-CreateList.propTypes = {
-  addList: propTypes.func,
-  match: propTypes.object,
 }
 
 const dispatchToProps = dispatch => ({

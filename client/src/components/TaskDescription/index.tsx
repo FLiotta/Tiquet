@@ -16,7 +16,8 @@ import {
   selectTaskInfoLoading,
   selectTaskInfo
 } from '../../selectors/taskDescription';
-
+import { TaskInterface } from '../../interfaces/Task';
+import { PriortyInterface } from '../../interfaces/Priority';
 import {
   setVisibility,
   resetState,
@@ -24,6 +25,21 @@ import {
   updatePriority,
 } from '../../actions/taskDescription';
 import './styles.scss';
+
+interface TaskDescriptionProps {
+  visible: Boolean,
+  resetState: Function,
+  loading: Boolean,
+  task: TaskInterface,
+  updateDescription: Function,
+  updatePriority: Function,
+  updateTaskPriority: Function,
+  priorities: PriortyInterface[],
+};
+
+interface TaskDescriptionForm {
+  description: String
+};
 
 const TaskDescription = ({
   visible,
@@ -34,11 +50,11 @@ const TaskDescription = ({
   updatePriority,
   updateTaskPriority,
   priorities,
-}) => {
+}: TaskDescriptionProps): JSX.Element => {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const { handleSubmit, register, errors } = useForm();
 
-  const onSubmit = ({ description }) => {
+  const onSubmit = ({ description }: TaskDescriptionForm): any => {
     if (task.description === description) {
       return cogoToast.warn("Description can't be the same 🤨", {
         position: 'bottom-right'
@@ -54,19 +70,19 @@ const TaskDescription = ({
       })
   }
 
-  const toggleDescription = (e) => {
+  const toggleDescription = (e: React.MouseEvent<HTMLElement>): void => {
     e.preventDefault();
     setIsEditingDescription(!isEditingDescription)
   };
 
-  const copyToClipboard = (id) => {
+  const copyToClipboard = (id: String | Number): void => {
     navigator.clipboard.writeText(`Task id: #${id}`);
     cogoToast.success('Id copied to clipboard.', {
       position: 'bottom-right'
     });
   };
 
-  const parsePriority = (priority) => {
+  const parsePriority = (priority: String): String => {
     switch (priority) {
       case 'LOW':
         return 'Low priority';
@@ -79,7 +95,7 @@ const TaskDescription = ({
     }
   }
 
-  const handlePriorityChange = (e) => {
+  const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const priorityId = e.target.value;
 
     updatePriority(task.id, priorityId)
@@ -104,7 +120,7 @@ const TaskDescription = ({
           </span>
         </h3>
         <i
-          onClick={resetState}
+          onClick={() => resetState()}
           className="fas fa-arrow-right fa-lg task-description__header-arrow">
         </i>
       </div>
@@ -115,17 +131,13 @@ const TaskDescription = ({
           <p>{task.createdAt ? dayjs(task.createdAt).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}</p>
         </div>
         <div>
-          <p><strong>Last update:</strong></p>
-          <p>{task.lastUpdate ? dayjs(task.lastUpdate).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}</p>
-        </div>
-        <div>
           <p><strong>Priority:</strong></p>
           <select onChange={handlePriorityChange}>
             {priorities.map(priority => (
               <option
                 key={`priority_${priority.id}`}
                 value={priority.id}
-                defaultValue={priority.value == task.priority}
+                defaultChecked={priority.value == task.priority}
               >
                 {parsePriority(priority.value)}
               </option>
@@ -163,16 +175,6 @@ const TaskDescription = ({
       </div>
     </div>
   )
-}
-
-TaskDescription.propTypes = {
-  visible: propTypes.bool,
-  setVisibility: propTypes.func,
-  updateDescription: propTypes.func,
-  priorities: propTypes.arrayOf(propTypes.shape({
-    id: propTypes.number,
-    value: propTypes.string,
-  }))
 }
 
 TaskDescription.defaultProps = {

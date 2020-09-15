@@ -11,9 +11,21 @@ import { fetchTask } from '../../actions/taskDescription';
 import { deleteTask } from '../../actions/board';
 import './styles.scss';
 
-export const Task = ({ title, priority, handleDeleteTask, handleInfoClick }) => {
-  const parsePriority = () => {
-    switch (priority) {
+interface TaskProps {
+  title: String,
+  priority: String,
+  handleDeleteTask: Function,
+  handleInfoClick: Function,
+};
+
+export const Task = ({
+  title,
+  priority,
+  handleDeleteTask,
+  handleInfoClick
+}: TaskProps): JSX.Element => {
+  const parsePriority = (priorityToParse: String): String => {
+    switch (priorityToParse) {
       case 'LOW':
         return 'Low priority';
       case 'MEDIUM':
@@ -21,7 +33,7 @@ export const Task = ({ title, priority, handleDeleteTask, handleInfoClick }) => 
       case 'HIGH':
         return 'Highest priority';
       default:
-        return priority;
+        return priorityToParse;
     }
   }
 
@@ -45,10 +57,10 @@ export const Task = ({ title, priority, handleDeleteTask, handleInfoClick }) => 
         </div>
         <div className="task__body-icons">
           <i
-            onClick={handleDeleteTask}
+            onClick={() => handleDeleteTask()}
             className="far fa-trash-alt task__body-icon"></i>
           <i
-            onClick={handleInfoClick}
+            onClick={() => handleInfoClick()}
             className="far fa-question-circle task__body-icon"></i>
         </div>
       </div>
@@ -56,8 +68,19 @@ export const Task = ({ title, priority, handleDeleteTask, handleInfoClick }) => 
   );
 }
 
+interface DraggableTaskProps {
+  className?: String,
+  title: String,
+  id: Number,
+  index: Number,
+  fetchTask: Function,
+  deleteTask: Function,
+  taskInfoId: Number,
+  taskInfoLoading: Boolean,
+  priority?: String,
+};
+
 const DraggableTask = ({
-  className,
   title,
   id,
   index,
@@ -66,8 +89,8 @@ const DraggableTask = ({
   taskInfoId,
   taskInfoLoading,
   priority,
-}) => {
-  const handleFetch = () => {
+}: DraggableTaskProps): JSX.Element => {
+  const handleFetch = (): void => {
     // Check if the task to fetch isn't already fetched.
     const alreadyFetched = id == taskInfoId;
 
@@ -76,7 +99,7 @@ const DraggableTask = ({
     }
   }
 
-  const handleDeleteTask = () => {
+  const handleDeleteTask = (): void => {
     deleteTask(id);
   }
 
@@ -101,24 +124,6 @@ const DraggableTask = ({
   )
 }
 
-Task.propTypes = {
-  title: propTypes.string,
-  priority: propTypes.string,
-  handleDeleteTask: propTypes.func,
-  handleInfoClick: propTypes.func,
-};
-
-DraggableTask.propTypes = {
-  className: propTypes.string,
-  id: propTypes.number,
-  title: propTypes.string,
-  index: propTypes.number,
-  fetchTask: propTypes.func,
-  deleteTask: propTypes.func,
-  taskInfoId: propTypes.number,
-  taskInfoLoading: propTypes.bool,
-}
-
 const stateToProps = state => ({
   taskInfoLoading: selectTaskInfoLoading(state),
   taskInfoId: selectTaskInfoId(state),
@@ -127,5 +132,6 @@ const stateToProps = state => ({
 const dispatchToProps = dispatch => ({
   fetchTask: taskId => dispatch(fetchTask(taskId)),
   deleteTask: taskId => dispatch(deleteTask(taskId)),
-})
+});
+
 export default connect(stateToProps, dispatchToProps)(DraggableTask);

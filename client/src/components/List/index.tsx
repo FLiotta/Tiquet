@@ -1,14 +1,20 @@
 // Packages
-import React, { Fragment } from 'react';
-import propTypes from 'prop-types';
+import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 
 // Project
 import Task from '../Task';
+import { TaskInterface } from '../../interfaces/Task';
 import CreateTask from '../CreateTask';
 import './styles.scss';
 
-const List = ({ id, title, tasks }) => {
+interface ListProps {
+  id: Number,
+  title: String,
+  tasks: TaskInterface[],
+};
+
+const List = ({ id, title, tasks }: ListProps): JSX.Element => {
   const getListStyles = () => ({
     width: '100%',
     minHeight: 5,
@@ -32,7 +38,9 @@ const List = ({ id, title, tasks }) => {
               ref={provided.innerRef}
               style={getListStyles()}
             >
-              {tasks.map((task, index) => <Task key={task.uid} {...task} index={index} />)}
+              {tasks.map((task: TaskInterface, index: Number) => (
+                <Task key={task.uid} {...task} index={index} />
+              ))}
               {provided.placeholder}
             </div>
           )}
@@ -42,14 +50,7 @@ const List = ({ id, title, tasks }) => {
         <CreateTask listId={id} />
       </div>
     </div>
-  )
+  );
 }
-
-List.propTypes = {
-  id: propTypes.number,
-  title: propTypes.string,
-  tasks: propTypes.array,
-  className: propTypes.string,
-};
 
 export default List;
