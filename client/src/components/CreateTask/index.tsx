@@ -13,11 +13,11 @@ import './styles.scss';
 
 interface CreateTaskProps {
   addTask: Function,
-  listId: Number,
+  listId: number,
 };
 
 interface CreateTaskForm {
-  title: String
+  title: string
 };
 
 const CreateTask = ({ addTask, listId }: CreateTaskProps): JSX.Element => {

@@ -9,6 +9,7 @@ import { isLoggedSelector } from '../../selectors/session';
 interface IProps {
   fetching: Boolean,
   isLogged: Boolean,
+  path: string,
   component: ComponentType
 };
 

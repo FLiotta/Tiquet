@@ -15,7 +15,7 @@ interface CreateListProps {
 };
 
 interface CreateListForm {
-  title: String
+  title: string
 };
 
 const CreateList = ({ addList, match }: CreateListProps): JSX.Element => {

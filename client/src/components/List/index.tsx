@@ -9,8 +9,8 @@ import CreateTask from '../CreateTask';
 import './styles.scss';
 
 interface ListProps {
-  id: Number,
-  title: String,
+  id: number,
+  title: string,
   tasks: TaskInterface[],
 };
 
@@ -38,7 +38,7 @@ const List = ({ id, title, tasks }: ListProps): JSX.Element => {
               ref={provided.innerRef}
               style={getListStyles()}
             >
-              {tasks.map((task: TaskInterface, index: Number) => (
+              {tasks.map((task: TaskInterface, index: number) => (
                 <Task key={task.uid} {...task} index={index} />
               ))}
               {provided.placeholder}
