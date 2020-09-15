@@ -1,28 +1,33 @@
 // Packages
-import React, { Fragment } from 'react';
-import propTypes from 'prop-types';
+import React, { ComponentType, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
 // Project
 import { isLoggedSelector } from '../../selectors/session';
 
-const ProtectedRoute = ({ fetching, isLogged, component: Component, ...rest }) => {
+interface IProps {
+  fetching: Boolean,
+  isLogged: Boolean,
+  component: ComponentType
+};
+
+const ProtectedRoute = ({
+  fetching,
+  isLogged,
+  component: Component,
+  ...rest
+}: Partial<IProps>): JSX.Element => {
   return (
     <Fragment>
       {!fetching && (
-        isLogged 
-          ? <Route {...rest} render={props => <Component {...rest} {...props} />} /> 
+        isLogged
+          ? <Route {...rest} render={props => <Component {...rest} {...props} />} />
           : <Redirect to="/auth?mode=login" />
       )
       }
     </Fragment>
   );
-}
-
-ProtectedRoute.propTypes = {
-  isLogged: propTypes.bool,
-  component: propTypes.any,
 }
 
 const mapStateToProps = state => ({

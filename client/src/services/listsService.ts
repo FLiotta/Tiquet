@@ -1,3 +1,4 @@
+import { AxiosPromise } from 'axios';
 import ApiService from './apiService';
 
 class ListService extends ApiService {
@@ -5,7 +6,7 @@ class ListService extends ApiService {
     super();
   }
 
-  createTask(taskTitle, listId) {
+  createTask(taskTitle: string, listId: number): AxiosPromise {
     return this.post(`/lists/${listId}/new-task`, { title: taskTitle });
   }
 }

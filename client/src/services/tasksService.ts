@@ -5,24 +5,24 @@ class TasksService extends ApiService {
     super();
   }
 
-  fetchTask(taskId) {
+  fetchTask(taskId: number) {
     return this.get(`/tasks/${taskId}`);
   }
 
-  deleteTask(taskId) {
+  deleteTask(taskId: number) {
     return this.delete(`/tasks/${taskId}`);
   }
 
-  updateList(taskId, listId) {
+  updateList(taskId: number, listId: number) {
     return this.put(`/tasks/${taskId}/update-list`, { listId });
   }
 
-  updateDescription(taskId, description) {
+  updateDescription(taskId: number, description: string) {
     return this.put(`/tasks/${taskId}/update-description`, { description });
   }
 
-  updatePriority(taskId, priority) {
-    return this.put(`/tasks/${taskId}/update-priority`, { priority });
+  updatePriority(taskId: number, priorityId: number) {
+    return this.put(`/tasks/${taskId}/update-priority`, { priority: priorityId });
   }
 }
 

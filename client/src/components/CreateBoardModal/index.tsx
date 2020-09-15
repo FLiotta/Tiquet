@@ -34,7 +34,7 @@ interface CreateBoardModalProps {
 };
 
 interface CreateBoardModalForm {
-  boardName: String
+  boardName: string
 };
 
 const CreateBoardModal = ({
