@@ -11,16 +11,24 @@ import { addTask } from '../../actions/board';
 import Loading from '../Loading';
 import './styles.scss';
 
-const CreateTask = ({ addTask, listId }) => {
+interface CreateTaskProps {
+  addTask: Function,
+  listId: Number,
+};
+
+interface CreateTaskForm {
+  title: String
+};
+
+const CreateTask = ({ addTask, listId }: CreateTaskProps): JSX.Element => {
   const { handleSubmit, register, errors } = useForm();
   const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const clickOutsideRef = useOnclickOutside(() => setIsActive(false));
 
-  const onSubmit = ({ title }) => {
+  const onSubmit = ({ title }: CreateTaskForm): void => {
     addTask(title, listId);
   };
-
 
   return (
     <div className="create-task" ref={clickOutsideRef}>
@@ -51,11 +59,6 @@ const CreateTask = ({ addTask, listId }) => {
       }
     </div>
   )
-}
-
-CreateTask.propTypes = {
-  addTask: propTypes.func,
-  listId: propTypes.number,
 }
 
 const dispatchToProps = dispatch => ({

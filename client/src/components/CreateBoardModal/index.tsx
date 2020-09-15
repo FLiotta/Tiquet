@@ -26,16 +26,27 @@ const customStyles = {
   }
 }
 
+interface CreateBoardModalProps {
+  onCreationSuccess: Function,
+  onCreationFailure: Function,
+  closeModal: Function,
+  isOpen: Boolean,
+};
+
+interface CreateBoardModalForm {
+  boardName: String
+};
+
 const CreateBoardModal = ({
   onCreationSuccess,
   onCreationFailure,
   closeModal,
   isOpen
-}) => {
+}: CreateBoardModalProps): JSX.Element => {
   const { handleSubmit, register, errors } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = ({ boardName }) => {
+  const onSubmit = ({ boardName }: CreateBoardModalForm): void => {
     const boardService = new BoardsServices();
     setIsLoading(true);
 
@@ -61,7 +72,7 @@ const CreateBoardModal = ({
         <div className="create-board-modal__header">
           <h6 className="create-board-modal__header-title">Create a new board</h6>
           <i
-            onClick={closeModal}
+            onClick={() => closeModal()}
             className="fas fa-times create-board-modal__header-close"
           >
           </i>
@@ -82,13 +93,6 @@ const CreateBoardModal = ({
     </Modal>
   );
 };
-
-CreateBoardModal.propTypes = {
-  onCreationSuccess: propTypes.func,
-  onCreationFailure: propTypes.func,
-  closeModal: propTypes.func,
-  isOpen: propTypes.bool
-}
 
 CreateBoardModal.defaultProps = {
   onCreationFailure: () => { },

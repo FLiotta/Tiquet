@@ -2,13 +2,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
 
 // Project
 import { logout } from '../../actions/session';
 import './styles.scss';
 
-const Navbar = ({ logout }) => {
+interface NavbarProps {
+  logout: Function,
+};
+
+const Navbar = ({ logout }: NavbarProps): JSX.Element => {
   return (
     <div className="navigation">
       <NavLink to="/boards" className="navigation__link">Boards</NavLink>
@@ -16,10 +19,6 @@ const Navbar = ({ logout }) => {
     </div>
   )
 }
-
-Navbar.propTypes = {
-  logout: propTypes.func,
-};
 
 const dispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),

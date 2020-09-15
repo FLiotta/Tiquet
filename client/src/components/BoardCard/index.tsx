@@ -1,13 +1,20 @@
 // Packages
 import React from 'react';
-import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 // Project
 import './styles.scss';
 
-const BoardCard = ({ className, boardInfo }) => (
+interface BoardCardProps {
+  className: String,
+  boardInfo:  {
+    id: Number,
+    title: String
+  }
+}
+
+export default ({ className, boardInfo }: BoardCardProps): JSX.Element => (
   <div className={cn('boardcard', className)} >
     <Link to={'/b/' + boardInfo.id} className="text-decoration-none">
       <div className="boardcard__header">
@@ -25,14 +32,4 @@ const BoardCard = ({ className, boardInfo }) => (
       </div>
     </Link>
   </div>
-)
-
-BoardCard.propTypes = {
-  className: propTypes.string,
-  boardInfo: propTypes.shape({
-    id: propTypes.number,
-    title: propTypes.string,
-  }).isRequired,
-}
-
-export default BoardCard;
+);

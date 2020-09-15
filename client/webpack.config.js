@@ -7,28 +7,14 @@ const WebpackBundlerAnalyzer = require('webpack-bundle-analyzer');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/app.tsx',
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js'
   },
-  optimization: {
-    runtimeChunk: "single",
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true,
-      })
-    ],
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks: "async"
-        }
-      }
-    }
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
@@ -38,6 +24,11 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: '/node_modules/'
       },
       {
         test: /\.s?css$/,
