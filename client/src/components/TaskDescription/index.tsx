@@ -38,7 +38,7 @@ interface TaskDescriptionProps {
 };
 
 interface TaskDescriptionForm {
-  description: String
+  description: string
 };
 
 const TaskDescription = ({
@@ -75,14 +75,14 @@ const TaskDescription = ({
     setIsEditingDescription(!isEditingDescription)
   };
 
-  const copyToClipboard = (id: String | Number): void => {
+  const copyToClipboard = (id: string | number): void => {
     navigator.clipboard.writeText(`Task id: #${id}`);
     cogoToast.success('Id copied to clipboard.', {
       position: 'bottom-right'
     });
   };
 
-  const parsePriority = (priority: String): String => {
+  const parsePriority = (priority: string): string => {
     switch (priority) {
       case 'LOW':
         return 'Low priority';

@@ -1,13 +1,16 @@
-import axios from "axios";
+import axios, { AxiosPromise } from "axios";
 import Cookies from 'universal-cookie';
 
 class ApiService {
+  api: string;
+  cookies: Cookies;
+
   constructor() {
     this.api = 'http://localhost:5000/api';
     this.cookies = new Cookies();
   }
 
-  get(path, params) {
+  get(path: string, params?: object): AxiosPromise {
     const token = this.cookies.get('token');
     const fullPath = [this.api, path].join('');
 
@@ -23,7 +26,7 @@ class ApiService {
     return axios.get(fullPath, data);
   }
 
-  post(path, params) {
+  post(path: string, params?: object): AxiosPromise {
     const token = this.cookies.get('token');
     const fullPath = [this.api, path].join('');
 
@@ -38,7 +41,7 @@ class ApiService {
     return axios.post(fullPath, params, options);
   }
 
-  put(path, params) {
+  put(path: string, params: object): AxiosPromise {
     const token = this.cookies.get('token');
     const fullPath = [this.api, path].join('');
 
@@ -53,19 +56,17 @@ class ApiService {
     return axios.put(fullPath, params, options);
   }
 
-  delete(path, params) {
+  delete(path: string, params?: object): AxiosPromise {
     const token = this.cookies.get('token');
     const fullPath = [this.api, path].join('');
 
-    const options = {
-      headers: {}
-    };
+    const headers = {};
 
     if (token) {
-      options['headers']['token'] = token;
+      headers['token'] = token;
     }
 
-    return axios.delete(fullPath, options, params);
+    return axios.delete(fullPath, { headers, params });
   }
 }
 

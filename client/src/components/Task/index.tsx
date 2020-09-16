@@ -12,8 +12,8 @@ import { deleteTask } from '../../actions/board';
 import './styles.scss';
 
 interface TaskProps {
-  title: String,
-  priority: String,
+  title: string,
+  priority: string,
   handleDeleteTask: Function,
   handleInfoClick: Function,
 };
@@ -24,7 +24,7 @@ export const Task = ({
   handleDeleteTask,
   handleInfoClick
 }: TaskProps): JSX.Element => {
-  const parsePriority = (priorityToParse: String): String => {
+  const parsePriority = (priorityToParse: string): string => {
     switch (priorityToParse) {
       case 'LOW':
         return 'Low priority';
@@ -69,15 +69,15 @@ export const Task = ({
 }
 
 interface DraggableTaskProps {
-  className?: String,
-  title: String,
-  id: Number,
-  index: Number,
+  className?: string,
+  title: string,
+  id: number,
+  index: number,
   fetchTask: Function,
   deleteTask: Function,
-  taskInfoId: Number,
+  taskInfoId: number,
   taskInfoLoading: Boolean,
-  priority?: String,
+  priority?: string,
 };
 
 const DraggableTask = ({

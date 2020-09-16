@@ -1,3 +1,4 @@
+import { AxiosPromise } from 'axios';
 import ApiService from './apiService';
 
 class PrioritiesService extends ApiService {
@@ -5,7 +6,7 @@ class PrioritiesService extends ApiService {
     super();
   }
 
-  fetchPriorities() {
+  fetchPriorities(): AxiosPromise {
     return this.get('/priorities');
   }
 }

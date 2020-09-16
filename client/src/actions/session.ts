@@ -13,7 +13,7 @@ export const SIGN_UP = '[SESSION] SIGN UP';
 export const RECONNECT = '[SESSION] RECONNECT';
 export const LOGOUT = '[SESSION] LOGOUT';
 
-export const logIn = (username, password) => {
+export const logIn = (username: string, password: string) => {
   return dispatch => {
     dispatch({
       type: SESSION_FETCHING,
@@ -35,7 +35,7 @@ export const logIn = (username, password) => {
   }
 }
 
-export const signUp = (username, password) => {
+export const signUp = (username: string, password: string) => {
   return dispatch => {
     dispatch({
       type: SESSION_FETCHING,
@@ -57,7 +57,7 @@ export const signUp = (username, password) => {
   }
 }
 
-export const reconnect = () => {
+export const reconnect = (): any => {
   return dispatch => {
     dispatch({
       type: SESSION_FETCHING,

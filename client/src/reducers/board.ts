@@ -1,3 +1,6 @@
+import { PriortyInterface } from '../interfaces/Priority';
+import { BoardInterface } from '../interfaces/Board';
+
 import {
   FETCH_BOARD,
   MOVE_TASK,
@@ -9,14 +12,16 @@ import {
   UPDATE_TASK_PRIORITY,
 } from '../actions/board';
 
-const defaultState = {
+export interface IBoardReducer extends BoardInterface { };
+
+const defaultState: IBoardReducer = {
   id: undefined,
   title: '',
   lists: [],
   priorities: [],
 };
 
-export default (state = defaultState, action) => {
+export default (state: IBoardReducer = defaultState, action) => {
   switch (action.type) {
     case FETCH_BOARD:
       return {

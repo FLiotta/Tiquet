@@ -1,1 +1,0 @@
-export const isLoggedSelector = state => !!state.session.token;
