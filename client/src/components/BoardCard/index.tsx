@@ -7,7 +7,7 @@ import cn from 'classnames';
 import './styles.scss';
 
 interface BoardCardProps {
-  className: string,
+  className?: string,
   boardInfo:  {
     id: number,
     title: string

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo -e "\e[93mInstalling client dependencies.\e[39m"
 cd client
 npm install

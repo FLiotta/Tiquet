@@ -1,7 +1,6 @@
 // Packages
 import React, { useState, Fragment, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import qs from 'qs';
@@ -12,11 +11,21 @@ import { logIn, signUp } from '../../actions/session';
 import { isLoggedSelector } from '../../selectors/session';
 import './styles.scss';
 
-const AuthForm = ({ onSubmit, btnText }) => {
+interface IAccount {
+  username: string,
+  password: string
+};
+
+interface IPropsForm {
+  onSubmit: Function,
+  btnText: string
+};
+
+const AuthForm = ({ onSubmit, btnText }: IPropsForm): JSX.Element => {
   const { handleSubmit, register, errors } = useForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit((e) => onSubmit(e))}>
       <div className="auth__modal-form-node">
         <input
           type="text"
@@ -38,19 +47,32 @@ const AuthForm = ({ onSubmit, btnText }) => {
   );
 }
 
-const Auth = ({ login, signup, isLogged, location }) => {
+interface IAuthProps {
+  login: Function,
+  signup: Function,
+  isLogged: Boolean,
+  location: any
+};
+
+const Auth = ({
+  login,
+  signup,
+  isLogged,
+  location,
+}: IAuthProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
 
   useEffect(() => {
-    const queryParameters = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const queryParameters: any = qs.parse(location.search, { ignoreQueryPrefix: true });
 
     if(queryParameters.mode) {
-      const preselectedMode = queryParameters.mode === "login" ? true : false;
+      const preselectedMode: boolean = queryParameters.mode === "login" ? true : false;
       setMode(preselectedMode);
     }
   }, []);
-  const handleLogin = ({ username, password }) => {
+
+  const handleLogin = ({ username, password }: IAccount) => {
     setLoading(true);
 
     login(username, password).then(() => {
@@ -58,7 +80,7 @@ const Auth = ({ login, signup, isLogged, location }) => {
     });
   }
 
-  const handleSignup = ({ username, password }) => {
+  const handleSignup = ({ username, password }: IAccount) => {
     setLoading(true);
 
     signup(username, password).then(() => {
@@ -66,7 +88,7 @@ const Auth = ({ login, signup, isLogged, location }) => {
     });
   }
 
-  const toggleMode = (e) => {
+  const toggleMode = (e: any) => {
     e.preventDefault();
     setMode(!mode);
   };
@@ -94,18 +116,6 @@ const Auth = ({ login, signup, isLogged, location }) => {
       </div>
     </Fragment>
   );
-}
-
-AuthForm.propTypes = {
-  btnText: propTypes.string,
-  onSubmit: propTypes.func.isRequired,
-}
-
-Auth.propTypes = {
-  login: propTypes.func,
-  signup: propTypes.func,
-  isLogged: propTypes.bool,
-  location: propTypes.object,
 }
 
 const mapStateToProps = state => ({

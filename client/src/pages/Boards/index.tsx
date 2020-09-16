@@ -10,8 +10,13 @@ import { selectBoards } from '../../selectors/boards';
 import CreateBoardModal from '../../components/CreateBoardModal';
 import ScrumBoard from '../../assets/images/scrum-board.png';
 import './styles.scss';
+import { BoardInterface } from '../../interfaces/Board';
 
-const EmptyState = ({ onBtnClick }) => (
+interface IEmptyStateProps {
+  onBtnClick: Function
+};
+
+const EmptyState = ({ onBtnClick }: IEmptyStateProps): JSX.Element => (
   <div className="board-page__new">
     <div>
       <h1 className="board-page__new-title">You don't have any board created</h1>
@@ -19,7 +24,7 @@ const EmptyState = ({ onBtnClick }) => (
       <img src={ScrumBoard} className="board-page__new-image" />
       <button
         className="btn btn-brand-secondary rounded-pill"
-        onClick={onBtnClick}
+        onClick={() => onBtnClick()}
       >
         New board
       </button>
@@ -27,7 +32,17 @@ const EmptyState = ({ onBtnClick }) => (
   </div>
 );
 
-const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
+interface IProps {
+  boards: BoardInterface[],
+  fetchBoards: Function,
+  addBoard: Function,
+};
+
+const Boards = ({
+  boards,
+  fetchBoards,
+  addBoard
+}: IProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,7 +55,7 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
     }
   }, []);
 
-  const createModalSucces = (serviceResponse) => {
+  const createModalSucces = (serviceResponse: { boardId: number, boardName: string }) => {
     const { boardId, boardName } = serviceResponse;
 
     addBoard(boardId, boardName);
@@ -68,7 +83,7 @@ const Boards = ({ boards, fetchBoards, addBoard, lastFetched }) => {
               </button>
             </div>
             <div className="board-page__container">
-              {boards.map(board => (
+              {boards.map((board: BoardInterface): JSX.Element => (
                 <BoardCard key={'board_' + board.id} boardInfo={board} />
               ))}
             </div>
@@ -88,7 +103,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchBoards: () => dispatch(fetchBoards()),
-  addBoard: (id, title) => dispatch(addBoard(id, title))
+  addBoard: (id: number, title: string) => dispatch(addBoard(id, title))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Boards); 

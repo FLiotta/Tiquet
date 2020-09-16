@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 import LandingImage from '../../assets/images/list-landing.png';
 import './styles.scss';
 
-const Landing = () => {
+const Landing = (): JSX.Element => {
   const [titleLabel, setTitleLabel] = useState('Projects');
-  const options = ['Projects', 'Ideas', 'Team', 'Days'];
+  const options: string[] = ['Projects', 'Ideas', 'Team', 'Days'];
 
   useEffect(() => {
     const changeTextInterval = setInterval(() => {
-      const random = Math.floor(Math.random(0) * options.length);
+      const random: number = Math.floor(Math.random() * options.length);
       setTitleLabel(options[random]);
     }, 4000);
 
-    return () => {
+    return (): void => {
       clearInterval(changeTextInterval);
     }
   }, []);
