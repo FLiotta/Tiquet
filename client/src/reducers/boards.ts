@@ -1,11 +1,17 @@
 import { FETCH_BOARDS, ADD_BOARD } from '../actions/boards';
+import { BoardInterface } from '../interfaces/Board';
 
-const defaultState = {
+export interface IBoardsReducer {
+  result: BoardInterface[],
+  error: string
+};
+
+const defaultState: IBoardsReducer = {
   result: [],
   error: ''
 };
 
-export default (state = defaultState, action) => {
+export default (state: IBoardsReducer = defaultState, action) => {
   switch (action.type) {
     case FETCH_BOARDS:
       return {

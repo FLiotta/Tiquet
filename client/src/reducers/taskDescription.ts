@@ -6,15 +6,23 @@ import {
   UPDATE_DESCRIPTION,
   UPDATE_PRIORITY,
 } from "../actions/taskDescription";
+import { TaskInterface } from "../interfaces/Task";
 
-const defaultState = {
+export interface ITaskDescriptionReducer {
+  visible: Boolean,
+  loading: Boolean,
+  error: string,
+  taskInfo: TaskInterface
+};
+
+const defaultState: ITaskDescriptionReducer = {
   visible: false,
   loading: false,
-  taskInfo: {},
+  taskInfo: undefined,
   error: '',
 };
 
-export default (state = defaultState, action) => {
+export default (state: ITaskDescriptionReducer = defaultState, action) => {
   switch (action.type) {
     case SET_VISIBILITY:
       return {

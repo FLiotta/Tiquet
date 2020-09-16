@@ -1,1 +1,3 @@
-export const isLoggedSelector = (state): Boolean => !!state.session.token;
+import { IRootReducer } from '../reducers/rootReducer';
+
+export const isLoggedSelector = (state: IRootReducer): Boolean => !!state.session.token;

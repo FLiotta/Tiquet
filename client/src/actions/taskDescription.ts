@@ -11,7 +11,7 @@ export const FETCH_TASK = '[TASK DESCRIPTION] FETCH TASK';
 export const UPDATE_DESCRIPTION = '[TASK DESCRIPTION] UPDATE DESCRIPTION';
 export const RESET_STATE = '[TASK DESCRIPTION] RESET STATE';
 
-export const setVisibility = (state) => {
+export const setVisibility = (state: Boolean) => {
   return dispatch => dispatch({
     type: SET_VISIBILITY,
     payload: state,
@@ -24,14 +24,14 @@ export const resetState = () => {
   });
 };
 
-export const setLoading = (state) => {
+export const setLoading = (state: Boolean) => {
   return dispatch => dispatch({
     type: SET_LOADING,
     payload: state
   });
 }
 
-export const updateDescription = (taskId, description) => {
+export const updateDescription = (taskId: number, description: string) => {
   return dispatch => {
     dispatch(setLoading(true));
 
@@ -45,7 +45,7 @@ export const updateDescription = (taskId, description) => {
   }
 }
 
-export const updatePriority = (taskId, priorityId) => {
+export const updatePriority = (taskId: number, priorityId: number) => {
   return (dispatch, getState) => {
     dispatch(setLoading(true));
 
@@ -63,7 +63,7 @@ export const updatePriority = (taskId, priorityId) => {
   }
 }
 
-export const fetchTask = taskId => {
+export const fetchTask = (taskId: number) => {
   return dispatch => {
     dispatch(setVisibility(true));
     dispatch(setLoading(true));

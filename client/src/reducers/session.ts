@@ -1,15 +1,30 @@
-import { LOG_IN, SIGN_UP, RECONNECT, SESSION_FETCHING, LOGOUT } from '../actions/session';
+import {
+  LOG_IN,
+  SIGN_UP,
+  RECONNECT,
+  SESSION_FETCHING,
+  LOGOUT
+} from '../actions/session';
 
-const defaultState = {
+export interface ISessionReducer {
+  fetching: Boolean,
+  token: string,
+  user: {
+    id: number,
+    username: string
+  },
+};
+
+const defaultState: ISessionReducer = {
   fetching: false,
   token: undefined,
   user: {
-    id: '',
+    id: undefined,
     username: '',
   }
 };
 
-export default (state = defaultState, action) => {
+export default (state: ISessionReducer = defaultState, action) => {
   switch (action.type) {
     case LOG_IN:
     case SIGN_UP:

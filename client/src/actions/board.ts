@@ -6,23 +6,28 @@ import BoardsService from '../services/boardsService';
 import ListsService from '../services/listsService';
 import TasksService from '../services/tasksService';
 import PrioritiesService from '../services/prioritiesService';
+import { IRootReducer } from '../reducers/rootReducer';
+import { PriortyInterface } from '../interfaces/Priority';
+import { ListInterface } from '../interfaces/List';
 import { selectPriorities } from '../selectors/board';
+import { BoardInterface } from '../interfaces/Board';
+import { TaskInterface } from '../interfaces/Task';
 
 const prioritiesService = new PrioritiesService();
 const taskService = new TasksService();
 const boardsService = new BoardsService();
 const listsService = new ListsService();
 
-export const FETCH_BOARD = '[BOARDS] FETCH BOARD';
-export const MOVE_TASK = '[BOARD] MOVE TASK';
-export const UPDATE_TASK_PRIORITY = '[BOARD] UPDATE TASK PRIORITY';
-export const ADD_TASK = '[BOARD] ADD TASK';
-export const ADD_LIST = '[BOARD] ADD LIST';
-export const RESET_STATE = '[BOARD] CLEAN STATE';
-export const DELETE_TASK = '[BOARD] DELETE TASK';
-export const FETCH_PRIORITIES = '[BOARD] FETCH PRIORITIES';
+export const FETCH_BOARD: string = '[BOARDS] FETCH BOARD';
+export const MOVE_TASK: string = '[BOARD] MOVE TASK';
+export const UPDATE_TASK_PRIORITY: string = '[BOARD] UPDATE TASK PRIORITY';
+export const ADD_TASK: string = '[BOARD] ADD TASK';
+export const ADD_LIST: string = '[BOARD] ADD LIST';
+export const RESET_STATE: string = '[BOARD] CLEAN STATE';
+export const DELETE_TASK: string = '[BOARD] DELETE TASK';
+export const FETCH_PRIORITIES: string = '[BOARD] FETCH PRIORITIES';
 
-export const fetchBoard = (boardId) => {
+export const fetchBoard = (boardId: number) => {
   return dispatch => boardsService.fetchBoard(boardId)
     .then(({data}) => {
       dispatch({
@@ -31,17 +36,17 @@ export const fetchBoard = (boardId) => {
       });
     })
     .catch(e => {
-      window.location = "/404";
+      window.location.href = "/404";
     });
 }
 
-export const updateTaskPriority = (taskId, priorityId) => {
+export const updateTaskPriority = (taskId: number, priorityId: number) => {
   return (dispatch, getState) => {
-    const state = getState();
-    const priorities = selectPriorities(state);
-    const priority = priorities.find(priority => priority.id == priorityId);
+    const state: IRootReducer = getState();
+    const priorities: PriortyInterface[] = selectPriorities(state);
+    const priority: PriortyInterface = priorities.find(priority => priority.id == priorityId);
 
-    const updatedLists = state.board.lists.map(list => ({
+    const updatedLists: ListInterface[] = state.board.lists.map(list => ({
       ...list,
       tasks: list.tasks.map(task => task.id === taskId ? {...task, priority: priority.value } : task)
     }));
@@ -63,7 +68,7 @@ export const fetchPriorities = () => {
     });
 }
 
-export const addList = (boardId, title) => {
+export const addList = (boardId: number, title: string) => {
   return dispatch => boardsService.createList(boardId, title)
     .then(({ data }) => {
       cogoToast.success(`Your list has been created.`, { position: 'bottom-right'});
@@ -78,11 +83,11 @@ export const addList = (boardId, title) => {
     });
 }
 
-export const addTask = (taskTitle, listId) => {
+export const addTask = (taskTitle: string, listId: number) => {
   return (dispatch, getState) => listsService.createTask(taskTitle, listId)
     .then(({ data }) => {
-      const state = getState();
-      const mappedListsWithTask = state.board.lists.map(list => list.id === listId
+      const state: IRootReducer = getState();
+      const mappedListsWithTask: ListInterface[] = state.board.lists.map(list => list.id === listId
         ? {
           ...list,
           tasks: [...list.tasks, data.result]
@@ -101,15 +106,16 @@ export const addTask = (taskTitle, listId) => {
     });
 }
 
-export const moveTask = (originListId, destinyListId, taskId) => {
+export const moveTask = (originListId: number, destinyListId: number, taskId: number) => {
   return (dispatch, getState) => {
-    const { board } = getState();
-    const previousListsState = board.lists;
-    const task = board.lists
+    const state: IRootReducer = getState();
+    const board: BoardInterface = state.board;
+    const previousListsState: ListInterface[] = board.lists;
+    const task: TaskInterface = board.lists
       .flatMap(list => list.tasks)
       .find(task => task.id == taskId);
 
-    const updatedLists = board.lists.map(list => {
+    const updatedLists: ListInterface[] = board.lists.map(list => {
       if(list.id == destinyListId) {
         return {
           ...list,
@@ -142,13 +148,13 @@ export const moveTask = (originListId, destinyListId, taskId) => {
   }
 };
 
-export const deleteTask = taskId => {
+export const deleteTask = (taskId: number) => {
   return (dispatch, getState) => {
-    const state = getState();
-    const previousListsState = state.board.lists;
+    const state: IRootReducer = getState();
+    const previousListsState: ListInterface[] = state.board.lists;
 
-    const mappedListsWithNewTask = state.board.lists.map(list => {
-      const containsTask = list.tasks.some(task => task.id == taskId);
+    const mappedListsWithNewTask: ListInterface[] = state.board.lists.map(list => {
+      const containsTask: Boolean = list.tasks.some(task => task.id == taskId);
 
       if(containsTask) {
         return {

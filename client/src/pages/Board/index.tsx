@@ -1,16 +1,31 @@
 // Packages
 import React, { useEffect, useState } from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { withRouter } from 'react-router-dom';
 
 // Project
-import { fetchBoard, moveTask, resetState, fetchPriorities } from '../../actions/board';
+import {
+  fetchBoard,
+  moveTask,
+  resetState,
+  fetchPriorities
+} from '../../actions/board';
 import List from '../../components/List';
 import CreateList from '../../components/CreateList';
 import Loading from '../../components/Loading';
 import './styles.scss';
 import TaskDescription from '../../components/TaskDescription';
+import { BoardInterface } from '../../interfaces/Board';
+
+interface IProps {
+  fetchBoard: Function,
+  moveTask: Function,
+  board: BoardInterface,
+  match: any,
+  resetState: Function,
+  fetchPriorities: Function
+};
 
 const Board = ({
   fetchBoard,
@@ -19,12 +34,11 @@ const Board = ({
   match,
   resetState,
   fetchPriorities,
-  ...rest
-}) => {
+}: IProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const boardId = match.params.id;
+    const boardId: number = match.params.id;
 
     fetchPriorities();
     fetchBoard(boardId)
@@ -35,7 +49,7 @@ const Board = ({
     }
   }, []);
 
-  const onDragEnd = (e) => {
+  const onDragEnd = (e: any): void => {
     const { draggableId, destination, source } = e;
     const originListId = parseInt(source.droppableId);
     const destinationListId = parseInt(destination.droppableId);
@@ -61,17 +75,6 @@ const Board = ({
   );
 }
 
-Board.propTypes = {
-  fetchBoard: propTypes.func,
-  resetState: propTypes.func,
-  fetchPriorities: propTypes.func,
-  board: propTypes.shape({
-    title: propTypes.string,
-    id: propTypes.number,
-    lists: propTypes.array
-  }),
-};
-
 const mapStateToProps = state => ({
   board: state.board
 });
@@ -83,4 +86,4 @@ const mapDispatchToProps = dispatch => ({
   moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Board));
