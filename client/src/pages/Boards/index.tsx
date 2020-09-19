@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // Project
 import Loading from '../../components/Loading';
 import BoardCard from '../../components/BoardCard';
-import { fetchBoards, addBoard } from '../../actions/boards';
+import { fetchBoards, addBoard, filterBoard } from '../../actions/boards';
 import { selectBoards } from '../../selectors/boards';
 import CreateBoardModal from '../../components/CreateBoardModal';
 import ScrumBoard from '../../assets/images/scrum-board.png';
@@ -36,12 +36,14 @@ interface IProps {
   boards: BoardInterface[],
   fetchBoards: Function,
   addBoard: Function,
+  filterBoard: Function,
 };
 
 const Boards = ({
   boards,
   fetchBoards,
-  addBoard
+  addBoard,
+  filterBoard,
 }: IProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,7 +86,7 @@ const Boards = ({
             </div>
             <div className="board-page__container">
               {boards.map((board: BoardInterface): JSX.Element => (
-                <BoardCard key={'board_' + board.id} boardInfo={board} />
+                <BoardCard key={'board_' + board.id} boardInfo={board} onDelete={() => filterBoard(board.id)} />
               ))}
             </div>
           </Fragment>
@@ -103,7 +105,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchBoards: () => dispatch(fetchBoards()),
-  addBoard: (id: number, title: string) => dispatch(addBoard(id, title))
+  addBoard: (id: number, title: string) => dispatch(addBoard(id, title)),
+  filterBoard: (id: number) => dispatch(filterBoard(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Boards); 

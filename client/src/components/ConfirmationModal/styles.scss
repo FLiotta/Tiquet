@@ -1,0 +1,34 @@
+.confirmation-modal {
+  padding: 5px 0;
+
+  &__header {
+    position: relative;
+    width: 100%;
+
+    &-title {
+      font-family: "montserrat";
+      margin: 0;
+    }
+
+    &-close {
+      position: absolute;
+      top: -6px;
+      right: 0;
+      cursor: pointer;
+      transform: translate(0, 2px);
+    }
+  }
+
+  &__body {
+    white-space: pre-wrap;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+
+    & > * {
+      margin-left: 5px;
+    }
+  }
+}

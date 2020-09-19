@@ -1,4 +1,4 @@
-import { FETCH_BOARDS, ADD_BOARD } from '../actions/boards';
+import { FETCH_BOARDS, ADD_BOARD, FILTER_BOARD } from '../actions/boards';
 import { BoardInterface } from '../interfaces/Board';
 
 export interface IBoardsReducer {
@@ -22,7 +22,12 @@ export default (state: IBoardsReducer = defaultState, action) => {
       return {
         ...state,
         result: [...state.result, action.payload]
-      }
+      };
+    case FILTER_BOARD:
+      return {
+        ...state,
+        result: action.payload,
+      };
     default:
       return state;
   }
