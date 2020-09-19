@@ -7,23 +7,35 @@ from uuid import uuid4
 list_ = Blueprint('list', __name__)
 
 
-@list_.route('/lists/<list_id>', methods=['GET'])
+@list_.route('/lists/<list_id>', methods=['GET', 'DELETE'])
 @protected_route
 def list_root(list_id):
     user_id = g.user.get('id')
-    requested_list = Lists.query.filter_by(id=list_id).first()
+    if request.method == 'GET':
+        requested_list = Lists.query.filter_by(id=list_id).first()
 
-    if requested_list.user_id != user_id:
-        return jsonify(msg="You can't perform this action."), 403
+        if requested_list.user_id != user_id:
+            return jsonify(msg="You can't perform this action."), 403
 
-    response = {
-        'id': requested_list.id,
-        'title': requested_list.title,
-        'board': requested_list.board_id,
-        'tasks': list(map(lambda t: {'id': t.id, 'title': t.title}, requested_list.tasks))
-    }
-    return jsonify(response), 200
+        response = {
+            'id': requested_list.id,
+            'title': requested_list.title,
+            'board': requested_list.board_id,
+            'tasks': list(map(lambda t: {'id': t.id, 'title': t.title}, requested_list.tasks))
+        }
+        return jsonify(response), 200
+    if request.method == 'DELETE':
+        result = db.session.query(Lists).filter_by(id=list_id).first()
 
+        if result != None:
+            if result.user_id != user_id:
+                return jsonify(msg="You can't perform this action."), 403
+            
+            db.session.delete(result)
+            db.session.commit()
+
+            return jsonify(msg="List and all its tasks deleted."), 200
+        return jsonify(msg="List not found"), 404
 
 @list_.route('/lists/<list_id>/new-task', methods=['POST'])
 @protected_route

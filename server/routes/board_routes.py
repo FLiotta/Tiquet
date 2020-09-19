@@ -25,7 +25,7 @@ def boardsList():
     return jsonify(result), 200
 
 
-@board.route('/boards/<board_id>', methods=['GET'])
+@board.route('/boards/<board_id>', methods=['GET', 'DELETE'])
 @protected_route
 def board_root(board_id):
     user_id = g.user.get('id')
@@ -59,6 +59,19 @@ def board_root(board_id):
             'lists': board_lists
         }
         return jsonify(**response), 200
+    elif request.method == 'DELETE':
+        board = Boards.query.filter_by(id=board_id).first()
+
+        if board == None:
+            return jsonify(msg="Board not found"), 404
+
+        if board.user_id != user_id:
+            return jsonify(msg="You can't perform this action."), 403
+
+        db.session.delete(board)
+        db.session.commit()
+
+        return jsonify(msg="Board,  all its lists and tasks were deleted"), 200
 
 
 @board.route('/boards/new', methods=['POST'])
