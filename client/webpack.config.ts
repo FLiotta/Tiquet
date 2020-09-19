@@ -11,20 +11,12 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
-      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
@@ -52,20 +44,6 @@ module.exports = {
           }
         }
       },
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: "babel-loader"
-          },
-          {
-            loader: "react-svg-loader",
-            options: {
-              jsx: true
-            }
-          }
-        ]
-      }
     ]
   },
   plugins: [

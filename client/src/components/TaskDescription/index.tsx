@@ -1,6 +1,5 @@
 // Packages
 import React, { Fragment, useState } from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import dayjs from 'dayjs';
@@ -42,7 +41,7 @@ interface TaskDescriptionForm {
 };
 
 const TaskDescription = ({
-  visible,
+  visible = true,
   resetState,
   loading,
   task,
@@ -55,13 +54,13 @@ const TaskDescription = ({
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = ({ description }: TaskDescriptionForm): any => {
-    if (task.description === description) {
+    if (task?.description === description) {
       return cogoToast.warn("Description can't be the same 🤨", {
         position: 'bottom-right'
       });
     }
 
-    updateDescription(task.id, description)
+    updateDescription(task?.id, description)
       .then(() => {
         setIsEditingDescription(false);
         cogoToast.success("Description updated!", {
@@ -98,9 +97,9 @@ const TaskDescription = ({
   const handlePriorityChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const priorityId = e.target.value;
 
-    updatePriority(task.id, priorityId)
+    updatePriority(task?.id, priorityId)
       .then(() => {
-        updateTaskPriority(task.id, priorityId);
+        updateTaskPriority(task?.id, priorityId);
       })
   }
 
@@ -111,12 +110,12 @@ const TaskDescription = ({
       <Loading display={loading} />
       <div className="task-description__header">
         <h3 className="task-description__header-title">
-          {task.title}
+          {task?.title}
           <span
             className="task-description__header-id"
-            onClick={() => copyToClipboard(task.id)}
+            onClick={() => copyToClipboard(task?.id)}
           >
-            #{task.id}
+            #{task?.id}
           </span>
         </h3>
         <i
@@ -128,7 +127,7 @@ const TaskDescription = ({
       <div className="task-description__sections">
         <div>
           <p><strong>Created:</strong></p>
-          <p>{task.createdAt ? dayjs(task.createdAt).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}</p>
+          <p>{task?.createdAt ? dayjs(task?.createdAt).format('DD/MM/YYYY [At] HH:MM') : 'No date available'}</p>
         </div>
         <div>
           <p><strong>Priority:</strong></p>
@@ -137,7 +136,7 @@ const TaskDescription = ({
               <option
                 key={`priority_${priority.id}`}
                 value={priority.id}
-                defaultChecked={priority.value == task.priority}
+                defaultChecked={priority.value == task?.priority}
               >
                 {parsePriority(priority.value)}
               </option>
@@ -149,7 +148,7 @@ const TaskDescription = ({
           {!isEditingDescription
             ? (
               <Fragment>
-                <p>{task.description || 'Not provided'}</p>
+                <p>{task?.description || 'Not provided'}</p>
                 <a href="#" onClick={toggleDescription}>Edit description</a>
               </Fragment>
             ) : (
@@ -160,7 +159,7 @@ const TaskDescription = ({
                     id="description"
                     name="description"
                     ref={register({ required: "Required" })}
-                    defaultValue={task.description}
+                    defaultValue={task?.description}
                   ></textarea>
                 </div>
                 <div className="task-description__sections-description__buttons">
@@ -175,10 +174,6 @@ const TaskDescription = ({
       </div>
     </div>
   )
-}
-
-TaskDescription.defaultProps = {
-  visible: true,
 }
 
 const stateToProps = state => ({
