@@ -1,14 +1,14 @@
 // Packages
 import React, { Fragment } from 'react';
-import propTypes from 'prop-types';
 import cn from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 
 // Project
-import { selectTaskInfoLoading, selectTaskInfoId } from '../../selectors/taskDescription';
+import { selectTaskInfoLoading, selectTaskInfo } from '../../selectors/taskDescription';
 import { fetchTask } from '../../actions/taskDescription';
 import { deleteTask } from '../../actions/board';
+import { TaskInterface } from '../../interfaces/Task';
 import './styles.scss';
 
 interface TaskProps {
@@ -75,7 +75,7 @@ interface DraggableTaskProps {
   index: number,
   fetchTask: Function,
   deleteTask: Function,
-  taskInfoId: number,
+  taskInfo: TaskInterface,
   taskInfoLoading: Boolean,
   priority?: string,
 };
@@ -86,13 +86,13 @@ const DraggableTask = ({
   index,
   fetchTask,
   deleteTask,
-  taskInfoId,
+  taskInfo,
   taskInfoLoading,
   priority,
 }: DraggableTaskProps): JSX.Element => {
   const handleFetch = (): void => {
     // Check if the task to fetch isn't already fetched.
-    const alreadyFetched = id == taskInfoId;
+    const alreadyFetched = id === taskInfo?.id;
 
     if (!alreadyFetched && !taskInfoLoading) {
       fetchTask(id);
@@ -126,7 +126,7 @@ const DraggableTask = ({
 
 const stateToProps = state => ({
   taskInfoLoading: selectTaskInfoLoading(state),
-  taskInfoId: selectTaskInfoId(state),
+  taskInfo: selectTaskInfo(state),
 });
 
 const dispatchToProps = dispatch => ({
