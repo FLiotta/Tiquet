@@ -14,6 +14,10 @@ class BoardsService extends ApiService {
     return this.get(`/boards/${boardId}`);
   }
 
+  deleteBoard(boardId: number): AxiosPromise {
+    return this.delete(`/boards/${boardId}`);
+  }
+
   createBoard(boardName: string): AxiosPromise {
     return this.post('/boards/new', { boardName });
   }

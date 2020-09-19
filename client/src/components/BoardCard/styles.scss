@@ -4,13 +4,22 @@
   width: 300px;
   background-color: $app-secondary;
   border: 1px solid $app-primary;
+  position: relative;
 
-  &:hover { 
+  &:hover {
     .boardcard {
       &__header {
         background-color: #fdd156;
       }
     }
+  }
+
+  &__delete-icon {
+    position: absolute;
+    top: 11px;
+    right: 15px;
+    color: #ffffff;
+    cursor: pointer;
   }
 
   &__header {
