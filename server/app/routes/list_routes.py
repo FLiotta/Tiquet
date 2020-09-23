@@ -1,7 +1,7 @@
 from flask import jsonify, g, request, Blueprint
-from database.db import db
-from middlewares.protected_route import protected_route
-from models import Lists, Tasks
+from ..db import db
+from ..middlewares import protected_route
+from ..models import Lists, Tasks
 from uuid import uuid4
 
 list_ = Blueprint('list', __name__)

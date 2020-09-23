@@ -1,6 +1,7 @@
 # Server
 
 **/__pycache__
+**/.pytest_cache
 server/.env
 server/env
 

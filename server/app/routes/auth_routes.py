@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request, g
-from database.db import db
-from models import Users
-from middlewares.protected_route import protected_route
+from ..db import db
+from ..models import Users
+from ..middlewares import protected_route
 import json
 import bcrypt
 import datetime
