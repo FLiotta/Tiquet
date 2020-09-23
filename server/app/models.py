@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship
-from database.db import db
+from .db import db
 import datetime
 
 class Users(db.Model):

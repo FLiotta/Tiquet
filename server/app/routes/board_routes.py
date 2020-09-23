@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request, g, Response
-from database.db import db
-from models import Boards, Lists
-from middlewares.protected_route import protected_route
+from ..db import db
+from ..models import Boards, Lists
+from ..middlewares import protected_route
 from uuid import uuid4
 board = Blueprint('board', __name__)
 
