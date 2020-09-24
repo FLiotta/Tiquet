@@ -60,6 +60,11 @@ const Board = ({
     }
   }
 
+  const onListDelete = () => {
+    // TODO remove list from boards lists
+    alert("List deleted");
+  };
+
   return (
     <div className="board">
       <Loading display={isLoading} />
@@ -67,7 +72,7 @@ const Board = ({
       <h1 className="board__title">{board.title}</h1>
       <div className="board__columns">
         <DragDropContext onDragEnd={result => onDragEnd(result)} >
-          {board.lists.map(list => <List key={list.id} {...list} />)}
+          {board.lists.map(list => <List key={list.id} {...list} onDelete={onListDelete}/>)}
         </DragDropContext>
         <CreateList />
       </div>
