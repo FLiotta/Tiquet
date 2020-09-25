@@ -9,7 +9,8 @@ import {
   fetchBoard,
   moveTask,
   resetState,
-  fetchPriorities
+  fetchPriorities,
+  deleteList,
 } from '../../actions/board';
 import List from '../../components/List';
 import CreateList from '../../components/CreateList';
@@ -17,14 +18,16 @@ import Loading from '../../components/Loading';
 import './styles.scss';
 import TaskDescription from '../../components/TaskDescription';
 import { BoardInterface } from '../../interfaces/Board';
+import { AxiosPromise } from 'axios';
 
 interface IProps {
-  fetchBoard: Function,
-  moveTask: Function,
+  fetchBoard(boardId: number): AxiosPromise,
+  moveTask(originListId: number, destinationListId: number, taskId: number): void,
   board: BoardInterface,
   match: any,
-  resetState: Function,
-  fetchPriorities: Function
+  resetState(): void,
+  fetchPriorities(): void
+  deleteList(listId: number): void,
 };
 
 const Board = ({
@@ -34,6 +37,7 @@ const Board = ({
   match,
   resetState,
   fetchPriorities,
+  deleteList,
 }: IProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,6 +64,10 @@ const Board = ({
     }
   }
 
+  const onListDelete = (listId: number) => {
+    deleteList(listId);
+  };
+
   return (
     <div className="board">
       <Loading display={isLoading} />
@@ -67,7 +75,13 @@ const Board = ({
       <h1 className="board__title">{board.title}</h1>
       <div className="board__columns">
         <DragDropContext onDragEnd={result => onDragEnd(result)} >
-          {board.lists.map(list => <List key={list.id} {...list} />)}
+          {board.lists.map(list => (
+            <List
+              key={list.id}
+              onDelete={() => onListDelete(list.id)}
+              {...list}
+            />
+          ))}
         </DragDropContext>
         <CreateList />
       </div>
@@ -81,8 +95,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPriorities: () => dispatch(fetchPriorities()),
-  fetchBoard: boardId => dispatch(fetchBoard(boardId)),
+  fetchBoard: (boardId): AxiosPromise => dispatch(fetchBoard(boardId)),
   resetState: () => dispatch(resetState()),
+  deleteList: (listId: number) => dispatch(deleteList(listId)),
   moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
 })
 

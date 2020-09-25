@@ -10,6 +10,7 @@ import {
   DELETE_TASK,
   FETCH_PRIORITIES,
   UPDATE_TASK_PRIORITY,
+  DELETE_LIST,
 } from '../actions/board';
 
 export interface IBoardReducer extends BoardInterface { };
@@ -58,6 +59,11 @@ export default (state: IBoardReducer = defaultState, action) => {
         ...state,
         lists: action.payload,
       };
+    case DELETE_LIST:
+      return {
+        ...state,
+        lists: state.lists.filter(list => list.id !== action.payload),
+      }
     case RESET_STATE:
       return defaultState;
     default:

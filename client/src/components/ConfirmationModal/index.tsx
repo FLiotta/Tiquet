@@ -28,7 +28,7 @@ interface IProps {
   description: string,
   title: string,
   isOpen: boolean,
-  onSuccess(cb: Function): any,
+  onSuccess(callback: Function): any,
   onCancel(): any,
 };
 
