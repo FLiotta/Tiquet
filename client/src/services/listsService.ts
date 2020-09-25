@@ -6,6 +6,10 @@ class ListService extends ApiService {
     super();
   }
 
+  deleteList(listId: number): AxiosPromise {
+    return this.delete(`/lists/${listId}`);
+  }
+
   createTask(taskTitle: string, listId: number): AxiosPromise {
     return this.post(`/lists/${listId}/new-task`, { title: taskTitle });
   }
