@@ -5,11 +5,20 @@
   height: 80%;
   width: 60vw;
   margin: 5px;
+  position: relative;
   border: 2px solid #FFD187;
 
   @media (min-width: 992px) {
     width: 272px;
     height: min-content;
+  }
+
+  &__delete-icon {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    color: #ffffff;
+    cursor: pointer;
   }
 
   &__header {

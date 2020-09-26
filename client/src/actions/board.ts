@@ -25,6 +25,7 @@ export const ADD_TASK: string = '[BOARD] ADD TASK';
 export const ADD_LIST: string = '[BOARD] ADD LIST';
 export const RESET_STATE: string = '[BOARD] CLEAN STATE';
 export const DELETE_TASK: string = '[BOARD] DELETE TASK';
+export const DELETE_LIST: string = '[BOARD] DELETE LIST';
 export const FETCH_PRIORITIES: string = '[BOARD] FETCH PRIORITIES';
 
 export const fetchBoard = (boardId: number) => {
@@ -83,6 +84,20 @@ export const addList = (boardId: number, title: string) => {
     });
 }
 
+export const deleteList = (listId: number) => {
+  return dispatch => listsService.deleteList(listId)
+    .then(({ data }) => {
+      cogoToast.info(`List deleted.`, { position: 'bottom-right'});
+
+      dispatch({
+        type: DELETE_LIST,
+        payload: listId,
+      });
+    })
+    .catch(() => {
+      cogoToast.error(`There was a problem deleting your list.`, { position: 'bottom-right'});
+    })
+}
 export const addTask = (taskTitle: string, listId: number) => {
   return (dispatch, getState) => listsService.createTask(taskTitle, listId)
     .then(({ data }) => {
@@ -171,7 +186,11 @@ export const deleteTask = (taskId: number) => {
     });
     
     taskService.deleteTask(taskId)
+      .then(() => {
+        cogoToast.info(`Task deleted.`, { position: 'bottom-right'});
+      })
       .catch(() => {
+        cogoToast.success(`There was a problem deleting your task.`, { position: 'bottom-right'});
         dispatch({
           type: DELETE_TASK,
           payload: previousListsState
