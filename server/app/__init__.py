@@ -1,5 +1,5 @@
 #imports
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS, cross_origin
 from .routes import auth, board, list_, priority, task
 from .db import db
@@ -15,7 +15,7 @@ def register_extensions(app):
 
 def create_app(log):  
     #initialization
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="templates")
 
     #Config
     app.config["DEBUG"] = True
@@ -27,6 +27,10 @@ def create_app(log):
     #Api initialization
     api_prefix = '/api'
 
+    @app.route('/api', methods=['GET'])
+    def render_swagger():
+        return render_template('swaggerui.html')
+
     app.register_blueprint(auth, url_prefix=api_prefix)
     app.register_blueprint(board, url_prefix=api_prefix)
     app.register_blueprint(list_, url_prefix=api_prefix)
@@ -34,5 +38,4 @@ def create_app(log):
     app.register_blueprint(priority, url_prefix=api_prefix)
 
     register_extensions(app)
-
     return app
