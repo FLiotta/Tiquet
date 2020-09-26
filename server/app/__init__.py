@@ -6,6 +6,8 @@ from .db import db
 import os
 from dotenv import load_dotenv
 from os.path import join, dirname, abspath, pardir
+from flask_swagger_ui import get_swaggerui_blueprint
+
 
 load_dotenv(join(dirname(__file__), pardir, '.env'))
 
@@ -27,10 +29,9 @@ def create_app(log):
     #Api initialization
     api_prefix = '/api'
 
-    @app.route('/api', methods=['GET'])
-    def render_swagger():
-        return render_template('swaggerui.html')
-
+    swagger = get_swaggerui_blueprint(base_url=api_prefix, api_url='/static/swagger.json')
+    
+    app.register_blueprint(swagger, url_prefix=api_prefix)
     app.register_blueprint(auth, url_prefix=api_prefix)
     app.register_blueprint(board, url_prefix=api_prefix)
     app.register_blueprint(list_, url_prefix=api_prefix)
