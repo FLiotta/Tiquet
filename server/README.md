@@ -25,3 +25,7 @@ $ pytest
 
 $ python run.py
 ```
+
+#### Documentation (Swagger)
+
+Swagger is available at: [localhost:5000/api](http://localhost:5000/api)
