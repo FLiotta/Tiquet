@@ -84,6 +84,7 @@ def get_board(board_id):
 @board.route('/boards/<board_id>', methods=['DELETE'])
 @protected_route
 def delete_board(board_id):
+    user_id = g.user.get('id')
     board = Boards.query.filter_by(id=board_id).first()
 
     if board is None:
