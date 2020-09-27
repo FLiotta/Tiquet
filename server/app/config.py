@@ -1,0 +1,6 @@
+import os
+
+DEBUG = True
+CORS_HEADERS = 'Content-Type'
+SQLALCHEMY_DATABASE_URI = os.environ.get('DB_URI')
+SQLALCHEMY_TRACK_MODIFICATIONS = False

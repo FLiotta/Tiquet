@@ -14,15 +14,15 @@ class TasksService extends ApiService {
   }
 
   updateList(taskId: number, listId: number) {
-    return this.put(`/tasks/${taskId}/update-list`, { listId });
+    return this.patch(`/tasks/${taskId}/list`, { listId });
   }
 
   updateDescription(taskId: number, description: string) {
-    return this.put(`/tasks/${taskId}/update-description`, { description });
+    return this.patch(`/tasks/${taskId}/description`, { description });
   }
 
   updatePriority(taskId: number, priorityId: number) {
-    return this.put(`/tasks/${taskId}/update-priority`, { priority: priorityId });
+    return this.patch(`/tasks/${taskId}/priority`, { priority: priorityId });
   }
 }
 

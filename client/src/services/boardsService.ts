@@ -10,6 +10,10 @@ class BoardsService extends ApiService {
     return this.get('/boards');
   }
 
+  createBoard(boardName: string): AxiosPromise {
+    return this.post('/boards', { boardName });
+  }
+
   fetchBoard(boardId: number): AxiosPromise {
     return this.get(`/boards/${boardId}`);
   }
@@ -18,12 +22,8 @@ class BoardsService extends ApiService {
     return this.delete(`/boards/${boardId}`);
   }
 
-  createBoard(boardName: string): AxiosPromise {
-    return this.post('/boards/new', { boardName });
-  }
-
   createList(boardId: number, listTitle: string): AxiosPromise {
-    return this.post(`/boards/${boardId}/new-list`, { title: listTitle });
+    return this.post(`/boards/${boardId}/lists`, { title: listTitle });
   }
 }
 
