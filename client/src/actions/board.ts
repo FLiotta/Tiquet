@@ -190,7 +190,7 @@ export const deleteTask = (taskId: number) => {
         cogoToast.info(`Task deleted.`, { position: 'bottom-right'});
       })
       .catch(() => {
-        cogoToast.success(`There was a problem deleting your task.`, { position: 'bottom-right'});
+        cogoToast.error(`There was a problem deleting your task.`, { position: 'bottom-right'});
         dispatch({
           type: DELETE_TASK,
           payload: previousListsState

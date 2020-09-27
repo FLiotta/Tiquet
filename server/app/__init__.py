@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from os.path import join, dirname, abspath, pardir
 from flask_swagger_ui import get_swaggerui_blueprint
 
-
 load_dotenv(join(dirname(__file__), pardir, '.env'))
 
 def register_extensions(app):
@@ -18,19 +17,13 @@ def register_extensions(app):
 def create_app(log):  
     #initialization
     app = Flask(__name__, template_folder="templates")
+    api_prefix = '/api'
+    swagger = get_swaggerui_blueprint(base_url=api_prefix, api_url='/static/swagger.json')
 
     #Config
-    app.config["DEBUG"] = True
-    app.config['CORS_HEADERS'] = 'Content-Type'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = log
-    app.config['SQLALCHEMY_ECHO'] = log
+    app.config.from_pyfile('config.py')
  
     #Api initialization
-    api_prefix = '/api'
-
-    swagger = get_swaggerui_blueprint(base_url=api_prefix, api_url='/static/swagger.json')
-    
     app.register_blueprint(swagger, url_prefix=api_prefix)
     app.register_blueprint(auth, url_prefix=api_prefix)
     app.register_blueprint(board, url_prefix=api_prefix)

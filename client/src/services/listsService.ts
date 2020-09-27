@@ -11,7 +11,7 @@ class ListService extends ApiService {
   }
 
   createTask(taskTitle: string, listId: number): AxiosPromise {
-    return this.post(`/lists/${listId}/new-task`, { title: taskTitle });
+    return this.post(`/lists/${listId}/task`, { title: taskTitle });
   }
 }
 

@@ -261,6 +261,66 @@
             "description": "Unauthorized, missing token"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Boards"
+        ],
+        "description": "Create a new board",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "boardName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a new board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "boardName": {
+                      "type": "string"
+                    },
+                    "boardId": {
+                      "type": "string"
+                    },
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing params || Invalid token"
+          },
+          "401": {
+            "description": "Unauthorized, missing token"
+          }
+        }
       }
     },
     "/boards/{id}": {
@@ -364,69 +424,7 @@
         }
       }
     },
-    "/boards/new": {
-      "post": {
-        "tags": [
-          "Boards"
-        ],
-        "description": "Create a new board",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "token",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "boardName": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Returns a new board",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "boardName": {
-                      "type": "string"
-                    },
-                    "boardId": {
-                      "type": "string"
-                    },
-                    "msg": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing params || Invalid token"
-          },
-          "401": {
-            "description": "Unauthorized, missing token"
-          }
-        }
-      }
-    },
-    "/boards/{id}/get-lists": {
+    "/boards/{id}/lists": {
       "get": {
         "description": "Returns all board's lists",
         "parameters": [
@@ -480,9 +478,7 @@
             "description": "You can't perform this action."
           }
         }
-      }
-    },
-    "/boards/{id}/new-list": {
+      },
       "post": {
         "tags": [
           "Boards"
@@ -644,7 +640,7 @@
         }
       }
     },
-    "/lists/{id}/new-task": {
+    "/lists/{id}/task": {
       "post": {
         "tags": [
           "Lists"
@@ -794,8 +790,8 @@
         }
       }
     },
-    "/tasks/{id}/update-list": {
-      "put": {
+    "/tasks/{id}/list": {
+      "patch": {
         "description": "Move a task to another list",
         "parameters": [
           {
@@ -848,8 +844,8 @@
         }
       }
     },
-    "/tasks/{id}/update-description": {
-      "put": {
+    "/tasks/{id}/description": {
+      "patch": {
         "description": "Update task's description",
         "parameters": [
           {
@@ -902,8 +898,8 @@
         }
       }
     },
-    "/tasks/{id}/update-priority": {
-      "put": {
+    "/tasks/{id}/priority": {
+      "patch": {
         "description": "Update task's priority",
         "parameters": [
           {

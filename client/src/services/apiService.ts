@@ -56,6 +56,21 @@ class ApiService {
     return axios.put(fullPath, params, options);
   }
 
+  patch(path: string, params: object): AxiosPromise {
+    const token = this.cookies.get('token');
+    const fullPath = [this.api, path].join('');
+
+    const options = {
+      headers: {}
+    };
+
+    if (token) {
+      options['headers']['token'] = token;
+    }
+
+    return axios.patch(fullPath, params, options);
+  }
+
   delete(path: string, params?: object): AxiosPromise {
     const token = this.cookies.get('token');
     const fullPath = [this.api, path].join('');
