@@ -1,5 +1,7 @@
 #imports
 from flask import Flask, request, jsonify, render_template
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from flask_cors import CORS, cross_origin
 from .routes import auth, board, list_, priority, task
 from .db import db
@@ -14,6 +16,11 @@ load_dotenv(join(dirname(__file__), pardir, '.env'))
 def register_extensions(app):
     db.init_app(app)
     cors = CORS(app)
+    limiter = Limiter(
+        app,
+        key_func=get_remote_address,
+        default_limits=["100 per minute"]
+    )
 
 def create_app(log):  
     #initialization
