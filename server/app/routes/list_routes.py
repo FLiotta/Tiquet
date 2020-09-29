@@ -67,6 +67,7 @@ def new_list_task(list_id):
         "result": {
             'id': new_task.id,
             'uid': new_task.uid,
-            'title': new_task.title
+            'title': new_task.title,
+            'priority': new_task.priority.value,
         }
     }), 200
