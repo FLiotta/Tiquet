@@ -8,6 +8,7 @@ import datetime
 import decimal
 import jwt
 import os
+import requests
 
 auth = Blueprint('auth', __name__)
 

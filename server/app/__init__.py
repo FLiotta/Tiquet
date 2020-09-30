@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_cors import CORS, cross_origin
-from .routes import auth, board, list_, priority, task
+from .routes import auth, oauth, board, list_, priority, task
 from .db import db
 import os
 from dotenv import load_dotenv
@@ -33,6 +33,7 @@ def create_app(log):
     #Api initialization
     app.register_blueprint(swagger, url_prefix=api_prefix)
     app.register_blueprint(auth, url_prefix=api_prefix)
+    app.register_blueprint(oauth, url_prefix=api_prefix)
     app.register_blueprint(board, url_prefix=api_prefix)
     app.register_blueprint(list_, url_prefix=api_prefix)
     app.register_blueprint(task, url_prefix=api_prefix)

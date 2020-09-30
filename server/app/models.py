@@ -7,12 +7,16 @@ class Users(db.Model):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     username = Column(Text, not_null=True, unique=True)
-    password = Column(Text, not_null=True)
+    password = Column(Text)
+    email = Column(Text)
+    strategy = Column(Text, not_null=True, default="AUTH")
     createdAt = Column('createdat', Integer)
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, email, strategy):
         self.username = username
         self.password = password
+        self.email = email
+        self.strategy = strategy
         self.createdAt = int(datetime.datetime.now().timestamp())
 
 class Boards(db.Model):
