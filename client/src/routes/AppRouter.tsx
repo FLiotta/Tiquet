@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
 import Auth from '../pages/Auth';
+import AuthCallback from '../pages/AuthCallback';
 import Boards from '../pages/Boards';
 import Board from '../pages/Board';
 import Navbar from '../components/Navbar';
@@ -12,6 +13,7 @@ const AppRouter = (props: any): JSX.Element => (
     <Switch>
       <Route path="/" component={Landing} exact />
       <Route path="/home" component={Landing} />
+      <Route path="/auth/callback" component={AuthCallback} />
       <Route path="/auth" component={Auth} />
       <Fragment>
         <Navbar />

@@ -7,8 +7,9 @@ import qs from 'qs';
 
 // Project
 import Loading from '../../components/Loading';
-import { logIn, signUp } from '../../actions/session';
-import { isLoggedSelector } from '../../selectors/session';
+import GithubOAuth from '../../components/OAuth/Github';
+import { logIn, signUp, oauthGithub } from '../../actions/session';
+import { isLoggedSelector, isSessionFetching } from '../../selectors/session';
 import './styles.scss';
 
 interface IAccount {
@@ -50,15 +51,19 @@ const AuthForm = ({ onSubmit, btnText }: IPropsForm): JSX.Element => {
 interface IAuthProps {
   login: Function,
   signup: Function,
+  oauthGithub(code: string, state: string): any,
   isLogged: Boolean,
+  fetching: Boolean,
   location: any
 };
 
 const Auth = ({
   login,
   signup,
+  fetching,
   isLogged,
   location,
+  oauthGithub,
 }: IAuthProps): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
@@ -66,26 +71,18 @@ const Auth = ({
   useEffect(() => {
     const queryParameters: any = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-    if(queryParameters.mode) {
+    if (queryParameters.mode) {
       const preselectedMode: boolean = queryParameters.mode === "login" ? true : false;
       setMode(preselectedMode);
     }
   }, []);
 
   const handleLogin = ({ username, password }: IAccount) => {
-    setLoading(true);
-
-    login(username, password).then(() => {
-      setLoading(false);
-    });
+    login(username, password)
   }
 
   const handleSignup = ({ username, password }: IAccount) => {
-    setLoading(true);
-
-    signup(username, password).then(() => {
-      setLoading(false);
-    });
+    signup(username, password);
   }
 
   const toggleMode = (e: any) => {
@@ -99,7 +96,7 @@ const Auth = ({
 
       <div className="auth">
         <div className="auth__modal">
-          <Loading display={loading} />
+          <Loading display={fetching} />
           <h1 className="auth__modal-title text-primary">TIQUET</h1>
           <div className="auth__modal-body">
             {mode
@@ -108,6 +105,10 @@ const Auth = ({
             }
           </div>
           <div className="auth__modal-footer">
+            <GithubOAuth
+              text={mode ? "Log in with Github" : "Sign up with Github"}
+              onSuccess={(code, state) => oauthGithub(code, state)}
+            />
             <a href="#" onClick={toggleMode} className="auth__modal-footer__toggler">
               {mode ? "I don't have an account 😭" : "Already have an account 🤓"}
             </a>
@@ -120,11 +121,13 @@ const Auth = ({
 
 const mapStateToProps = state => ({
   isLogged: isLoggedSelector(state),
+  fetching: isSessionFetching(state),
 });
 
 const dispatchToProps = dispatch => ({
   login: (username, password) => dispatch(logIn(username, password)),
   signup: (username, password) => dispatch(signUp(username, password)),
+  oauthGithub: (code, state) => dispatch(oauthGithub(code, state)),
 });
 
 export default connect(mapStateToProps, dispatchToProps)(Auth);

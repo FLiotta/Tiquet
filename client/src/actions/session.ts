@@ -3,8 +3,10 @@ import Cookies from 'universal-cookie';
 
 // @Project
 import AuthService from '../services/authService';
+import OAuthService from '../services/oauthService';
 
 const authService = new AuthService();
+const oauthService = new OAuthService();
 const cookies = new Cookies();
 
 export const SESSION_FETCHING = '[SESSION] SESSION_FETCHING';
@@ -43,6 +45,28 @@ export const signUp = (username: string, password: string) => {
     });
 
     return authService.signup(username, password)
+      .then(({ data }) => {
+
+        const { token } = data;
+        cookies.set('token', token);
+
+        dispatch({
+          type: SIGN_UP,
+          payload: data
+        })
+      })
+      .catch(e => console.log(e));
+  }
+}
+
+export const oauthGithub = (code: string, state: string) => {
+  return dispatch => {
+    dispatch({
+      type: SESSION_FETCHING,
+      payload: true
+    });
+
+    return oauthService.github(code, state)
       .then(({ data }) => {
 
         const { token } = data;

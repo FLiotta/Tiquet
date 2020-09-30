@@ -1,0 +1,16 @@
+@import '../../styles/colors.scss';
+
+.auth-callback {
+    width: 100vw;
+    height: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $app-primary;
+
+    &__text {
+        font-weight: 600;
+        font-family: montserrat;
+        color: $app-secondary;
+    }
+}

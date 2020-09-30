@@ -18,6 +18,7 @@
     justify-content: start;
     position: relative;
     overflow: auto;
+    align-items: center;
     box-shadow: 0px 20px 35px -25px rgba(0, 0, 0, 0.3);
 
     @media (min-width: 576px) {
@@ -49,7 +50,6 @@
 
     &-footer {
       text-align: center;
-      margin-top: 15px;
       font-size: 13px;
 
       &__toggler {
