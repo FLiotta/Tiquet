@@ -12,10 +12,10 @@ class Users(db.Model):
     strategy = Column(Text, not_null=True, default="AUTH")
     createdAt = Column('createdat', Integer)
 
-    def __init__(self, username, password, email, strategy):
+    def __init__(self, username, strategy, **kwargs):
         self.username = username
-        self.password = password
-        self.email = email
+        self.password = kwargs.get('password', None)
+        self.email = kwargs.get('email', None)
         self.strategy = strategy
         self.createdAt = int(datetime.datetime.now().timestamp())
 

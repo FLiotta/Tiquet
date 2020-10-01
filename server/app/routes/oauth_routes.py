@@ -43,7 +43,7 @@ def signup_github():
 
     if user is None:
         response = requests.get('https://api.github.com/user', headers=headers).json()
-        user = Users(username=response['login'], password='', email=primary_email['email'], strategy="GITHUB")
+        user = Users(username=response['login'], email=primary_email['email'], strategy="GITHUB")
 
     db.session.add(user)
     db.session.commit()
