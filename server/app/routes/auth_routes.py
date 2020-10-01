@@ -22,7 +22,7 @@ def login():
     if username is None or password is None:
         return jsonify(msg="Missing params"), 400
 
-    user = Users.query.filter_by(username=username).first()
+    user = Users.query.filter_by(username=username, strategy='AUTH').first()
 
     if user is None:
         return jsonify(msg="User doesn't exist"), 404
@@ -65,7 +65,7 @@ def signup():
         bcrypt.gensalt(5)
     ).decode('utf-8')
 
-    new_user = Users(username, hashed_password)
+    new_user = Users(username=username, password=hashed_password, strategy='AUTH')
 
     db.session.add(new_user)
     db.session.commit()
