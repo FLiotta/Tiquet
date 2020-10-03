@@ -8,8 +8,9 @@ import { useForm } from 'react-hook-form';
 
 // Project
 import Loading from '../Loading';
+import EditableText from '../EditableText';
 import { selectPriorities } from '../../selectors/board';
-import { updateTaskPriority } from '../../actions/board';
+import { updateTaskPriority, updateTaskTitle } from '../../actions/board';
 import {
   selectTaskInfoVisible,
   selectTaskInfoLoading,
@@ -22,6 +23,7 @@ import {
   resetState,
   updateDescription,
   updatePriority,
+  updateTitle,
 } from '../../actions/taskDescription';
 import './styles.scss';
 
@@ -33,6 +35,8 @@ interface TaskDescriptionProps {
   updateDescription: Function,
   updatePriority: Function,
   updateTaskPriority: Function,
+  updateTitle: Function,
+  updateTaskTitle: Function,
   priorities: PriortyInterface[],
 };
 
@@ -48,7 +52,9 @@ const TaskDescription = ({
   updateDescription,
   updatePriority,
   updateTaskPriority,
+  updateTaskTitle,
   priorities,
+  updateTitle,
 }: TaskDescriptionProps): JSX.Element => {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const { handleSubmit, register, errors } = useForm();
@@ -103,21 +109,33 @@ const TaskDescription = ({
       })
   }
 
+  const handleTitleEdit = (text, callback) => {
+    updateTitle(task.id, text)
+      .then(() => {
+        updateTaskTitle(task.id, text);
+      });
+
+    callback();
+  }
+
   return (
     <div className={cn('task-description', {
       'task-description--visible': visible,
     })}>
       <Loading display={loading} />
       <div className="task-description__header">
-        <h3 className="task-description__header-title">
-          {task?.title}
-          <span
-            className="task-description__header-id"
-            onClick={() => copyToClipboard(task?.id)}
-          >
-            #{task?.id}
-          </span>
-        </h3>
+        <EditableText
+          text={task?.title}
+          textClassName="task-description__header-title"
+          onSuccess={handleTitleEdit}
+          tag={'h3'}
+        />
+        <span
+          className="task-description__header-id"
+          onClick={() => copyToClipboard(task?.id)}
+        >
+          #{task?.id}
+        </span>
         <i
           onClick={() => resetState()}
           className="fas fa-arrow-right fa-lg task-description__header-arrow">
@@ -186,9 +204,11 @@ const stateToProps = state => ({
 const dispatchToProps = dispatch => ({
   setVisibility: state => dispatch(setVisibility(state)),
   resetState: () => dispatch(resetState()),
-  updatePriority: (taskId, priority) => dispatch(updatePriority(taskId, priority)),
-  updateTaskPriority: (taskId, priority) => dispatch(updateTaskPriority(taskId, priority)),
-  updateDescription: (taskId, description) => dispatch(updateDescription(taskId, description)),
+  updatePriority: (taskId: number, priority: number) => dispatch(updatePriority(taskId, priority)),
+  updateTaskPriority: (taskId: number, priority: number) => dispatch(updateTaskPriority(taskId, priority)),
+  updateDescription: (taskId: number, description: string) => dispatch(updateDescription(taskId, description)),
+  updateTitle: (taskId: number, title: string) => dispatch(updateTitle(taskId, title)),
+  updateTaskTitle: (taskId: number, title: string) => dispatch(updateTaskTitle(taskId, title)),
 })
 
 export default connect(stateToProps, dispatchToProps)(TaskDescription);

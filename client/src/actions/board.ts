@@ -29,6 +29,7 @@ export const DELETE_TASK: string = '[BOARD] DELETE TASK';
 export const DELETE_LIST: string = '[BOARD] DELETE LIST';
 export const FETCH_PRIORITIES: string = '[BOARD] FETCH PRIORITIES';
 export const EDIT_LIST_TITLE: string = '[BOARD] EDIT LIST TITLE';
+export const UPDATE_TASK_TITLE: string = '[BOARD] UPDATE_TASK_TITLE';
 
 export const editListTitle = (listId: number, title: string) => {
   return dispatch => listsService.editTitle(listId, title)
@@ -75,6 +76,22 @@ export const updateTaskPriority = (taskId: number, priorityId: number) => {
   }
 }
 
+export const updateTaskTitle = (taskId: number, title: string) => {
+  return (dispatch, getState) => {
+    const state: IRootReducer = getState();
+
+    const updatedLists: ListInterface[] = state.board.lists.map(list => ({
+      ...list,
+      tasks: list.tasks.map(task => task.id === taskId ? { ...task, title } : task)
+    }));
+
+    return dispatch({
+      type: UPDATE_TASK_TITLE,
+      payload: updatedLists,
+    });
+  }
+}
+
 export const fetchPriorities = () => {
   return dispatch => prioritiesService.fetchPriorities()
     .then(({ data }) => {
@@ -114,6 +131,7 @@ export const deleteList = (listId: number) => {
       cogoToast.error(`There was a problem deleting your list.`, { position: 'bottom-right' });
     })
 }
+
 export const addTask = (taskTitle: string, listId: number) => {
   return (dispatch, getState) => listsService.createTask(taskTitle, listId)
     .then(({ data }) => {

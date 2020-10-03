@@ -17,7 +17,6 @@
 
   &__header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     &-title {
@@ -30,6 +29,8 @@
     &-arrow {
       padding: 10px;
       cursor: pointer;
+      position: absolute;
+      right: 15px;
     }
 
     &-id {

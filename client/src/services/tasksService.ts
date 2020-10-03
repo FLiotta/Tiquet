@@ -21,6 +21,10 @@ class TasksService extends ApiService {
     return this.patch(`/tasks/${taskId}/description`, { description });
   }
 
+  updateTitle(taskId: number, title: string) {
+    return this.patch(`/tasks/${taskId}/title`, { title });
+  }
+
   updatePriority(taskId: number, priorityId: number) {
     return this.patch(`/tasks/${taskId}/priority`, { priority: priorityId });
   }

@@ -5,6 +5,7 @@ import {
   RESET_STATE,
   UPDATE_DESCRIPTION,
   UPDATE_PRIORITY,
+  UPDATE_TITLE,
 } from "../actions/taskDescription";
 import { TaskInterface } from "../interfaces/Task";
 
@@ -56,6 +57,15 @@ export default (state: ITaskDescriptionReducer = defaultState, action) => {
         taskInfo: {
           ...state.taskInfo,
           description: action.payload,
+        }
+      }
+    case UPDATE_TITLE:
+      return {
+        ...state,
+        loading: false,
+        taskInfo: {
+          ...state.taskInfo,
+          title: action.payload,
         }
       }
     case RESET_STATE:
