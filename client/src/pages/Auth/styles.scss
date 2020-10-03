@@ -51,11 +51,20 @@
     &-footer {
       text-align: center;
       font-size: 13px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
 
       &__toggler {
-        padding: 5px;
+        padding: 5px 0;
         border-radius: 11px;
         transition: 0.5s all;
+        width: 165px;
+        cursor: pointer;
+        border: 1px solid #eee;
 
         &:hover {
           background-color: #efefef;
