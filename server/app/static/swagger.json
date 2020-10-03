@@ -640,6 +640,63 @@
         }
       }
     },
+    "/lists/{id}/title": {
+      "patch": {
+        "description": "Update list's title",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "List id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "New title"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Lists"
+        ],
+        "responses": {
+          "200": {
+            "description": "Title updated"
+          },
+          "400": {
+            "description": "Missing params || New title can't be the same as the old one."
+          },
+          "403": {
+            "description": "You can't perform this action"
+          },
+          "404": {
+            "description": "List not found"
+          }
+        }
+      }
+    },
     "/lists/{id}/task": {
       "post": {
         "tags": [

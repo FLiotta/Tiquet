@@ -1,12 +1,15 @@
 // Packages
 import React, { useState, Fragment } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
 
 // Project
 import Task from '../Task';
+import { editListTitle } from '../../actions/board';
 import { TaskInterface } from '../../interfaces/Task';
 import CreateTask from '../CreateTask';
 import ConfirmationModal from '../ConfirmationModal';
+import EditableText from '../EditableText';
 import './styles.scss';
 
 interface IProps {
@@ -14,9 +17,10 @@ interface IProps {
   title: string,
   tasks: TaskInterface[],
   onDelete?(): void,
+  editListTitle?(listId: number, title: string): void,
 };
 
-const List = ({ id, title, tasks, onDelete }: IProps): JSX.Element => {
+const List = ({ id, title, tasks, onDelete, editListTitle }: IProps): JSX.Element => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleDelete = (callback) => {
@@ -38,6 +42,11 @@ const List = ({ id, title, tasks, onDelete }: IProps): JSX.Element => {
     flexDirection: 'column',
   });
 
+  const handleEditTitle = (value, callback) => {
+    editListTitle(id, value);
+    callback();
+  }
+
   return (
     <div className="list">
       {onDelete && (
@@ -55,7 +64,12 @@ const List = ({ id, title, tasks, onDelete }: IProps): JSX.Element => {
         </Fragment>
       )}
       <div className="list__header">
-        <h6 className="list__header-title">{title.toUpperCase()}</h6>
+        <EditableText
+          text={title}
+          textClassName="list__header-title"
+          tag="h5"
+          onSuccess={handleEditTitle}
+        />
       </div>
       <div className="list__body">
         <Droppable droppableId={new Number(id).toString()} key={`${title}_${id}`}>
@@ -80,4 +94,8 @@ const List = ({ id, title, tasks, onDelete }: IProps): JSX.Element => {
   );
 }
 
-export default List;
+const mapDispatchToProps = dispatch => ({
+  editListTitle: (listId: number, title: string) => dispatch(editListTitle(listId, title))
+});
+
+export default connect(undefined, mapDispatchToProps)(List);

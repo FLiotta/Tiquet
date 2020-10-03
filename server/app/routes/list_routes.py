@@ -42,6 +42,27 @@ def delete_list(list_id):
         return jsonify(msg="List and all its tasks deleted."), 200
     return jsonify(msg="List not found"), 404
 
+@list_.route('/lists/<list_id>/title', methods=['PATCH'])
+@protected_route
+def edit_list_title(list_id):
+    req_data = request.get_json()
+    user_id = g.user.get('id')
+    title = req_data.get('title')
+
+    requested_list = Lists.query.filter_by(id=list_id).first()
+
+    if requested_list is None:
+        return jsonify(msg="List not found"), 404
+    if requested_list.user_id != user_id:
+        return jsonify(msg="You can't perform this action."), 403
+    if requested_list.title == title:
+        return jsonify("New title can't be equal to the actual one"), 400
+
+    requested_list.title = title
+
+    db.session.commit()
+
+    return jsonify(msg="Title updated"), 200
 
 @list_.route('/lists/<list_id>/task', methods=['POST'])
 @protected_route
