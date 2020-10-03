@@ -10,7 +10,7 @@ import { selectBoards } from '../../selectors/boards';
 import CreateBoardModal from '../../components/CreateBoardModal';
 import ScrumBoard from '../../assets/images/scrum-board.png';
 import './styles.scss';
-import { BoardInterface } from '../../interfaces/Board';
+import { IBoard } from '../../interfaces/Board';
 
 interface IEmptyStateProps {
   onBtnClick: Function
@@ -33,7 +33,7 @@ const EmptyState = ({ onBtnClick }: IEmptyStateProps): JSX.Element => (
 );
 
 interface IProps {
-  boards: BoardInterface[],
+  boards: IBoard[],
   fetchBoards: Function,
   addBoard: Function,
   filterBoard: Function,
@@ -85,7 +85,7 @@ const Boards = ({
               </button>
             </div>
             <div className="board-page__container">
-              {boards.map((board: BoardInterface): JSX.Element => (
+              {boards.map((board: IBoard): JSX.Element => (
                 <BoardCard key={'board_' + board.id} boardInfo={board} onDelete={() => filterBoard(board.id)} />
               ))}
             </div>

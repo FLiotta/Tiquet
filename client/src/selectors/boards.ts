@@ -1,4 +1,4 @@
 import { IRootReducer } from '../reducers/rootReducer';
-import { BoardInterface } from '../interfaces/Board';
+import { IBoard } from '../interfaces/Board';
 
-export const selectBoards = (state: IRootReducer): BoardInterface[] => state.boards.result;
+export const selectBoards = (state: IRootReducer): IBoard[] => state.boards.result;

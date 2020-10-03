@@ -1,4 +1,4 @@
-export interface TaskInterface {
+export interface ITask {
     uid: string,
     id: number,
     title: string,

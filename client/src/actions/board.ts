@@ -7,7 +7,7 @@ import ListsService from '../services/listsService';
 import TasksService from '../services/tasksService';
 import PrioritiesService from '../services/prioritiesService';
 import { IRootReducer } from '../reducers/rootReducer';
-import { ListInterface } from '../interfaces/List';
+import { IList } from '../interfaces/List';
 
 const prioritiesService = new PrioritiesService();
 const taskService = new TasksService();
@@ -126,7 +126,7 @@ export const addTask = (taskTitle: string, listId: number) => {
 export const moveTask = (originListId: number, destinyListId: number, taskId: number) => {
   return (dispatch, getState) => {
     const state: IRootReducer = getState();
-    const previousListsState: ListInterface[] = state.board.lists;
+    const previousListsState: IList[] = state.board.lists;
 
     dispatch({
       type: MOVE_TASK,
@@ -148,7 +148,7 @@ export const moveTask = (originListId: number, destinyListId: number, taskId: nu
 export const deleteTask = (taskId: number) => {
   return (dispatch, getState) => {
     const state: IRootReducer = getState();
-    const previousListsState: ListInterface[] = state.board.lists;
+    const previousListsState: IList[] = state.board.lists;
 
     dispatch({
       type: DELETE_TASK,

@@ -1,4 +1,4 @@
-import { BoardInterface } from '../interfaces/Board';
+import { IBoard } from '../interfaces/Board';
 import BoardsService from '../services/boardsService';
 
 const boardsService = new BoardsService();
@@ -27,7 +27,7 @@ export const filterBoard = (id: number) => {
 }
 
 export const addBoard = (id: number, title: string) => {
-  const newBoard: BoardInterface = { id, title };
+  const newBoard: IBoard = { id, title };
 
   return dispatch => {
     dispatch({

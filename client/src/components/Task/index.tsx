@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { selectTaskInfoLoading, selectTaskInfo } from '../../selectors/taskDescription';
 import { fetchTask } from '../../actions/taskDescription';
 import { deleteTask } from '../../actions/board';
-import { TaskInterface } from '../../interfaces/Task';
+import { ITask } from '../../interfaces/Task';
 import './styles.scss';
 
 interface TaskProps {
@@ -75,7 +75,7 @@ interface DraggableTaskProps {
   index: number,
   fetchTask: Function,
   deleteTask: Function,
-  taskInfo: TaskInterface,
+  taskInfo: ITask,
   taskInfoLoading: Boolean,
   priority?: string,
 };

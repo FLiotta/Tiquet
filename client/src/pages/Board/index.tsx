@@ -17,13 +17,13 @@ import CreateList from '../../components/CreateList';
 import Loading from '../../components/Loading';
 import './styles.scss';
 import TaskDescription from '../../components/TaskDescription';
-import { BoardInterface } from '../../interfaces/Board';
+import { IBoard } from '../../interfaces/Board';
 import { AxiosPromise } from 'axios';
 
 interface IProps {
   fetchBoard(boardId: number): AxiosPromise,
   moveTask(originListId: number, destinationListId: number, taskId: number): void,
-  board: BoardInterface,
+  board: IBoard,
   match: any,
   resetState(): void,
   fetchPriorities(): void

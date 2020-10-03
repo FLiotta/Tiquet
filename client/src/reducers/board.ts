@@ -1,6 +1,6 @@
-import { BoardInterface } from '../interfaces/Board';
-import { PriortyInterface } from '../interfaces/Priority';
-import { TaskInterface } from '../interfaces/Task';
+import { IBoard } from '../interfaces/Board';
+import { IPriority } from '../interfaces/Priority';
+import { ITask } from '../interfaces/Task';
 
 import {
   FETCH_BOARD,
@@ -17,7 +17,7 @@ import {
   SET_LISTS,
 } from '../actions/board';
 
-export interface IBoardReducer extends BoardInterface { };
+export interface IBoardReducer extends IBoard { };
 
 const defaultState: IBoardReducer = {
   id: undefined,
@@ -53,7 +53,7 @@ export default (state: IBoardReducer = defaultState, action) => {
         })
       };
     case UPDATE_TASK_PRIORITY:
-      const new_priority: PriortyInterface = state.priorities.find((priority: PriortyInterface) => priority.id == action.payload.priorityId);
+      const new_priority: IPriority = state.priorities.find((priority: IPriority) => priority.id == action.payload.priorityId);
 
       return {
         ...state,
@@ -75,7 +75,7 @@ export default (state: IBoardReducer = defaultState, action) => {
         }))
       };
     case MOVE_TASK:
-      const task: TaskInterface = state.lists
+      const task: ITask = state.lists
         .flatMap(list => list.tasks)
         .find(task => task.id == action.payload.taskId);
 

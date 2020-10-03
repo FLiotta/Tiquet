@@ -7,13 +7,13 @@ import {
   UPDATE_PRIORITY,
   UPDATE_TITLE,
 } from "../actions/taskDescription";
-import { TaskInterface } from "../interfaces/Task";
+import { ITask } from "../interfaces/Task";
 
 export interface ITaskDescriptionReducer {
   visible: Boolean,
   loading: Boolean,
   error: string,
-  taskInfo: TaskInterface
+  taskInfo: ITask
 };
 
 const defaultState: ITaskDescriptionReducer = {
