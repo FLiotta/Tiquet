@@ -9,6 +9,7 @@ export const UPDATE_PRIORITY = '[TASK DESCRIPTION] UPDATE PRIORITY';
 export const SET_LOADING = '[TASK DESCRIPTION] SET LOADING';
 export const FETCH_TASK = '[TASK DESCRIPTION] FETCH TASK';
 export const UPDATE_DESCRIPTION = '[TASK DESCRIPTION] UPDATE DESCRIPTION';
+export const UPDATE_TITLE = '[TASK DESCRIPTION] UPDATE TITLE';
 export const RESET_STATE = '[TASK DESCRIPTION] RESET STATE';
 
 export const setVisibility = (state: Boolean) => {
@@ -40,6 +41,20 @@ export const updateDescription = (taskId: number, description: string) => {
         dispatch({
           type: UPDATE_DESCRIPTION,
           payload: description
+        });
+      });
+  }
+}
+
+export const updateTitle = (taskId: number, title: string) => {
+  return dispatch => {
+    dispatch(setLoading(true));
+
+    return taskService.updateTitle(taskId, title)
+      .then(({ data }) => {
+        dispatch({
+          type: UPDATE_TITLE,
+          payload: title
         });
       });
   }

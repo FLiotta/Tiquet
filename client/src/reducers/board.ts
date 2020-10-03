@@ -12,6 +12,7 @@ import {
   UPDATE_TASK_PRIORITY,
   DELETE_LIST,
   EDIT_LIST_TITLE,
+  UPDATE_TASK_TITLE,
 } from '../actions/board';
 
 export interface IBoardReducer extends BoardInterface { };
@@ -50,6 +51,11 @@ export default (state: IBoardReducer = defaultState, action) => {
         })
       };
     case UPDATE_TASK_PRIORITY:
+      return {
+        ...state,
+        lists: action.payload
+      };
+    case UPDATE_TASK_TITLE:
       return {
         ...state,
         lists: action.payload

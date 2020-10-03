@@ -113,3 +113,26 @@ def update_task_priority(task_id):
     db.session.commit()
 
     return jsonify(msg="Task updated"), 200
+
+
+@task.route('/tasks/<task_id>/title', methods=['PATCH'])
+@protected_route
+def update_task_title(task_id):
+    req_data = request.get_json()
+    new_title = req_data.get('title')
+    user_id = g.user.get('id')
+
+    if new_title is None:
+        return jsonify(msg="Missing param: title"), 400
+    
+    requested_task = Tasks.query.filter_by(id=task_id).first()
+
+    if user_id != requested_task.user_id:
+        return jsonify(msg="You can't perform this action."), 403
+    elif requested_task.title == new_title:
+        return jsonify(msg="New title can't be the same as the old one."), 400
+
+    requested_task.title = new_title
+    db.session.commit()
+
+    return jsonify(msg="Task updated"), 200
