@@ -1,9 +1,9 @@
-import { ListInterface } from './List';
-import { PriortyInterface } from './Priority';
+import { IList } from './List';
+import { IPriority } from './Priority';
 
-export interface BoardInterface {
+export interface IBoard {
     id: number,
     title: string,
-    lists?: ListInterface[],
-    priorities?: PriortyInterface[]
+    lists?: IList[],
+    priorities?: IPriority[]
 };

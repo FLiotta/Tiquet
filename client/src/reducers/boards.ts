@@ -1,8 +1,8 @@
 import { FETCH_BOARDS, ADD_BOARD, FILTER_BOARD } from '../actions/boards';
-import { BoardInterface } from '../interfaces/Board';
+import { IBoard } from '../interfaces/Board';
 
 export interface IBoardsReducer {
-  result: BoardInterface[],
+  result: IBoard[],
   error: string
 };
 
@@ -26,7 +26,7 @@ export default (state: IBoardsReducer = defaultState, action) => {
     case FILTER_BOARD:
       return {
         ...state,
-        result: action.payload,
+        result: state.result.filter(board => board.id != action.payload.id),
       };
     default:
       return state;

@@ -1,5 +1,6 @@
-import { PriortyInterface } from '../interfaces/Priority';
-import { BoardInterface } from '../interfaces/Board';
+import { IBoard } from '../interfaces/Board';
+import { IPriority } from '../interfaces/Priority';
+import { ITask } from '../interfaces/Task';
 
 import {
   FETCH_BOARD,
@@ -13,16 +14,17 @@ import {
   DELETE_LIST,
   EDIT_LIST_TITLE,
   UPDATE_TASK_TITLE,
+  SET_LISTS,
 } from '../actions/board';
 
-export interface IBoardReducer extends BoardInterface { };
+export interface IBoardReducer extends IBoard { };
 
 const defaultState: IBoardReducer = {
   id: undefined,
   title: '',
   lists: [],
   priorities: [],
-};
+}
 
 export default (state: IBoardReducer = defaultState, action) => {
   switch (action.type) {
@@ -51,19 +53,45 @@ export default (state: IBoardReducer = defaultState, action) => {
         })
       };
     case UPDATE_TASK_PRIORITY:
+      const new_priority: IPriority = state.priorities.find((priority: IPriority) => priority.id == action.payload.priorityId);
+
       return {
         ...state,
-        lists: action.payload
+        lists: state.lists.map(list => ({
+          ...list,
+          tasks: list.tasks.map(task => task.id === action.payload.taskId
+            ? { ...task, priority: new_priority.value }
+            : task)
+        }))
       };
     case UPDATE_TASK_TITLE:
       return {
         ...state,
-        lists: action.payload
+        lists: state.lists.map(list => ({
+          ...list,
+          tasks: list.tasks.map(task => task.id === action.payload.taskId
+            ? { ...task, title: action.payload.title }
+            : task)
+        }))
       };
     case MOVE_TASK:
+      const task: ITask = state.lists
+        .flatMap(list => list.tasks)
+        .find(task => task.id == action.payload.taskId);
+
       return {
         ...state,
-        lists: action.payload
+        lists: state.lists.map(list => {
+          const parsed_list = list;
+
+          if (list.id === action.payload.originListId) {
+            parsed_list.tasks = parsed_list.tasks.filter(i_task => i_task.id !== action.payload.taskId);
+          } else if (list.id === action.payload.destinyListId) {
+            parsed_list.tasks = [...parsed_list.tasks, task];
+          }
+
+          return parsed_list;
+        }),
       };
     case ADD_LIST:
       return {
@@ -73,9 +101,22 @@ export default (state: IBoardReducer = defaultState, action) => {
     case ADD_TASK:
       return {
         ...state,
-        lists: action.payload
+        lists: state.lists.map(list => list.id === action.payload.listId
+          ? {
+            ...list,
+            tasks: [...list.tasks, action.payload.newTask]
+          }
+          : list)
       };
     case DELETE_TASK:
+      return {
+        ...state,
+        lists: state.lists.map(list => ({
+          ...list,
+          tasks: list.tasks.filter(task => task.id !== action.payload.taskId)
+        })),
+      };
+    case SET_LISTS:
       return {
         ...state,
         lists: action.payload,

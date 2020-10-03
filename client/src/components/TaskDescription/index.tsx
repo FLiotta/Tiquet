@@ -16,8 +16,8 @@ import {
   selectTaskInfoLoading,
   selectTaskInfo
 } from '../../selectors/taskDescription';
-import { TaskInterface } from '../../interfaces/Task';
-import { PriortyInterface } from '../../interfaces/Priority';
+import { ITask } from '../../interfaces/Task';
+import { IPriority } from '../../interfaces/Priority';
 import {
   setVisibility,
   resetState,
@@ -31,13 +31,13 @@ interface TaskDescriptionProps {
   visible: Boolean,
   resetState: Function,
   loading: Boolean,
-  task: TaskInterface,
+  task: ITask,
   updateDescription: Function,
   updatePriority: Function,
   updateTaskPriority: Function,
   updateTitle: Function,
   updateTaskTitle: Function,
-  priorities: PriortyInterface[],
+  priorities: IPriority[],
 };
 
 interface TaskDescriptionForm {

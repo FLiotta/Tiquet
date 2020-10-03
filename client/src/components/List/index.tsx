@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // Project
 import Task from '../Task';
 import { editListTitle } from '../../actions/board';
-import { TaskInterface } from '../../interfaces/Task';
+import { ITask } from '../../interfaces/Task';
 import CreateTask from '../CreateTask';
 import ConfirmationModal from '../ConfirmationModal';
 import EditableText from '../EditableText';
@@ -15,7 +15,7 @@ import './styles.scss';
 interface IProps {
   id: number,
   title: string,
-  tasks: TaskInterface[],
+  tasks: ITask[],
   onDelete?(): void,
   editListTitle?(listId: number, title: string): void,
 };
@@ -79,7 +79,7 @@ const List = ({ id, title, tasks, onDelete, editListTitle }: IProps): JSX.Elemen
               ref={provided.innerRef}
               style={getListStyles()}
             >
-              {tasks.map((task: TaskInterface, index: number) => (
+              {tasks.map((task: ITask, index: number) => (
                 <Task key={task.uid} {...task} index={index} />
               ))}
               {provided.placeholder}

@@ -109,9 +109,11 @@ const Auth = ({
               text={mode ? "Log in with Github" : "Sign up with Github"}
               onSuccess={(code, state) => oauthGithub(code, state)}
             />
-            <a href="#" onClick={toggleMode} className="auth__modal-footer__toggler">
-              {mode ? "I don't have an account 😭" : "Already have an account 🤓"}
-            </a>
+            <div className="auth__modal-footer__toggler">
+              <a href="#" onClick={toggleMode}>
+                {mode ? "I don't have an account" : "Already have an account"}
+              </a>
+            </div>
           </div>
         </div>
       </div>

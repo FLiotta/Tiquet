@@ -1,5 +1,4 @@
-import { BoardInterface } from '../interfaces/Board';
-import { IRootReducer } from '../reducers/rootReducer';
+import { IBoard } from '../interfaces/Board';
 import BoardsService from '../services/boardsService';
 
 const boardsService = new BoardsService();
@@ -10,7 +9,7 @@ export const ADD_BOARD: string = '[BOARDS] ADD BOARD';
 
 export const fetchBoards = () => {
   return dispatch => boardsService.fetchBoards()
-    .then(({data}) => {
+    .then(({ data }) => {
       dispatch({
         type: FETCH_BOARDS,
         payload: data
@@ -19,19 +18,16 @@ export const fetchBoards = () => {
 }
 
 export const filterBoard = (id: number) => {
-  return (dispatch, getState) => {
-    const state: IRootReducer = getState();
-    const filteredBoards: BoardInterface[] = state.boards.result.filter(board => board.id !== id);
-
-    dispatch({
-      type: FILTER_BOARD,
-      payload: filteredBoards
-    });
-  }
+  return dispatch => dispatch({
+    type: FILTER_BOARD,
+    payload: {
+      id,
+    }
+  });
 }
 
 export const addBoard = (id: number, title: string) => {
-  const newBoard: BoardInterface = { id, title };
+  const newBoard: IBoard = { id, title };
 
   return dispatch => {
     dispatch({
