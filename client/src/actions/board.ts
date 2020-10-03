@@ -12,6 +12,7 @@ import { ListInterface } from '../interfaces/List';
 import { selectPriorities } from '../selectors/board';
 import { BoardInterface } from '../interfaces/Board';
 import { TaskInterface } from '../interfaces/Task';
+import ListService from '../services/listsService';
 
 const prioritiesService = new PrioritiesService();
 const taskService = new TasksService();
@@ -27,10 +28,25 @@ export const RESET_STATE: string = '[BOARD] CLEAN STATE';
 export const DELETE_TASK: string = '[BOARD] DELETE TASK';
 export const DELETE_LIST: string = '[BOARD] DELETE LIST';
 export const FETCH_PRIORITIES: string = '[BOARD] FETCH PRIORITIES';
+export const EDIT_LIST_TITLE: string = '[BOARD] EDIT LIST TITLE';
+
+export const editListTitle = (listId: number, title: string) => {
+  return dispatch => listsService.editTitle(listId, title)
+    .then(({ data }) => {
+      dispatch({
+        type: EDIT_LIST_TITLE,
+        payload: {
+          listId,
+          title,
+        }
+      });
+    })
+    .catch(e => console.log);
+};
 
 export const fetchBoard = (boardId: number) => {
   return dispatch => boardsService.fetchBoard(boardId)
-    .then(({data}) => {
+    .then(({ data }) => {
       dispatch({
         type: FETCH_BOARD,
         payload: data
@@ -49,7 +65,7 @@ export const updateTaskPriority = (taskId: number, priorityId: number) => {
 
     const updatedLists: ListInterface[] = state.board.lists.map(list => ({
       ...list,
-      tasks: list.tasks.map(task => task.id === taskId ? {...task, priority: priority.value } : task)
+      tasks: list.tasks.map(task => task.id === taskId ? { ...task, priority: priority.value } : task)
     }));
 
     return dispatch({
@@ -72,7 +88,7 @@ export const fetchPriorities = () => {
 export const addList = (boardId: number, title: string) => {
   return dispatch => boardsService.createList(boardId, title)
     .then(({ data }) => {
-      cogoToast.success(`Your list has been created.`, { position: 'bottom-right'});
+      cogoToast.success(`Your list has been created.`, { position: 'bottom-right' });
 
       dispatch({
         type: ADD_LIST,
@@ -80,14 +96,14 @@ export const addList = (boardId: number, title: string) => {
       });
     })
     .catch(e => {
-      cogoToast.error(`There was a problem creating your list.`, { position: 'bottom-right'});
+      cogoToast.error(`There was a problem creating your list.`, { position: 'bottom-right' });
     });
 }
 
 export const deleteList = (listId: number) => {
   return dispatch => listsService.deleteList(listId)
     .then(({ data }) => {
-      cogoToast.info(`List deleted.`, { position: 'bottom-right'});
+      cogoToast.info(`List deleted.`, { position: 'bottom-right' });
 
       dispatch({
         type: DELETE_LIST,
@@ -95,7 +111,7 @@ export const deleteList = (listId: number) => {
       });
     })
     .catch(() => {
-      cogoToast.error(`There was a problem deleting your list.`, { position: 'bottom-right'});
+      cogoToast.error(`There was a problem deleting your list.`, { position: 'bottom-right' });
     })
 }
 export const addTask = (taskTitle: string, listId: number) => {
@@ -109,7 +125,7 @@ export const addTask = (taskTitle: string, listId: number) => {
         }
         : list);
 
-      cogoToast.success(`Your task has been created 😊`, { position: 'bottom-right'});
+      cogoToast.success(`Your task has been created 😊`, { position: 'bottom-right' });
 
       dispatch({
         type: ADD_TASK,
@@ -117,7 +133,7 @@ export const addTask = (taskTitle: string, listId: number) => {
       });
     })
     .catch(e => {
-      cogoToast.error(`Whops... we couldn't create your task.`, { position: 'bottom-right'});
+      cogoToast.error(`Whops... we couldn't create your task.`, { position: 'bottom-right' });
     });
 }
 
@@ -131,7 +147,7 @@ export const moveTask = (originListId: number, destinyListId: number, taskId: nu
       .find(task => task.id == taskId);
 
     const updatedLists: ListInterface[] = board.lists.map(list => {
-      if(list.id == destinyListId) {
+      if (list.id == destinyListId) {
         return {
           ...list,
           tasks: [...list.tasks, task]
@@ -154,7 +170,7 @@ export const moveTask = (originListId: number, destinyListId: number, taskId: nu
     taskService.updateList(taskId, destinyListId)
       .then(resp => { })
       .catch(e => {
-        cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right'});
+        cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right' });
         dispatch({
           type: MOVE_TASK,
           payload: previousListsState,
@@ -171,7 +187,7 @@ export const deleteTask = (taskId: number) => {
     const mappedListsWithNewTask: ListInterface[] = state.board.lists.map(list => {
       const containsTask: Boolean = list.tasks.some(task => task.id == taskId);
 
-      if(containsTask) {
+      if (containsTask) {
         return {
           ...list,
           tasks: list.tasks.filter(task => task.id != taskId)
@@ -184,13 +200,13 @@ export const deleteTask = (taskId: number) => {
       type: DELETE_TASK,
       payload: mappedListsWithNewTask
     });
-    
+
     taskService.deleteTask(taskId)
       .then(() => {
-        cogoToast.info(`Task deleted.`, { position: 'bottom-right'});
+        cogoToast.info(`Task deleted.`, { position: 'bottom-right' });
       })
       .catch(() => {
-        cogoToast.error(`There was a problem deleting your task.`, { position: 'bottom-right'});
+        cogoToast.error(`There was a problem deleting your task.`, { position: 'bottom-right' });
         dispatch({
           type: DELETE_TASK,
           payload: previousListsState

@@ -1,0 +1,18 @@
+.editable-text {
+  cursor: pointer;
+
+  &__icon {
+    opacity: 0;
+    transition: .3s;
+  }
+
+  &:hover {
+    & > * {
+      text-decoration: underline;
+    }
+
+    .editable-text__icon {
+      opacity: 1;
+    }
+  }
+}

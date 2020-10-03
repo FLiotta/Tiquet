@@ -13,6 +13,10 @@ class ListService extends ApiService {
   createTask(taskTitle: string, listId: number): AxiosPromise {
     return this.post(`/lists/${listId}/task`, { title: taskTitle });
   }
+
+  editTitle(listId: number, title: string): AxiosPromise {
+    return this.patch(`/lists/${listId}/title`, { title });
+  }
 }
 
 export default ListService;
