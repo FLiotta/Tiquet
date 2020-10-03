@@ -26,7 +26,7 @@ export default (state: IBoardsReducer = defaultState, action) => {
     case FILTER_BOARD:
       return {
         ...state,
-        result: action.payload,
+        result: state.result.filter(board => board.id != action.payload.id),
       };
     default:
       return state;
