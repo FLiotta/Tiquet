@@ -3,6 +3,8 @@ from ..db import db
 from ..models import Boards, Lists
 from ..middlewares import protected_route
 from uuid import uuid4
+from operator import itemgetter
+
 board = Blueprint('board', __name__)
 
 # General boards creation and fetching endpoints
@@ -23,6 +25,7 @@ def get_boards():
         })
 
     return jsonify(result), 200
+
 
 @board.route('/boards', methods=['POST'])
 @protected_route
@@ -63,15 +66,19 @@ def get_board(board_id):
     board_lists = []
 
     for list_ in board.lists:
-        board_lists.append({
+        temp_list = {
             "id": list_.id,
             "title": list_.title,
             "tasks": list(map(lambda t: {
                 'id': t.id,
                 'title': t.title,
-                'priority': t.priority.value if t.priority else None
+                'priority': t.priority.value if t.priority else None,
+                'position': t.position,
             }, list_.tasks))
-        })
+        }
+
+        temp_list["tasks"] = sorted(temp_list["tasks"], key=itemgetter('position'))
+        board_lists.append(temp_list)
 
     response = {
         'id': board.id,

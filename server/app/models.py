@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, Text
+from sqlalchemy import Column, Integer, ForeignKey, Text, Sequence
 from sqlalchemy.orm import relationship
 from .db import db
 import datetime
@@ -54,6 +54,7 @@ class Tasks(db.Model):
     uid = Column(Text)
     createdAt = Column('createdat', Integer)
     description = Column(Text)
+    position = Column(Integer, Sequence('tasks_position_seq'))
 
     def __init__(self, user_id, list_id, title, uid, description='', priority_id=1):
         self.user_id = user_id

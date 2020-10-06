@@ -6,4 +6,5 @@ export interface ITask {
     description?: string,
     priority?: string,
     list: number,
+    position: number,
 };

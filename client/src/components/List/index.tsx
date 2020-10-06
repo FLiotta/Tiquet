@@ -24,8 +24,6 @@ const List = ({ id, title, tasks, onDelete, editListTitle }: IProps): JSX.Elemen
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleDelete = (callback) => {
-    // TODO
-    // Dispatch and delete list
     onDelete()
     setDeleteModalOpen(false);
 

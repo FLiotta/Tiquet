@@ -11,6 +11,7 @@ import {
   resetState,
   fetchPriorities,
   deleteList,
+  sortList,
 } from '../../actions/board';
 import List from '../../components/List';
 import CreateList from '../../components/CreateList';
@@ -28,6 +29,7 @@ interface IProps {
   resetState(): void,
   fetchPriorities(): void
   deleteList(listId: number): void,
+  sortList(listId: number, taskId: number, index:number, destinationIndex: number): void,
 };
 
 const Board = ({
@@ -38,6 +40,7 @@ const Board = ({
   resetState,
   fetchPriorities,
   deleteList,
+  sortList,
 }: IProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,6 +57,7 @@ const Board = ({
   }, []);
 
   const onDragEnd = (e: any): void => {
+    console.log(e);
     const { draggableId, destination, source } = e;
     const originListId = parseInt(source.droppableId);
     const destinationListId = parseInt(destination.droppableId);
@@ -61,6 +65,8 @@ const Board = ({
 
     if (originListId != destinationListId) {
       moveTask(originListId, destinationListId, taskId);
+    } else {
+      sortList(originListId, taskId, source.index, destination.index);
     }
   }
 
@@ -98,6 +104,7 @@ const mapDispatchToProps = dispatch => ({
   fetchBoard: (boardId): AxiosPromise => dispatch(fetchBoard(boardId)),
   resetState: () => dispatch(resetState()),
   deleteList: (listId: number) => dispatch(deleteList(listId)),
+  sortList: (listId: number, taskId: number,index: number, destinationIndex: number) => dispatch(sortList(listId, taskId, index, destinationIndex)),
   moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
 })
 
