@@ -50,19 +50,27 @@ def delete_task(task_id):
 @protected_route
 def update_task_list(task_id):
     req_data = request.get_json()
-    list_id = req_data.get('listId')
+    list_id = int(req_data.get('listId'))
+    new_position = int(req_data.get('position'))
     user_id = g.user.get('id')
 
-    if list_id is None or task_id is None:
+    if list_id is None or task_id is None or new_position is None:
         return jsonify(msg="Missing params"), 400
 
-    requested_list = Lists.query.filter_by(id=list_id).first()
+    tasks = Tasks.query.filter((Tasks.list_id==list_id) | (Tasks.id==task_id)).order_by(Tasks.position).all()
 
-    if requested_list.user_id != user_id:
-        return jsonify(msg="You can't perform this action."), 403
+    temp_task = None
 
-    requested_task = Tasks.query.filter_by(id=task_id).first()
-    requested_task.list_id = list_id
+    for i in range(len(tasks)):
+        if tasks[i].id == int(task_id):
+            tasks[i].list_id = list_id
+            temp_task = tasks.pop(i)
+            break
+    
+    tasks.insert(new_position, temp_task)
+
+    for i, task in enumerate(tasks):
+        task.position = i
 
     db.session.commit()
 

@@ -23,7 +23,7 @@ import { AxiosPromise } from 'axios';
 
 interface IProps {
   fetchBoard(boardId: number): AxiosPromise,
-  moveTask(originListId: number, destinationListId: number, taskId: number): void,
+  moveTask(originListId: number, destinationListId: number, taskId: number, destinationIndex: number): void,
   board: IBoard,
   match: any,
   resetState(): void,
@@ -64,7 +64,7 @@ const Board = ({
     const taskId = parseInt(draggableId);
 
     if (originListId != destinationListId) {
-      moveTask(originListId, destinationListId, taskId);
+      moveTask(originListId, destinationListId, taskId, destination.index);
     } else {
       sortList(originListId, taskId, source.index, destination.index);
     }
@@ -105,7 +105,7 @@ const mapDispatchToProps = dispatch => ({
   resetState: () => dispatch(resetState()),
   deleteList: (listId: number) => dispatch(deleteList(listId)),
   sortList: (listId: number, taskId: number,index: number, destinationIndex: number) => dispatch(sortList(listId, taskId, index, destinationIndex)),
-  moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
+  moveTask: (originListId, destinationListId, taskId, destinationIndex) => dispatch(moveTask(originListId, destinationListId, taskId, destinationIndex)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Board));

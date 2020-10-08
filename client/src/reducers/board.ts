@@ -96,7 +96,11 @@ export default (state: IBoardReducer = defaultState, action) => {
           if (list.id === action.payload.originListId) {
             parsed_list.tasks = parsed_list.tasks.filter(i_task => i_task.id !== action.payload.taskId);
           } else if (list.id === action.payload.destinyListId) {
-            parsed_list.tasks = [...parsed_list.tasks, task];
+            parsed_list.tasks.splice(action.payload.destinationIndex, 0, task);
+
+            parsed_list.tasks.forEach((task, i) => {
+              task.position = i;
+            });
           }
 
           return parsed_list;

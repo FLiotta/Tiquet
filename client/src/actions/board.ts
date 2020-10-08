@@ -148,17 +148,17 @@ export const addTask = (taskTitle: string, listId: number) => {
     });
 }
 
-export const moveTask = (originListId: number, destinyListId: number, taskId: number) => {
+export const moveTask = (originListId: number, destinyListId: number, taskId: number, destinationIndex: number) => {
   return (dispatch, getState) => {
     const state: IRootReducer = getState();
     const previousListsState: IList[] = state.board.lists;
 
     dispatch({
       type: MOVE_TASK,
-      payload: { destinyListId, originListId, taskId },
+      payload: { destinyListId, originListId, taskId, destinationIndex },
     });
 
-    taskService.updateList(taskId, destinyListId)
+    taskService.updateList(taskId, destinyListId, destinationIndex)
       .then(resp => { })
       .catch(e => {
         cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right' });
