@@ -15,6 +15,7 @@ import {
   EDIT_LIST_TITLE,
   UPDATE_TASK_TITLE,
   SET_LISTS,
+  ORDER_TASKS,
 } from '../actions/board';
 
 export interface IBoardReducer extends IBoard { };
@@ -38,6 +39,14 @@ export default (state: IBoardReducer = defaultState, action) => {
         ...state,
         priorities: action.payload,
       };
+    case ORDER_TASKS:
+      return {
+        ...state,
+        lists: state.lists.map(list => ({
+          ...list,
+          tasks: list.id == action.payload.listId ? action.payload.tasks : list.tasks
+        }))
+      }
     case EDIT_LIST_TITLE:
       return {
         ...state,
@@ -87,7 +96,11 @@ export default (state: IBoardReducer = defaultState, action) => {
           if (list.id === action.payload.originListId) {
             parsed_list.tasks = parsed_list.tasks.filter(i_task => i_task.id !== action.payload.taskId);
           } else if (list.id === action.payload.destinyListId) {
-            parsed_list.tasks = [...parsed_list.tasks, task];
+            parsed_list.tasks.splice(action.payload.destinationIndex, 0, task);
+
+            parsed_list.tasks.forEach((task, i) => {
+              task.position = i;
+            });
           }
 
           return parsed_list;

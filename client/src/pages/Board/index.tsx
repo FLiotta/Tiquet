@@ -11,6 +11,7 @@ import {
   resetState,
   fetchPriorities,
   deleteList,
+  sortList,
 } from '../../actions/board';
 import List from '../../components/List';
 import CreateList from '../../components/CreateList';
@@ -22,12 +23,13 @@ import { AxiosPromise } from 'axios';
 
 interface IProps {
   fetchBoard(boardId: number): AxiosPromise,
-  moveTask(originListId: number, destinationListId: number, taskId: number): void,
+  moveTask(originListId: number, destinationListId: number, taskId: number, destinationIndex: number): void,
   board: IBoard,
   match: any,
   resetState(): void,
   fetchPriorities(): void
   deleteList(listId: number): void,
+  sortList(listId: number, taskId: number, index:number, destinationIndex: number): void,
 };
 
 const Board = ({
@@ -38,6 +40,7 @@ const Board = ({
   resetState,
   fetchPriorities,
   deleteList,
+  sortList,
 }: IProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,13 +57,16 @@ const Board = ({
   }, []);
 
   const onDragEnd = (e: any): void => {
+    console.log(e);
     const { draggableId, destination, source } = e;
     const originListId = parseInt(source.droppableId);
     const destinationListId = parseInt(destination.droppableId);
     const taskId = parseInt(draggableId);
 
     if (originListId != destinationListId) {
-      moveTask(originListId, destinationListId, taskId);
+      moveTask(originListId, destinationListId, taskId, destination.index);
+    } else {
+      sortList(originListId, taskId, source.index, destination.index);
     }
   }
 
@@ -98,7 +104,8 @@ const mapDispatchToProps = dispatch => ({
   fetchBoard: (boardId): AxiosPromise => dispatch(fetchBoard(boardId)),
   resetState: () => dispatch(resetState()),
   deleteList: (listId: number) => dispatch(deleteList(listId)),
-  moveTask: (originListId, destinationListId, taskId) => dispatch(moveTask(originListId, destinationListId, taskId)),
+  sortList: (listId: number, taskId: number,index: number, destinationIndex: number) => dispatch(sortList(listId, taskId, index, destinationIndex)),
+  moveTask: (originListId, destinationListId, taskId, destinationIndex) => dispatch(moveTask(originListId, destinationListId, taskId, destinationIndex)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Board));

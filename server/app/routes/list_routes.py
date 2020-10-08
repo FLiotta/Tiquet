@@ -35,12 +35,13 @@ def delete_list(list_id):
     if result is not None:
         if result.user_id != user_id:
             return jsonify(msg="You can't perform this action."), 403
-        
+
         db.session.delete(result)
         db.session.commit()
 
         return jsonify(msg="List and all its tasks deleted."), 200
     return jsonify(msg="List not found"), 404
+
 
 @list_.route('/lists/<list_id>/title', methods=['PATCH'])
 @protected_route
@@ -63,6 +64,7 @@ def edit_list_title(list_id):
     db.session.commit()
 
     return jsonify(msg="Title updated"), 200
+
 
 @list_.route('/lists/<list_id>/task', methods=['POST'])
 @protected_route
@@ -92,3 +94,24 @@ def new_list_task(list_id):
             'priority': new_task.priority.value,
         }
     }), 200
+
+
+@list_.route('/lists/<list_id>/sort', methods=['POST'])
+@protected_route
+def sort_list_tasks(list_id):
+    req_data = request.get_json()
+    user_id = g.user.get('id')
+    order = req_data.get('order')
+
+    if order is None:
+        return jsonify(msg="Missing params"), 400
+
+    requested_tasks = Tasks.query.filter_by(
+        list_id=list_id, user_id=user_id).all()
+    
+    for task in requested_tasks:
+        task.position = order.index(task.id)
+
+    db.session.commit()
+
+    return jsonify(msg="Tasks sorted"), 200

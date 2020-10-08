@@ -13,8 +13,8 @@ class TasksService extends ApiService {
     return this.delete(`/tasks/${taskId}`);
   }
 
-  updateList(taskId: number, listId: number) {
-    return this.patch(`/tasks/${taskId}/list`, { listId });
+  updateList(taskId: number, listId: number, position: number) {
+    return this.patch(`/tasks/${taskId}/list`, { listId, position });
   }
 
   updateDescription(taskId: number, description: string) {

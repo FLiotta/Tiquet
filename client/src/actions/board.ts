@@ -8,6 +8,7 @@ import TasksService from '../services/tasksService';
 import PrioritiesService from '../services/prioritiesService';
 import { IRootReducer } from '../reducers/rootReducer';
 import { IList } from '../interfaces/List';
+import ListService from '../services/listsService';
 
 const prioritiesService = new PrioritiesService();
 const taskService = new TasksService();
@@ -26,7 +27,31 @@ export const FETCH_PRIORITIES: string = '[BOARD] FETCH PRIORITIES';
 export const EDIT_LIST_TITLE: string = '[BOARD] EDIT LIST TITLE';
 export const UPDATE_TASK_TITLE: string = '[BOARD] UPDATE_TASK_TITLE';
 export const SET_LISTS: string = '[BOARD] SET_LISTS';
+export const SORT_LIST: string = '[BOARD] SORT_LIST';
+export const ORDER_TASKS: string = '[BOARD] ORDER_TASKS';
 
+export const sortList = (listId: number, taskId: number, index: number, destinationIndex: number) => {
+  return (dispatch, getState) => {
+    const state: IRootReducer = getState();
+    const list: any = new Object(state.board.lists.find(list => list.id === listId));
+
+    const [task] = list.tasks.splice(index, 1);
+    list.tasks.splice(destinationIndex, 0, task);
+
+    const order = list.tasks.map(task => task.id);
+
+    return listsService.sortTasks(listId, order)
+      .then(({ data }) => {
+        dispatch({
+          type: ORDER_TASKS,
+          payload: {
+            listId,
+            tasks: list.tasks
+          }
+        })
+      })
+  }
+}
 export const editListTitle = (listId: number, title: string) => {
   return dispatch => listsService.editTitle(listId, title)
     .then(({ data }) => {
@@ -123,17 +148,17 @@ export const addTask = (taskTitle: string, listId: number) => {
     });
 }
 
-export const moveTask = (originListId: number, destinyListId: number, taskId: number) => {
+export const moveTask = (originListId: number, destinyListId: number, taskId: number, destinationIndex: number) => {
   return (dispatch, getState) => {
     const state: IRootReducer = getState();
     const previousListsState: IList[] = state.board.lists;
 
     dispatch({
       type: MOVE_TASK,
-      payload: { destinyListId, originListId, taskId },
+      payload: { destinyListId, originListId, taskId, destinationIndex },
     });
 
-    taskService.updateList(taskId, destinyListId)
+    taskService.updateList(taskId, destinyListId, destinationIndex)
       .then(resp => { })
       .catch(e => {
         cogoToast.error(`There was a problem updating your task.`, { position: 'bottom-right' });

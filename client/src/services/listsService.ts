@@ -17,6 +17,10 @@ class ListService extends ApiService {
   editTitle(listId: number, title: string): AxiosPromise {
     return this.patch(`/lists/${listId}/title`, { title });
   }
+
+  sortTasks(listId: number, order: number[]): AxiosPromise {
+    return this.post(`/lists/${listId}/sort`, { order });
+  }
 }
 
 export default ListService;
