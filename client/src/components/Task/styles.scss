@@ -10,12 +10,22 @@
   display: flex;
   flex-direction: column;
 
-  &__title {
-    font-family: "Montserrat", sans-serif;
-    overflow-wrap: break-word;
-    margin: 0;
-    margin-bottom: 5px;
-    font-weight: 300;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    &-title {
+      font-family: "Montserrat", sans-serif;
+      overflow-wrap: break-word;
+      margin: 0;
+      margin-bottom: 5px;
+      font-weight: 300;
+    }
+
+    &-id {
+      font-size: 11px;
+      margin: 0;
+    }
   }
 
   &__body {
@@ -34,15 +44,15 @@
         margin-right: 4px;
 
         &--low {
-          background-color: #00AA9D;
+          background-color: #00aa9d;
         }
 
         &--medium {
-          background-color: #33D033;
+          background-color: #33d033;
         }
 
         &--high {
-          background-color: #DF0024;
+          background-color: #df0024;
         }
       }
 
