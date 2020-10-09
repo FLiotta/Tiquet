@@ -12,6 +12,7 @@ import { ITask } from '../../interfaces/Task';
 import './styles.scss';
 
 interface TaskProps {
+  id: number,
   title: string,
   priority: string,
   handleDeleteTask: Function,
@@ -19,6 +20,7 @@ interface TaskProps {
 };
 
 export const Task = ({
+  id,
   title,
   priority,
   handleDeleteTask,
@@ -39,8 +41,9 @@ export const Task = ({
 
   return (
     <div className="task">
-      <div>
-        <p className="task__title">{title}</p>
+      <div className="task__header">
+        <p className="task__header-title">{title}</p>
+        <p className="task__header-id">#{id}</p>
       </div>
       <div className="task__body">
         <div className="task__body-priority">
@@ -113,6 +116,7 @@ const DraggableTask = ({
           style={{ ...provided.draggableProps.style }}
         >
           <Task
+            id={id}
             title={title}
             priority={priority}
             handleDeleteTask={handleDeleteTask}
