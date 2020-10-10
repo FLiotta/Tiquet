@@ -1,5 +1,3 @@
-from app import create_app
+from app import create_app as application
 
-if __name__ == "__main__":
-    app = create_app(log=True)
-    app.run(debug=True)
+app = application(log=True)

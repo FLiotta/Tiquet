@@ -39,5 +39,9 @@ def create_app(log):
     app.register_blueprint(task, url_prefix=api_prefix)
     app.register_blueprint(priority, url_prefix=api_prefix)
 
+    @app.errorhandler(404)
+    def index_page(e):
+        return render_template('index.html')
+
     register_extensions(app)
     return app
