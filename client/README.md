@@ -16,6 +16,9 @@ export const OAUTH_GITHUB: IOAuth = {
     CLIENT_ID: GITHUB OAUTH CLIENT ID,
     STRATEGY: "GITHUB",
 };
+
+export const API_URL: string = API BASE PATH
+//example: "http://localhost:5000/api" or "https://example-domain.com/api"
 ```
 
 #### Start server
