@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "bundle": "webpack --mode production",
+    "bundle-heroku": "webpack --mode production --config ./webpack-heroku.config.js",
     "start": "webpack-dev-server"
   },
   "keywords": [],

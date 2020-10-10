@@ -9,11 +9,11 @@ mkdir -p server/app/templates
 mkdir -p server/app/static 
 echo -e "\e[93mPreparing client build.\e[39m"
 cd client
-npm run bundle
+npm run bundle-heroku
 cd ..
 echo -e "\e[93mMoving build to server.\e[39m"
 mv client/dist/index.html server/app/templates
-mv client/dist/* server/app/static
+mv client/dist/static/* server/app/static
 echo -e "\e[93mDeploying version to Heroku.\e[39m"
 git add .
 git commit -m "Build"
