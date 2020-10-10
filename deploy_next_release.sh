@@ -13,5 +13,5 @@ mv client/dist/* server/app/static
 echo -e "\e[93mDeploying version to Heroku.\e[39m"
 git add .
 git commit -m "Build"
-git push heroku heroku-release:master -f
+git push heroku master -f
 echo -e "\e[93mDone.\e[39m"

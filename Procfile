@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath server heroku_server:app $PORT
+web: gunicorn --pythonpath server run:app $PORT
