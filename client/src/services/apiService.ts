@@ -1,4 +1,5 @@
 import axios, { AxiosPromise } from "axios";
+import { API_URL } from '../config';
 import Cookies from 'universal-cookie';
 
 class ApiService {
@@ -6,7 +7,7 @@ class ApiService {
   cookies: Cookies;
 
   constructor() {
-    this.api = 'http://localhost:5000/api';
+    this.api = API_URL;
     this.cookies = new Cookies();
   }
 
