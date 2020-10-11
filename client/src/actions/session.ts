@@ -1,5 +1,6 @@
 // @Packages
 import Cookies from 'universal-cookie';
+import cogoToast from 'cogo-toast';
 
 // @Project
 import AuthService from '../services/authService';
@@ -33,7 +34,17 @@ export const logIn = (username: string, password: string) => {
           payload: data
         })
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        const { data, status } = e.response;
+        const message = `${status} ${data.msg}`;
+        
+        cogoToast.error(message, { position: 'bottom-right' });
+
+        dispatch({
+          type: SESSION_FETCHING,
+          payload: false
+        });
+      });
   }
 }
 
@@ -55,7 +66,17 @@ export const signUp = (username: string, password: string) => {
           payload: data
         })
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        const { data, status } = e.response;
+        const message = `${status} ${data.msg}`;
+
+        cogoToast.error(message, { position: 'bottom-right' });
+
+        dispatch({
+          type: SESSION_FETCHING,
+          payload: false
+        });
+      });
   }
 }
 
@@ -77,7 +98,12 @@ export const oauthGithub = (code: string, state: string) => {
           payload: data
         })
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        dispatch({
+          type: SESSION_FETCHING,
+          payload: false
+        });
+      });
   }
 }
 
