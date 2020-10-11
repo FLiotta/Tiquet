@@ -1,4 +1,5 @@
 from flask import jsonify, Blueprint, request, g, Response
+from sqlalchemy.orm import noload
 from ..db import db
 from ..models import Boards, Lists
 from ..middlewares import protected_route
@@ -14,11 +15,12 @@ board = Blueprint('board', __name__)
 @protected_route
 def get_boards():
     user_id = g.user.get('id')
-    requested_boards = Boards.query.filter_by(user_id=user_id)
+    requested_boards = Boards.query.options(noload('lists')).filter_by(user_id=user_id)
 
     result = []
 
     for board in requested_boards:
+        print(board.lists, flush=True)
         result.append({
             'id': board.id,
             'title': board.title
