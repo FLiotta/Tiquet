@@ -1,4 +1,5 @@
 from flask import jsonify, g, request, Blueprint
+from sqlalchemy.orm import noload
 from ..middlewares import protected_route
 from ..models import Tasks, Lists
 from ..db import db
@@ -57,7 +58,7 @@ def update_task_list(task_id):
     if list_id is None or task_id is None or new_position is None:
         return jsonify(msg="Missing params"), 400
 
-    tasks = Tasks.query.filter((Tasks.list_id==list_id) | (Tasks.id==task_id)).order_by(Tasks.position).all()
+    tasks = Tasks.query.options(noload('priority')).filter((Tasks.list_id==list_id) | (Tasks.id==task_id)).order_by(Tasks.position).all()
 
     temp_task = None
 
@@ -87,7 +88,7 @@ def update_task_description(task_id):
     if description is None:
         return jsonify(msg="Missing param: description"), 400
 
-    requested_task = Tasks.query.filter_by(id=task_id).first()
+    requested_task = Tasks.query.options(noload('priority')).filter_by(id=task_id).first()
 
     if user_id != requested_task.user_id:
         return jsonify(msg="You can't perform this action."), 403
@@ -133,7 +134,7 @@ def update_task_title(task_id):
     if new_title is None:
         return jsonify(msg="Missing param: title"), 400
     
-    requested_task = Tasks.query.filter_by(id=task_id).first()
+    requested_task = Tasks.query.options(noload('priority')).filter_by(id=task_id).first()
 
     if user_id != requested_task.user_id:
         return jsonify(msg="You can't perform this action."), 403

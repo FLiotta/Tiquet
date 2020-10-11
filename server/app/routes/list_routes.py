@@ -1,4 +1,5 @@
 from flask import jsonify, g, request, Blueprint
+from sqlalchemy.orm import noload
 from ..db import db
 from ..middlewares import protected_route
 from ..models import Lists, Tasks
@@ -50,7 +51,7 @@ def edit_list_title(list_id):
     user_id = g.user.get('id')
     title = req_data.get('title')
 
-    requested_list = Lists.query.filter_by(id=list_id).first()
+    requested_list = Lists.query.options(noload('tasks')).filter_by(id=list_id).first()
 
     if requested_list is None:
         return jsonify(msg="List not found"), 404
@@ -106,7 +107,7 @@ def sort_list_tasks(list_id):
     if order is None:
         return jsonify(msg="Missing params"), 400
 
-    requested_tasks = Tasks.query.filter_by(
+    requested_tasks = Tasks.query.options(noload('priority')).filter_by(
         list_id=list_id, user_id=user_id).all()
     
     for task in requested_tasks:
