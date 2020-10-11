@@ -10,6 +10,7 @@ BRANCH_NAME="HEROKU_BUILD_BRANCH_${RANDOM}"
 git checkout -b "${BRANCH_NAME}" &>/dev/null
 echo -e "\e[92mBRANCH: ${BRANCH_NAME}.\e[39m"
 echo -e "\e[93mInitializing.\e[39m"
+rm -rf client/dist
 mkdir -p server/app/templates 
 mkdir -p server/app/static 
 echo -e "\e[93mPreparing client build.\e[39m"
