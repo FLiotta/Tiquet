@@ -3,6 +3,7 @@ import React from 'react';
 import cn from 'classnames';
 
 // Project
+import Spinner from '../../assets/images/spinner.svg';
 import './styles.scss'
 
 interface LoadingProps {
@@ -13,7 +14,7 @@ const Loading = ({ display }: LoadingProps): JSX.Element => (
   <div className={cn('loading', {
     'loading--hidden': !display
   })}>
-    <div className="spinner-border text-primary" role="status"></div>
+    <img src={Spinner} />
   </div>
 );
 
