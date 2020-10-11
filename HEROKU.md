@@ -45,3 +45,11 @@ Run the next command on the root directory:
 ```
 bash deploy_next_release.sh
 ```
+
+#### New changes, how to deploy?
+
+Merge master into heroku_master, there shouldn't be conflicts.
+
+```
+git merge master
+```
