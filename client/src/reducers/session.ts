@@ -1,10 +1,14 @@
+import Cookies from 'universal-cookie';
 import {
   LOG_IN,
   SIGN_UP,
   RECONNECT,
   SESSION_FETCHING,
-  LOGOUT
+  LOGOUT,
+  TOGGLE_COOKIES_MODAL
 } from '../actions/session';
+
+const cookies = new Cookies();
 
 export interface ISessionReducer {
   fetching: Boolean,
@@ -13,6 +17,7 @@ export interface ISessionReducer {
     id: number,
     username: string
   },
+  cookiesModalVisible: Boolean,
 };
 
 const defaultState: ISessionReducer = {
@@ -21,7 +26,8 @@ const defaultState: ISessionReducer = {
   user: {
     id: undefined,
     username: '',
-  }
+  },
+  cookiesModalVisible: cookies.get('hasSeenCookiesModal') ? false : true
 };
 
 export default (state: ISessionReducer = defaultState, action) => {
@@ -43,6 +49,11 @@ export default (state: ISessionReducer = defaultState, action) => {
         ...state,
         fetching: action.payload,
       }
+    case TOGGLE_COOKIES_MODAL:
+      return {
+        ...state,
+        cookiesModalVisible: !state.cookiesModalVisible,
+      };
     case LOGOUT:
       return defaultState;
     default:

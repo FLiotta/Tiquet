@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import { addTask } from '../../actions/board';
 import Loading from '../Loading';
 import './styles.scss';
@@ -27,6 +28,10 @@ const CreateTask = ({ addTask, listId }: CreateTaskProps): JSX.Element => {
 
   const onSubmit = ({ title }: CreateTaskForm): void => {
     addTask(title, listId);
+    trackEvent({
+      category: 'Tasks',
+      action: 'Task created'
+    });
   };
 
   return (

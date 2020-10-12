@@ -1,7 +1,10 @@
+// Packages
 import React from 'react';
 import qs from 'qs';
 import { v4 as uuidv4 } from 'uuid';
 
+// Project
+import { trackEvent } from '../../../utils/ga';
 import { OAUTH_GITHUB } from '../../../config';
 import './styles.scss';
 
@@ -15,6 +18,11 @@ const GithubOAuth = ({
   text
 }: IProps): JSX.Element => {
   const openModal = () => {
+    trackEvent({
+      category: 'OAUTH',
+      action: 'Opened Github Modal'
+    });
+
     const state = uuidv4();
     const url = `https://github.com/login/oauth/authorize?scope=user:email&state=${state}&client_id=${OAUTH_GITHUB.CLIENT_ID}`;
     const popup = window.open(url, '', "width=400,height=600,left=400,top=50");

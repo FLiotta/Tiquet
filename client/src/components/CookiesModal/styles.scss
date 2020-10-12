@@ -1,0 +1,24 @@
+.cookies-modal {
+    &__header {
+        &-title {
+            margin: 0;
+        }
+    }
+
+    &__body {
+        &-cookie {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__description {
+                max-width: 80%;
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

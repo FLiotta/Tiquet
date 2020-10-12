@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import ConfirmationModal from '../ConfirmationModal';
 import BoardsService from '../../services/boardsService';
 import './styles.scss';
@@ -26,6 +27,10 @@ export default ({ className, boardInfo, onDelete }: BoardCardProps): JSX.Element
   const handleDelete = (cb) => {
     boardService.deleteBoard(boardInfo.id)
       .then(() => {
+        trackEvent({
+          category: 'Boards',
+          action: 'Board deleted',
+        });
         onDelete();
       })
       .catch(e => console.log)
