@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import cogoToast from 'cogo-toast';
 
 // Project
+import Loading from '../Loading';
 import { trackEvent } from '../../utils/ga';
 import BoardsServices from '../../services/boardsService';
 import './styles.scss';
@@ -76,6 +77,7 @@ const CreateBoardModal = ({
       style={customStyles}
       onRequestClose={closeModal}
     >
+      <Loading display={isLoading} />
       <div className="create-board-modal">
         <div className="create-board-modal__header">
           <h6 className="create-board-modal__header-title">Create a new board</h6>
@@ -94,7 +96,7 @@ const CreateBoardModal = ({
               disabled={isLoading}
               ref={register({ required: "Required" })}
               placeholder="How should it be named?" />
-            <button className="btn btn--block">Submit</button>
+            <button disabled={isLoading} className="btn btn--block">Submit</button>
           </div>
         </form>
       </div>

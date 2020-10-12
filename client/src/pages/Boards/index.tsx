@@ -64,6 +64,7 @@ const Boards = ({
     const { boardId, boardName } = serviceResponse;
 
     addBoard(boardId, boardName);
+    setIsModalOpen(false);
   }
 
   const hasBoards = () => !!boards.length;
