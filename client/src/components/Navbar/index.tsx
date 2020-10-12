@@ -4,16 +4,26 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Project
-import { logout } from '../../actions/session';
+import { toggleCookiesModal, logout } from '../../actions/session';
 import './styles.scss';
 
 interface NavbarProps {
-  logout: Function,
+  logout(): void,
+  toggleCookiesModal(): void,
 };
 
-const Navbar = ({ logout }: NavbarProps): JSX.Element => {
+const Navbar = ({
+  logout,
+  toggleCookiesModal,
+}: NavbarProps): JSX.Element => {
+  const handleManageCookies = (e) => {
+    e.preventDefault();
+    toggleCookiesModal();
+  }
+
   return (
     <div className="navigation">
+      <a href="#" onClick={handleManageCookies} className="navigation__link">Manage cookies</a>
       <NavLink to="/boards" className="navigation__link">Boards</NavLink>
       <a href="#" onClick={() => logout()} className="navigation__link">Log out</a>
     </div>
@@ -21,6 +31,7 @@ const Navbar = ({ logout }: NavbarProps): JSX.Element => {
 }
 
 const dispatchToProps = dispatch => ({
+  toggleCookiesModal: () => dispatch(toggleCookiesModal()),
   logout: () => dispatch(logout()),
 });
 

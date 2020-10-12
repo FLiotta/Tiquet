@@ -15,7 +15,6 @@
     top: 0;
     justify-content: space-between;
     width: 100%;
-    z-index: 10;
 
     &-logo {
       font-size: 46px;
@@ -52,23 +51,12 @@
       }
     }
 
-    &-right {
+    &-image {
+      bottom: 0;
       width: 60%;
-      height: 100%;
-      position: relative;
-      display: none;
-
-      @media (min-width: 992px) {
-        display: block;
-      }
-
-      &__image {
-        bottom: 0;
-        left: 80px;
-        width: 100%;
-        position: absolute;
-        display: block;
-      }
+      position: absolute;
+      display: block;
+      right: -130px;
     }
 
     &-label {

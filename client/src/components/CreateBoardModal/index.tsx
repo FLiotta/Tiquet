@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
-import propTypes from 'prop-types';
 import cogoToast from 'cogo-toast';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import BoardsServices from '../../services/boardsService';
 import './styles.scss';
 
@@ -53,10 +53,18 @@ const CreateBoardModal = ({
     boardService.createBoard(boardName)
       .then(({ data }) => {
         setIsLoading(false);
+        trackEvent({
+          category: 'Boards',
+          action: 'Board created',
+        });
         cogoToast.success(`${boardName} has been created 😊`, { position: 'bottom-right' });
         onCreationSuccess(data);
       })
       .catch((e) => {
+        trackEvent({
+          category: 'Boards',
+          action: 'Failed to create board',
+        });
         cogoToast.error('Whoops, something happened.', { position: 'bottom-right' });
         onCreationFailure(e);
       })

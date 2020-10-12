@@ -2,10 +2,12 @@
 import React, { useEffect } from 'react';
 
 // Project
+import { trackPageView } from '../../utils/ga';
 import './styles.scss';
 
 const AuthCallback = () => {
   useEffect(() => {
+    trackPageView('OAuth Callback');
     window.close();
   }, []);
 
