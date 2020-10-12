@@ -4,6 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import Task from '../Task';
 import { editListTitle } from '../../actions/board';
 import { ITask } from '../../interfaces/Task';
@@ -26,7 +27,11 @@ const List = ({ id, title, tasks, onDelete, editListTitle }: IProps): JSX.Elemen
   const handleDelete = (callback) => {
     onDelete()
     setDeleteModalOpen(false);
-
+    trackEvent({
+      category: 'Lists',
+      action: 'Deleted',
+      value: id
+    });
     callback();
   };
 
@@ -42,6 +47,11 @@ const List = ({ id, title, tasks, onDelete, editListTitle }: IProps): JSX.Elemen
 
   const handleEditTitle = (value, callback) => {
     editListTitle(id, value);
+    trackEvent({
+      category: 'Lists',
+      action: 'Title edited',
+      value: id
+    });
     callback();
   }
 

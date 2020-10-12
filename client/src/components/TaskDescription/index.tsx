@@ -7,6 +7,7 @@ import cogoToast from 'cogo-toast';
 import { useForm } from 'react-hook-form';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import Loading from '../Loading';
 import EditableText from '../EditableText';
 import { selectPriorities } from '../../selectors/board';
@@ -68,6 +69,10 @@ const TaskDescription = ({
 
     updateDescription(task?.id, description)
       .then(() => {
+        trackEvent({
+          category: 'Tasks',
+          action: 'Updated description',
+        });
         setIsEditingDescription(false);
         cogoToast.success("Description updated!", {
           position: 'bottom-right'
@@ -82,6 +87,10 @@ const TaskDescription = ({
 
   const copyToClipboard = (id: string | number): void => {
     navigator.clipboard.writeText(`Task id: #${id}`);
+    trackEvent({
+      category: 'Tasks',
+      action: 'Id copied to clipboard',
+    });
     cogoToast.success('Id copied to clipboard.', {
       position: 'bottom-right'
     });
@@ -105,6 +114,10 @@ const TaskDescription = ({
 
     updatePriority(task?.id, priorityId)
       .then(() => {
+        trackEvent({
+          category: 'Tasks',
+          action: 'Updated priority',
+        });
         updateTaskPriority(task?.id, priorityId);
       })
   }
@@ -112,6 +125,10 @@ const TaskDescription = ({
   const handleTitleEdit = (text, callback) => {
     updateTitle(task.id, text)
       .then(() => {
+        trackEvent({
+          category: 'Tasks',
+          action: 'Updated title',
+        });
         updateTaskTitle(task.id, text);
       });
 

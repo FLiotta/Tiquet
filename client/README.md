@@ -19,6 +19,8 @@ export const OAUTH_GITHUB: IOAuth = {
 
 export const API_URL: string = API BASE PATH
 //example: "http://localhost:5000/api" or "https://example-domain.com/api"
+
+export const GOOGLE_ANALYTICS_ID: string = GOOGLE ANALYTICS PROJECT ID;
 ```
 
 #### Start server

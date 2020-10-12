@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import qs from 'qs';
 
 // Project
+import { trackPageView } from '../../utils/ga';
 import Loading from '../../components/Loading';
 import GithubOAuth from '../../components/OAuth/Github';
 import { logIn, signUp, oauthGithub } from '../../actions/session';
@@ -75,6 +76,8 @@ const Auth = ({
       const preselectedMode: boolean = queryParameters.mode === "login" ? true : false;
       setMode(preselectedMode);
     }
+
+    trackPageView('Auth');
   }, []);
 
   const handleLogin = ({ username, password }: IAccount) => {

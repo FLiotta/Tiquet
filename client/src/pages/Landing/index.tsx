@@ -1,7 +1,9 @@
 // Packages
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 // Project
+import { trackPageView } from '../../utils/ga';
 import LandingImage from '../../assets/images/list-landing.png';
 import './styles.scss';
 
@@ -14,6 +16,8 @@ const Landing = (): JSX.Element => {
       const random: number = Math.floor(Math.random() * options.length);
       setTitleLabel(options[random]);
     }, 4000);
+
+    trackPageView('Landing');
 
     return (): void => {
       clearInterval(changeTextInterval);
@@ -48,9 +52,7 @@ const Landing = (): JSX.Element => {
             <button className="btn btn-primary">Start now</button>
           </Link>
         </div>
-        <div className="landing__body-right">
-          <img src={LandingImage} className="landing__body-right__image" />
-        </div>
+        <img src={LandingImage} className="landing__body-image" />
       </div>
     </div>
   );

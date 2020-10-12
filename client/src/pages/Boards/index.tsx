@@ -3,6 +3,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 // Project
+import { trackPageView } from '../../utils/ga';
 import Loading from '../../components/Loading';
 import BoardCard from '../../components/BoardCard';
 import { fetchBoards, addBoard, filterBoard } from '../../actions/boards';
@@ -55,6 +56,8 @@ const Boards = ({
       fetchBoards()
         .then(() => setLoading(false));
     }
+
+    trackPageView('Boards');
   }, []);
 
   const createModalSucces = (serviceResponse: { boardId: number, boardName: string }) => {

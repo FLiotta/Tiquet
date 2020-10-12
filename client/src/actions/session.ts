@@ -15,6 +15,11 @@ export const LOG_IN = '[SESSION] LOG IN';
 export const SIGN_UP = '[SESSION] SIGN UP';
 export const RECONNECT = '[SESSION] RECONNECT';
 export const LOGOUT = '[SESSION] LOGOUT';
+export const TOGGLE_COOKIES_MODAL = '[SESSION] TOGGLE_COOKIES_MODAL';
+
+export const toggleCookiesModal = () => ({
+  type: TOGGLE_COOKIES_MODAL
+});
 
 export const logIn = (username: string, password: string) => {
   return dispatch => {

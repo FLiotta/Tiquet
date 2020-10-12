@@ -5,6 +5,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { withRouter } from 'react-router-dom';
 
 // Project
+import { trackPageView, trackEvent } from '../../utils/ga';
 import {
   fetchBoard,
   moveTask,
@@ -46,7 +47,7 @@ const Board = ({
 
   useEffect(() => {
     const boardId: number = match.params.id;
-
+    trackPageView('Board');
     fetchPriorities();
     fetchBoard(boardId)
       .then(() => setIsLoading(false));
@@ -57,20 +58,31 @@ const Board = ({
   }, []);
 
   const onDragEnd = (e: any): void => {
-    console.log(e);
     const { draggableId, destination, source } = e;
     const originListId = parseInt(source.droppableId);
     const destinationListId = parseInt(destination.droppableId);
     const taskId = parseInt(draggableId);
 
     if (originListId != destinationListId) {
+      trackEvent({
+        category: 'Lists',
+        action: 'Task moved to another list',
+      });
       moveTask(originListId, destinationListId, taskId, destination.index);
     } else {
+      trackEvent({
+        category: 'Tasks',
+        action: 'Updated position',
+      });
       sortList(originListId, taskId, source.index, destination.index);
     }
   }
 
   const onListDelete = (listId: number) => {
+    trackEvent({
+      category: 'Lists',
+      action: 'List deleted',
+    });
     deleteList(listId);
   };
 

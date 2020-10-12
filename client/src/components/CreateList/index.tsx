@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 // Project
+import { trackEvent } from '../../utils/ga';
 import { addList } from '../../actions/board';
 import Loading from '../Loading';
 import './styles.scss';
@@ -30,7 +31,13 @@ const CreateList = ({ addList, match }: CreateListProps): JSX.Element => {
     setIsLoading(true);
 
     addList(boardId, title)
-      .then(() => setIsLoading(false));
+      .then(() => {
+        trackEvent({
+          category: 'Lists',
+          action: 'List created'
+        });
+        setIsLoading(false)
+      });
   };
 
   return (
