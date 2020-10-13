@@ -101,7 +101,7 @@ const CookiesModal = ({
                 </div>
                 {interactive && (
                   <div>
-                    <input type="checkbox" onChange={() => togglecookie(name)} defaultChecked={checked} disabled={!optional} id={name} />
+                    <input type="checkbox" onChange={() => togglecookie(cookieName)} defaultChecked={checked} disabled={!optional} id={name} />
                   </div>
                 )}
               </div>
