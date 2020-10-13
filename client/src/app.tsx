@@ -20,8 +20,9 @@ if(cookies.get('token')) {
   store.dispatch(reconnect());
 }
 
-cookies.set('allowAnalytics', true);
-
+if(!cookies.get('allowAnalytics')) {
+  cookies.set('allowAnalytics', true);
+}
 
 ReactDOM.render(
   <Provider store={store}>
