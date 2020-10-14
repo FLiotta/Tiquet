@@ -20,7 +20,7 @@ interface IEmptyStateProps {
 const EmptyState = ({ onBtnClick }: IEmptyStateProps): JSX.Element => (
   <div className="board-page__new">
     <div>
-      <h1 className="board-page__new-title">You don't have any board created</h1>
+      <h1 className="board-page__new-title">You don't have any boards created</h1>
       <p className="board-page__new-description">Within boards you can organize your job in tasks and group them on lists!</p>
       <img src={ScrumBoard} className="board-page__new-image" />
       <button

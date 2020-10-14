@@ -21,21 +21,21 @@ const CookiesModal = ({
     hasSeenCookiesModal: {
       type: 'boolean',
       interactive: false,
-      description: "This cookies allows to known if you've been already informed about what cookies we use.",
+      description: "This cookie allows us to known if you've been already informed about what cookies we use.",
     },
     token: {
       optional: false,
       type: 'string',
       checked: true,
       interactive: true,
-      description: "It stores your session token, in the way you don't have to LogIn everytime you visit the webpage.",
+      description: "It stores your session token, so you don't have to LogIn everytime you visit the webpage.",
     },
     allowAnalytics: {
       optional: true,
       type: 'boolean',
       interactive: true,
       checked: JSON.parse(cookies.get('allowAnalytics')),
-      description: "Tiquet has google analytics implemented, the reason is to learn how you interact with the application and learn from that, but it is optional, you can disable it if you like to ^^.",
+      description: "Tiquet has google analytics implemented to learn how you interact with the application and learn from that, but it is optional, you can disable it if you like to ^^.",
     }
   }
 
@@ -75,7 +75,7 @@ const CookiesModal = ({
           <h5 className="cookies-modal__header-title">
             {"<sarcasm>"}
             <br />
-            <span style={{ marginLeft: 25 }}>Oh wow, cookies, in 2020, i didn't saw that coming.</span>
+            <span style={{ marginLeft: 25 }}>Oh wow, cookies, in 2020, i didn't see that coming.</span>
             <br />
             {"</sarcasm>"}
           </h5>
