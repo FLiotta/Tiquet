@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request, g
 from ..db import db
 from ..models import Users
-from ..middlewares import protected_route
+from ..middlewares import protected_route, limiter
 import json
 import bcrypt
 import datetime
@@ -12,8 +12,8 @@ import requests
 
 auth = Blueprint('auth', __name__)
 
-
 @auth.route('/auth/login', methods=['POST'])
+@limiter.limit("25/5minute")
 def login():
     req_data = request.get_json()
     username = req_data.get('username')
@@ -47,6 +47,7 @@ def login():
 
 
 @auth.route('/auth/signup', methods=['POST'])
+@limiter.limit("5/30minute")
 def signup():
     req_data = request.get_json()
     username = req_data.get('username')
