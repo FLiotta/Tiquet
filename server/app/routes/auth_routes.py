@@ -1,7 +1,3 @@
-from flask import jsonify, Blueprint, request, g
-from ..db import db
-from ..models import Users
-from ..middlewares import protected_route
 import json
 import bcrypt
 import datetime
@@ -9,11 +5,15 @@ import decimal
 import jwt
 import os
 import requests
+from flask import jsonify, Blueprint, request, g
+from ..db import db
+from ..models import Users
+from ..middlewares import protected_route, limiter
 
 auth = Blueprint('auth', __name__)
 
-
 @auth.route('/auth/login', methods=['POST'])
+@limiter.limit("25/5minute")
 def login():
     req_data = request.get_json()
     username = req_data.get('username')
@@ -32,10 +32,14 @@ def login():
             "id": user.id,
             "username": user.username,
             "password": user.password,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7)
         }
 
-        token = jwt.encode(response, os.environ.get(
-            'SECRET_KEY'), algorithm="HS256").decode('utf-8')
+        token = jwt.encode(
+            response,
+            os.environ.get('SECRET_KEY'),
+            algorithm="HS256"
+        ).decode('utf-8')
 
         return jsonify({
             **response,
@@ -47,6 +51,7 @@ def login():
 
 
 @auth.route('/auth/signup', methods=['POST'])
+@limiter.limit("5/30minute")
 def signup():
     req_data = request.get_json()
     username = req_data.get('username')
@@ -73,10 +78,14 @@ def signup():
     response = {
         "id": new_user.id,
         "username": new_user.username,
-        "createdAt": new_user.createdAt
+        "createdAt": new_user.createdAt,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7)
     }
-    token = jwt.encode(response, os.environ.get(
-        'SECRET_KEY'), algorithm="HS256").decode('utf-8')
+    token = jwt.encode(
+        response,
+        os.environ.get('SECRET_KEY'),
+        algorithm="HS256"
+    ).decode('utf-8')
 
     return jsonify({**response, "token": token}), 200
 
@@ -89,11 +98,15 @@ def reconnect():
 
     data_to_encode = {
         "username": username,
-        "id": id
+        "id": id,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7)
     }
 
-    new_token = jwt.encode(data_to_encode, os.environ.get(
-        'SECRET_KEY'), algorithm="HS256").decode('utf-8')
+    new_token = jwt.encode(
+        data_to_encode,
+        os.environ.get('SECRET_KEY'),
+        algorithm="HS256"
+    ).decode('utf-8')
 
     return jsonify({
         "username": username,
