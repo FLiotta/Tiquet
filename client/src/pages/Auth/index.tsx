@@ -1,5 +1,6 @@
 // Packages
 import React, { useState, Fragment, useEffect } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -11,6 +12,7 @@ import Loading from '../../components/Loading';
 import GithubOAuth from '../../components/OAuth/Github';
 import { logIn, signUp, oauthGithub } from '../../actions/session';
 import { isLoggedSelector, isSessionFetching } from '../../selectors/session';
+import { RECAPTCHA_SITE_KEY } from '../../config';
 import './styles.scss';
 
 interface IAccount {
@@ -24,10 +26,15 @@ interface IPropsForm {
 };
 
 const AuthForm = ({ onSubmit, btnText }: IPropsForm): JSX.Element => {
+  const [recaptchaStatus, setRecaptchaStatus] = useState(false);
   const { handleSubmit, register, errors } = useForm();
 
   return (
-    <form onSubmit={handleSubmit((e) => onSubmit(e))}>
+    <form onSubmit={handleSubmit((e) => {
+      if (recaptchaStatus) {
+        onSubmit(e)
+      }
+    })}>
       <div className="auth__modal-form-node">
         <input
           type="text"
@@ -42,6 +49,11 @@ const AuthForm = ({ onSubmit, btnText }: IPropsForm): JSX.Element => {
           ref={register({ required: "Required" })}
           placeholder="Password" />
       </div>
+      <ReCAPTCHA
+        sitekey={RECAPTCHA_SITE_KEY}
+        onChange={() => setRecaptchaStatus(true)}
+        onExpired={() => setRecaptchaStatus(false)}
+      />
       <div className="auth__modal-form-node">
         <button type="submit" className="btn btn--block">{btnText}</button>
       </div>
