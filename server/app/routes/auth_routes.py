@@ -1,15 +1,14 @@
-from flask import jsonify, Blueprint, request, g
-from ..db import db
-from ..models import Users
-from ..middlewares import protected_route, limiter
 import json
-from datetime import datetime
 import bcrypt
 import datetime
 import decimal
 import jwt
 import os
 import requests
+from flask import jsonify, Blueprint, request, g
+from ..db import db
+from ..models import Users
+from ..middlewares import protected_route, limiter
 
 auth = Blueprint('auth', __name__)
 
