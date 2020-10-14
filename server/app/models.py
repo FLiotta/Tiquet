@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, Text, Sequence
+from sqlalchemy import Column, Integer, ForeignKey, Text, Sequence, VARCHAR
 from sqlalchemy.orm import relationship
 from .db import db
 import datetime
@@ -6,10 +6,10 @@ import datetime
 class Users(db.Model):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
-    username = Column(Text, not_null=True, unique=True)
-    password = Column(Text)
-    email = Column(Text)
-    strategy = Column(Text, not_null=True, default="AUTH")
+    username = Column(VARCHAR(100), not_null=True, unique=True)
+    password = Column(VARCHAR(100))
+    email = Column(VARCHAR(100))
+    strategy = Column(VARCHAR(100), not_null=True, default="AUTH")
     createdAt = Column('createdat', Integer)
 
     def __init__(self, username, strategy, **kwargs):
@@ -23,7 +23,7 @@ class Boards(db.Model):
     __tablename__ = "boards"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    title = Column(Text)
+    title = Column(VARCHAR(100))
     lists = relationship('Lists', cascade="all, delete", backref="board", lazy="joined")
 
     def __init__(self, user_id, title):
@@ -35,7 +35,7 @@ class Lists(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     board_id = Column(Integer, ForeignKey('boards.id'))
-    title = Column(Text)
+    title = Column(VARCHAR(100))
     tasks = relationship('Tasks', cascade="all, delete", backref="list", lazy="joined")
 
     def __init__(self, board_id, user_id, title):
@@ -50,10 +50,10 @@ class Tasks(db.Model):
     list_id = Column(Integer, ForeignKey('lists.id'))
     priority_id = Column(Integer, ForeignKey('priorities.id'), default=1)
     priority = relationship('Priorities', backref="task", lazy="joined")
-    title = Column(Text)
-    uid = Column(Text)
+    title = Column(VARCHAR(100))
+    uid = Column(VARCHAR(100))
     createdAt = Column('createdat', Integer)
-    description = Column(Text)
+    description = Column(VARCHAR(250))
     position = Column(Integer, Sequence('tasks_position_seq'))
 
     def __init__(self, user_id, list_id, title, uid, description='', priority_id=1):
@@ -68,7 +68,7 @@ class Tasks(db.Model):
 class Priorities(db.Model):
     __tablename__ = "priorities"
     id = Column(Integer, primary_key=True)
-    value = Column(Text)
+    value = Column(VARCHAR)
 
     def __init__(self, value):
         self.value = value

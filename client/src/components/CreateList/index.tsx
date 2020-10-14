@@ -20,7 +20,7 @@ interface CreateListForm {
 };
 
 const CreateList = ({ addList, match }: CreateListProps): JSX.Element => {
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const getBoardId = match => match.params.id;
@@ -36,6 +36,7 @@ const CreateList = ({ addList, match }: CreateListProps): JSX.Element => {
           category: 'Lists',
           action: 'List created'
         });
+        reset();
         setIsLoading(false)
       });
   };
