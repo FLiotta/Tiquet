@@ -1,15 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Suspense, lazy } from 'react';
 import { IRootReducer } from '../reducers/rootReducer';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProtectedRoute from '../components/utils/ProtectedRoute';
-import Auth from '../pages/Auth';
-import AuthCallback from '../pages/AuthCallback';
-import Boards from '../pages/Boards';
-import Board from '../pages/Board';
-import Navbar from '../components/Navbar';
 import Landing from '../pages/Landing';
 import CookiesModal from '../components/CookiesModal';
+import Loading from '../components/Loading';
+import Auth from '../pages/Auth';
+const AuthCallback = lazy(() => import('../pages/AuthCallback'));
+const Boards = lazy(() => import('../pages/Boards'));
+const Board = lazy(() => import('../pages/Board'));
+const Navbar = lazy(() => import('../components/Navbar'));
+
 
 interface IAppRouter {
   cookiesModalVisible: boolean;
@@ -21,17 +23,19 @@ const AppRouter = ({
   <Fragment>
     <BrowserRouter>
       {cookiesModalVisible && <CookiesModal />}
-      <Switch>
-        <Route path="/" component={Landing} exact />
-        <Route path="/home" component={Landing} />
-        <Route path="/auth/callback" component={AuthCallback} />
-        <Route path="/auth" component={Auth} />
-        <Fragment>
-          <Navbar />
-          <ProtectedRoute path="/b/:id" component={Board} />
-          <ProtectedRoute path="/boards" component={Boards} />
-        </Fragment>
-      </Switch>
+      <Suspense fallback={<Loading display />}>
+        <Switch>
+          <Route path="/" component={Landing} exact />
+          <Route path="/home" component={Landing} />
+          <Route path="/auth/callback" component={AuthCallback} />
+          <Route path="/auth" component={Auth} />
+          <Fragment>
+            <Navbar />
+            <ProtectedRoute path="/b/:id" component={Board} />
+            <ProtectedRoute path="/boards" component={Boards} />
+          </Fragment>
+        </Switch>
+      </Suspense>
     </BrowserRouter>
   </Fragment>
 );
