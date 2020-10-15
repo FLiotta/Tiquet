@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Project
 import { trackPageView } from '../../utils/ga';
-import LandingImage from '../../assets/images/list-landing.png';
+import LandingImage from '../../assets/images/list-landing.jpg';
 import './styles.scss';
 
 const Landing = (): JSX.Element => {

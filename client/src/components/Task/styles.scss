@@ -16,9 +16,10 @@
 
     &-title {
       font-family: "Montserrat", sans-serif;
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
       margin: 0;
       margin-bottom: 5px;
+      width: 85%;
       font-weight: 300;
     }
 
