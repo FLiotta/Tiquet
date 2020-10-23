@@ -37,6 +37,7 @@ class Lists(db.Model):
     board_id = Column(Integer, ForeignKey('boards.id'))
     title = Column(VARCHAR(100))
     tasks = relationship('Tasks', cascade="all, delete", backref="list", lazy="joined")
+    createdat = Column(Integer, default=int(datetime.datetime.now().timestamp()))
 
     def __init__(self, board_id, user_id, title):
         self.board_id = board_id
