@@ -27,11 +27,17 @@ const CreateTask = ({ addTask, listId }: CreateTaskProps): JSX.Element => {
   const clickOutsideRef = useOnclickOutside(() => setIsActive(false));
 
   const onSubmit = ({ title }: CreateTaskForm): void => {
-    addTask(title, listId);
-    trackEvent({
-      category: 'Tasks',
-      action: 'Task created'
-    });
+    setIsLoading(true);
+
+    addTask(title, listId)
+      .then(() => {
+        setIsLoading(false);
+        setIsActive(false);
+        trackEvent({
+          category: 'Tasks',
+          action: 'Task created'
+        });
+      });
   };
 
   return (

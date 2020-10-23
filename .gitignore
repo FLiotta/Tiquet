@@ -6,6 +6,7 @@
 **/.pytest_cache
 server/.env
 server/env
+.pylintrc
 
 # Client
 
