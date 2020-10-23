@@ -71,6 +71,7 @@ def get_board(board_id):
         temp_list = {
             "id": list_.id,
             "title": list_.title,
+            "createdat": list_.createdat,
             "tasks": list(map(lambda t: {
                 'id': t.id,
                 'title': t.title,
@@ -78,9 +79,11 @@ def get_board(board_id):
                 'position': t.position,
             }, list_.tasks))
         }
-
+        
         temp_list["tasks"] = sorted(temp_list["tasks"], key=itemgetter('position'))
         board_lists.append(temp_list)
+
+    board_lists = sorted(board_lists, key=itemgetter('createdat'))
 
     response = {
         'id': board.id,
