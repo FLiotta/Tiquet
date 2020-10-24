@@ -79,11 +79,8 @@ def get_board(board_id):
                 'position': t.position,
             }, list_.tasks))
         }
-        
-        temp_list["tasks"] = sorted(temp_list["tasks"], key=itemgetter('position'))
-        board_lists.append(temp_list)
 
-    board_lists = sorted(board_lists, key=itemgetter('createdat'))
+        board_lists.append(temp_list)
 
     response = {
         'id': board.id,
