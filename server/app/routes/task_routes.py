@@ -4,6 +4,7 @@ from ..middlewares import protected_route
 from ..models import Tasks, Lists
 from ..db import db
 from uuid import uuid4
+from operator import itemgetter
 
 task = Blueprint('task', __name__)
 
@@ -60,6 +61,7 @@ def update_task_list(task_id):
 
     list_id = int(list_id)
     new_position = int(new_position)
+    task_id = int(task_id)
 
     results = db.session.query(Lists, Tasks)\
         .filter(Lists.id==list_id)\
@@ -71,16 +73,16 @@ def update_task_list(task_id):
 
     order = [x for x in results[0].tasks]
     order.insert(new_position, results[1])
-
-    results[1].list_id = list_id
     
     for i, task in enumerate(order):
         task.position = i
 
+        if task.id == task_id:
+            task.list_id = list_id
+
     db.session.commit()
 
     return jsonify(msg="Task updated"), 200
-
 
 @task.route('/tasks/<task_id>/description', methods=['PATCH'])
 @protected_route

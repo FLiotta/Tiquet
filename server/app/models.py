@@ -24,7 +24,7 @@ class Boards(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     title = Column(VARCHAR(100))
-    lists = relationship('Lists', cascade="all, delete", backref="board", lazy="joined")
+    lists = relationship('Lists', cascade="all, delete", backref="board", order_by="Lists.createdat", lazy="joined")
 
     def __init__(self, user_id, title):
         self.user_id = user_id
@@ -36,7 +36,7 @@ class Lists(db.Model):
     user_id = Column(Integer, ForeignKey('users.id'))
     board_id = Column(Integer, ForeignKey('boards.id'))
     title = Column(VARCHAR(100))
-    tasks = relationship('Tasks', cascade="all, delete", backref="list", lazy="joined")
+    tasks = relationship('Tasks', cascade="all, delete", backref="list", order_by="Tasks.position", lazy="joined")
     createdat = Column(Integer, default=int(datetime.datetime.now().timestamp()))
 
     def __init__(self, board_id, user_id, title):
