@@ -76,5 +76,14 @@
       line-height: 1.2;
       font-weight: 600;
     }
+
+    &-btns {
+      display: flex;
+      margin-top: 15px;
+
+      & > * {
+        margin-right: 5px;
+      }
+    }
   }
 }

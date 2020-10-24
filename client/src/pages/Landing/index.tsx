@@ -43,14 +43,20 @@ const Landing = (): JSX.Element => {
             with tiquet
           </h1>
           <p className="landing__body-description">
-            An open source alternative, create boards,
-            <br />
-            lists and tasks.
+            Open source project management tool inspired in the kanban methodology.
           </p>
-          <p className="landing__body-description">Simple and easy to use, as all thing should be.</p>
-          <Link to="/auth?mode=signup">
-            <button className="btn btn-primary">Start now</button>
-          </Link>
+          <div className="landing__body-btns">
+            <div>
+              <Link to="/auth?mode=signup">
+                <button className="btn btn-primary">Start now</button>
+              </Link>
+            </div>
+            <div>
+              <a href="https://github.com/FLiotta/Tiquet" target="_blank">
+                <button className="btn btn-primary"><i className="fab fa-github"></i> Repositoriy</button>
+              </a>
+            </div>
+          </div>
         </div>
         <img src={LandingImage} className="landing__body-image" />
       </div>
