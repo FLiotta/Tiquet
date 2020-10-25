@@ -51,7 +51,8 @@ const CookiesModal = ({
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      maxWidth: '700px'
+      maxWidth: '700px',
+      maxHeight: '100vh',
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.75)',

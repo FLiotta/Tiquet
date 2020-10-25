@@ -1,24 +1,31 @@
 .cookies-modal {
-    &__header {
-        &-title {
-            margin: 0;
-        }
+  &__header {
+    &-title {
+      margin: 0;
+    }
+  }
+
+  &__body {
+    max-height: 300px;
+    overflow: auto;
+
+    &-cookie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__description {
+        max-width: 80%;
+      }
     }
 
-    &__body {
-        &-cookie {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            &__description {
-                max-width: 80%;
-            }
-        }
+    @media (min-width: 1200px) {
+      max-height: 400px;
     }
+  }
 
-    &__footer {
-        display: flex;
-        justify-content: flex-end;
-    }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
