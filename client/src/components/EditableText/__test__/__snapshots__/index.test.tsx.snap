@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditableText /> Matches snapshot 1`] = `
+<div
+  class="editable-text"
+>
+  <p
+    class="editable-text__title"
+  >
+    test text
+     
+    <i
+      class="fas fa-pencil-alt editable-text__icon"
+    />
+  </p>
+</div>
+`;
