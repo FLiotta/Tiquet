@@ -7,7 +7,7 @@ import Spinner from '../../assets/images/spinner.svg';
 import './styles.scss'
 
 interface LoadingProps {
-  display: Boolean
+  display?: Boolean
 };
 
 const Loading = ({ display }: LoadingProps): JSX.Element => (
