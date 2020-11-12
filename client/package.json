@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "bundle": "webpack --mode production",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,7 @@
   "dependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-react": "^7.12.1",
     "@types/jest": "^26.0.13",
     "@types/node": "^14.10.1",
     "@types/react": "^16.9.49",
@@ -30,6 +31,8 @@
     "dayjs": "^1.8.31",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^26.6.1",
+    "jest-css-modules": "^2.1.0",
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
@@ -53,7 +56,9 @@
     "sass": "^1.24.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
+    "ts-jest": "^26.4.3",
     "ts-loader": "^8.0.3",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "universal-cookie": "^4.0.3",
@@ -62,5 +67,9 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0"
   }
 }

@@ -1,5 +1,6 @@
 // Packages
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import cn from 'classnames';
 import useOnclickOutside from "react-cool-onclickoutside";
 
@@ -22,14 +23,13 @@ const EditableText = ({
   inputClassName,
   onSuccess,
   onCancel,
+  ...rest
 }: IProps): JSX.Element => {
+  const { handleSubmit, register, errors } = useForm();
   const [editing, setEditing] = useState(false);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const value = e.target[`editable_text_${text}`].value;
-
-    onSuccess(value, () => {
+  const handleSubmitSuccess = ({ newValue }) => {
+    onSuccess(newValue, () => {
       setEditing(false);
     });
   };
@@ -44,7 +44,7 @@ const EditableText = ({
   const clickOutsideRef = useOnclickOutside(cancel);
 
   return (
-    <div ref={clickOutsideRef} className="editable-text" onClick={() => setEditing(true)}>
+    <div {...rest} ref={clickOutsideRef} className="editable-text" onClick={() => setEditing(true)}>
       {!editing
         ? React.createElement(tag, { className: cn("editable-text__title", textClassName) }, (
           <>
@@ -52,11 +52,13 @@ const EditableText = ({
           </>
         ))
         : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(handleSubmitSuccess)} role="form">
             <input
               type="text"
+              role="textbox"
+              name="newValue"
               className={cn(inputClassName)}
-              id={`editable_text_${text}`}
+              ref={register({ required: "Required" })}
               defaultValue={text}
             />
           </form>
