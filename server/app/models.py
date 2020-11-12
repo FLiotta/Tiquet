@@ -49,7 +49,7 @@ class Tasks(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     list_id = Column(Integer, ForeignKey('lists.id'))
-    priority_id = Column(Integer, ForeignKey('priorities.id'), default=1)
+    priority_id = Column(Integer, ForeignKey('priorities.id'))
     priority = relationship('Priorities', backref="task", lazy="joined")
     title = Column(VARCHAR(100))
     uid = Column(VARCHAR(100))
@@ -57,13 +57,12 @@ class Tasks(db.Model):
     description = Column(VARCHAR(250))
     position = Column(Integer, Sequence('tasks_position_seq'))
 
-    def __init__(self, user_id, list_id, title, uid, description='', priority_id=1):
+    def __init__(self, user_id, list_id, title, uid, description=''):
         self.user_id = user_id
         self.list_id = list_id
         self.title = title
         self.uid = uid
         self.description = description
-        self.priority_id = priority_id
         self.createdAt = int(datetime.datetime.now().timestamp())
 
 class Priorities(db.Model):

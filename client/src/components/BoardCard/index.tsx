@@ -12,7 +12,7 @@ import './styles.scss';
 // Declarations
 const boardService = new BoardsService();
 
-interface BoardCardProps {
+export interface BoardCardProps {
   className?: string,
   onDelete?: Function,
   boardInfo: {
