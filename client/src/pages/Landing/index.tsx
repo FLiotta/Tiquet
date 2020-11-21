@@ -15,7 +15,7 @@ const Landing = (): JSX.Element => {
     const changeTextInterval = setInterval(() => {
       const random: number = Math.floor(Math.random() * options.length);
       setTitleLabel(options[random]);
-    }, 4000);
+    }, 2000);
 
     trackPageView('Landing');
 
@@ -43,7 +43,7 @@ const Landing = (): JSX.Element => {
             with tiquet
           </h1>
           <p className="landing__body-description">
-            Open source project management tool inspired in the kanban methodology.
+            Open source project management tool inspired by the kanban methodology.
           </p>
           <div className="landing__body-btns">
             <div>

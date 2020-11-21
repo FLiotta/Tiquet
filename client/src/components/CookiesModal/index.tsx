@@ -21,14 +21,14 @@ const CookiesModal = ({
     hasSeenCookiesModal: {
       type: 'boolean',
       interactive: false,
-      description: "This cookie allows us to known if you've been already informed about what cookies we use.",
+      description: "This cookie allows us to know if you've been already informed about what cookies we use.",
     },
     token: {
       optional: false,
       type: 'string',
       checked: true,
       interactive: true,
-      description: "It stores your session token, so you don't have to LogIn everytime you visit the webpage.",
+      description: "It stores your session token, so you don't have to Log in everytime you visit the webpage.",
     },
     allowAnalytics: {
       optional: true,
@@ -76,7 +76,7 @@ const CookiesModal = ({
           <h5 className="cookies-modal__header-title">
             {"<sarcasm>"}
             <br />
-            <span style={{ marginLeft: 25 }}>Oh wow, cookies, in 2020, i didn't see that coming.</span>
+            <span style={{ marginLeft: 25 }}>Oh wow... cookies... in 2020... i didn't see that coming.</span>
             <br />
             {"</sarcasm>"}
           </h5>
