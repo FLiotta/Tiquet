@@ -10,7 +10,7 @@ cryptography==2.9.2
 distlib==0.3.0
 filelock==3.0.12
 Flask==1.1.2
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-Limiter==1.4
 Flask-SQLAlchemy==2.4.4
 flask-swagger-ui==3.25.0
